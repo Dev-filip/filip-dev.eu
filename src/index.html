@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="./output.css" rel="stylesheet" />
+  <title>Filip Burger - CV</title>
+</head>
+<body class="bg-gradient-to-r from-indigo-50 via-white to-indigo-50 min-h-screen font-sans text-gray-800">
+  <div class="max-w-3xl mx-auto p-8 bg-white rounded-3xl shadow-2xl mt-16 mb-16">
+    
+    <header class="text-center mb-12">
+      <h1 class="text-5xl font-extrabold text-indigo-700 mb-2 tracking-tight">Filip Burger</h1>
+      <p class="text-xl text-indigo-600 font-semibold">Student a nadšenec do IT</p>
+      <p class="text-gray-500 mt-3 text-sm">
+        📧 <a href="mailto:filipburger8@gmail.com" class="text-indigo-600 hover:underline">filipburger8@gmail.com</a> &nbsp;|&nbsp; 
+        💬 <button
+          id="discord-copy-btn"
+          class="font-mono text-indigo-500 hover:text-indigo-900 cursor-pointer focus:outline-none"
+          title="Klikni pro zkopírování Discord jména"
+        >
+          stylercz
+        </button> (Discord)
+      </p>
+    </header>
+
+    <section class="mb-10">
+      <h2 class="text-3xl font-bold border-b-4 border-indigo-300 pb-2 mb-6">O mně</h2>
+      <p class="text-lg leading-relaxed text-gray-700">
+        Jsem student, věnuji se správě serverů, hardwaru a sítí.
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-3xl font-bold border-b-4 border-indigo-300 pb-2 mb-6">Vzdělání a certifikace</h2>
+
+      <div class="mb-8">
+        <h3 class="text-2xl font-semibold text-indigo-700 hover:text-indigo-900 transition duration-300">
+          <a href="https://sosasou.cz/" target="_blank" rel="noopener noreferrer">Soš a Sou Neratovice</a>
+        </h3>
+        <p class="text-indigo-500 font-medium mt-1">2023 - současnost</p>
+        <p class="text-gray-700 mt-1">Zaměření Počítačové sítě</p>
+        <p class="text-gray-600 mt-1 italic">V rámci školy absolvuji několik certifikací (CCNA 1-2)</p>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-semibold mb-4">Certifikace</h3>
+        <ul class="list-disc list-inside space-y-3 text-gray-700">
+          <li>
+            <a href="./images/NetworkingBasics_Certifikat.pdf" class="text-indigo-600 font-medium hover:underline">Networking Basics</a> – úvod do počítačových sítí, IP adresování, zařízení a principy přenosu dat.
+          </li>
+          <li>
+            <a href="./images/Kontejnery_Certifikat.png" class="text-indigo-600 font-medium hover:underline">Kontejnery (nejen) s Dockerem</a> – práce s kontejnery, tvorba image, základní orchestrace pomocí Docker Compose.
+          </li>
+          <li>
+            <a href="index.html/#" class="text-indigo-600 font-medium hover:underline">CCNA 1</a> – základy sítí, modely OSI a TCP/IP, směrování, přepínání, IP adresování a konfigurace síťových zařízení.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="text-3xl font-bold border-b-4 border-indigo-300 pb-2 mb-6">Dovednosti</h2>
+      <ul class="list-disc list-inside text-gray-700 space-y-2 text-lg">
+        <li>HTML, CSS</li>
+        <li>Správa počítačového hardwaru</li>
+        <li>Git, GitHub</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="text-3xl font-bold border-b-4 border-indigo-300 pb-2 mb-6">Jazyky</h2>
+      <ul class="list-disc list-inside text-gray-700 space-y-2 text-lg">
+        <li>Čeština – rodilý mluvčí</li>
+        <li>Angličtina – pokročilá (B2)</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <div
+    id="copy-notification"
+    class="fixed bottom-6 right-6 bg-indigo-600 text-white px-4 py-2 rounded shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 select-none"
+  >
+    Discord jméno zkopírováno!
+  </div>
+
+  <script>
+    const discordBtn = document.getElementById('discord-copy-btn');
+    const notification = document.getElementById('copy-notification');
+
+    discordBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(discordBtn.textContent.trim()).then(() => {
+        notification.classList.remove('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          notification.classList.add('opacity-0', 'pointer-events-none');
+        }, 2000);
+      }).catch(err => {
+        alert('Nepodařilo se zkopírovat do schránky.');
+        console.error(err);
+      });
+    });
+  </script>
+</body>
+</html>
