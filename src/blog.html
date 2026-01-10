@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="./output.css" rel="stylesheet" />
+  <link rel="icon" href="./images/favicon.svg" type="image/x-icon" />
+  <title>Filip Burger – Blog / Projekty</title>
+</head>
+
+<body class="bg-gradient-to-r from-indigo-50 via-white to-indigo-50 min-h-screen font-sans text-gray-800">
+
+  <div class="max-w-4xl mx-auto p-8 bg-white rounded-3xl shadow-2xl mt-16 mb-16">
+
+    <!-- HEADER -->
+    <header class="text-center mb-14">
+      <h1 class="text-5xl font-extrabold text-indigo-700 mb-3 tracking-tight">
+        Blog & Projekty
+      </h1>
+      <p class="text-xl text-indigo-600 font-semibold">
+        Praktické projekty, servery a experimenty
+      </p>
+
+      <a
+        href="./index.html"
+        class="inline-block mt-6 text-indigo-600 font-medium hover:underline"
+      >
+        ← Zpět na CV
+      </a>
+    </header>
+
+    <!-- BLOK PROJEKTU -->
+    <section class="mb-12">
+  <h2 class="text-3xl font-bold border-b-4 border-indigo-300 pb-2 mb-2">
+    Domácí server & lab
+  </h2>
+
+  <p class="inline-block mb-4 bg-indigo-100 text-indigo-700 text-sm font-medium px-3 py-1 rounded-full">
+    📅 12. 3. 2025
+  </p>
+
+  <div class="grid md:grid-cols-2 gap-8 items-center bg-indigo-50 rounded-2xl p-6 shadow-md">
+
+    <div>
+      <h3 class="text-2xl font-semibold text-indigo-700 mb-3">
+        Homer server - Proxmox
+      </h3>
+      <p class="text-gray-700 text-lg leading-relaxed">
+        Můj domácí server běží na Proxmox VE, což je open-source virtualizační platforma.
+        Umožňuje mi spravovat více virtuálních strojů a kontejnerů na jednom fyzickém hardwaru.
+        Využívám ho pro různé účely, včetně hostování herních serverů, webových aplikací
+        a experimentování s různými operačními systémy.
+        <br> <br>
+        Použil jsem starý počítač s těmito specifikacemi:
+        i3 - 4170, 8GB RAM, 128GB SSD a různé HDD disky.
+        <br><br>
+      </p>
+    </div>
+
+    <div class="relative group">
+      <img
+        src="./blog/server.jpg"
+        class="rounded-xl shadow-lg transition-all duration-500 group-hover:opacity-0"
+        alt="Server lab"
+      />
+    </div>
+
+  </div>
+</section>
+   <!-- DALŠÍ BLOK -->
+    
+
+
+  </div>
+
+  <!-- AUTO IMAGE SCRIPT -->
+  <script>
+    const images = [
+      './blog/server.jpg',
+    ];
+
+    let index = 0;
+    const img = document.getElementById('auto-image');
+
+    setInterval(() => {
+      index = (index + 1) % images.length;
+      img.src = images[index];
+    }, 3000);
+  </script>
+
+</body>
+</html>
