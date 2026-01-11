@@ -5,17 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="./output.css" rel="stylesheet" />
   <link rel="icon" href="./images/favicon.svg" type="image/x-icon" />
-  <meta name="description" content="Filip Burger – CV">
+  <meta name="description" content="Filip Burger – Blog a projekty">
   <title>Filip Burger – Blog / Projekty</title>
+
+  <style>
+    summary {
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+  </style>
 </head>
 
 <body class="bg-gradient-to-r from-indigo-50 via-white to-indigo-50 min-h-screen font-sans text-gray-800">
 
-  <div class="max-w-4xl mx-auto p-8 bg-white rounded-3xl shadow-2xl mt-16 mb-16">
+  <div class="max-w-4xl mx-auto p-10 bg-white rounded-3xl shadow-2xl mt-16 mb-16">
 
     <!-- HEADER -->
-    <header class="text-center mb-14">
-      <h1 class="text-5xl font-extrabold text-indigo-700 mb-3 tracking-tight">
+    <header class="text-center mb-16">
+      <h1 class="text-5xl font-extrabold text-indigo-700 mb-4 tracking-tight">
         Blog & Projekty
       </h1>
       <p class="text-xl text-indigo-600 font-semibold">
@@ -24,133 +34,117 @@
 
       <a
         href="./index.html"
-        class="inline-block mt-6 text-indigo-600 font-medium hover:underline"
+        class="inline-block mt-8 text-indigo-600 font-medium hover:underline"
       >
         ← Zpět na CV
       </a>
     </header>
 
-    <!-- BLOK PROJEKTU -->
-    <section class="mb-12">
-  <h2 class="text-3xl font-bold border-b-4 border-indigo-300 pb-2 mb-2">
-    Domácí server & lab
-  </h2>
+    <!-- ===================== ZÁPISY ===================== -->
+    <section class="mb-16">
 
-  <p class="inline-block mb-4 bg-indigo-100 text-indigo-700 text-sm font-medium px-3 py-1 rounded-full">
-    📅 5. 1. 2026
-  </p>
+      <!-- ZÁPIS 1: Domácí server -->
+      <details class="group bg-white rounded-3xl border-2 border-indigo-200 shadow-xl hover:shadow-2xl transition-shadow duration-300 overflow-hidden mb-8">
 
-  <div class="grid md:grid-cols-2 gap-8 items-center bg-indigo-50 rounded-2xl p-6 shadow-md">
+        <summary class="cursor-pointer px-8 py-6 flex flex-col bg-gradient-to-r from-indigo-50 to-white relative focus:outline-none">
+          <div>
+            <h2 class="text-3xl font-bold text-indigo-700">
+              Domácí server & lab
+            </h2>
 
-    <div>
-      <h3 class="text-2xl font-semibold text-indigo-700 mb-3">
-        Homer server - Proxmox
-      </h3>
-      <p class="text-gray-700 text-lg leading-relaxed">
-        Můj domácí server běží na Proxmox VE, což je open-source virtualizační platforma.
-        Umožňuje mi spravovat více virtuálních strojů a kontejnerů na jednom fyzickém hardwaru.
-        Využívám ho pro různé účely, včetně hostování herních serverů, webových aplikací, Pi-hole
-        a experimentování s různými operačními systémy.
-        <br> <br>
-        Použil jsem starý počítač s těmito specifikacemi:
-        i3 - 4170, 8GB RAM, 128GB SSD a různé HDD disky.
-        <br><br>
-      </p>
-    </div>
+            <span class="inline-flex items-center gap-1 mt-3 bg-indigo-100 text-indigo-700 text-sm font-medium px-3 py-1 rounded-full">
+              📅 5. 1. 2026
+            </span>
+          </div>
+        </summary>
 
-    <div class="relative group">
-      <img
-        src="./blog/server.jpg"
-        class="rounded-xl shadow-lg transition-all duration-500 group-hover:opacity-0"
-        alt="Server lab"
-      />
-    </div>
+        <div class="overflow-hidden max-h-0 group-open:max-h-[1000px] transition-[max-height] duration-500 border-t border-indigo-200 px-8 py-10 grid md:grid-cols-2 gap-10 items-center">
 
-  </div>
-</section>
-   <!-- DALŠÍ BLOK -->
-    
-<section class="mb-12">
-  <h2 class="text-3xl font-bold border-b-4 border-indigo-300 pb-2 mb-2">
-    Pi-hole – síťový DNS filtr
-  </h2>
+          <div>
 
-  <!-- DATUM -->
-  <p class="inline-block mb-4 bg-indigo-100 text-indigo-700 text-sm font-medium px-3 py-1 rounded-full">
-    📅 6. 1. 2026
-  </p>
+            <p class="text-gray-700 text-lg leading-relaxed">
+              Můj domácí server běží na Proxmox VE – open-source
+              virtualizační platformě, která mi umožňuje spravovat více
+              virtuálních strojů a kontejnerů na jednom fyzickém hardwaru.
+              <br><br>
+              Server využívám pro hostování herních serverů, webových
+              aplikací, Pi-hole a testování různých operačních systémů.
+              <br><br>
+              <span class="font-semibold text-gray-900">Hardware:</span>
+              i3-4170, 8 GB RAM, 128 GB SSD + HDD
+            </p>
+          </div>
 
-  <div class="grid md:grid-cols-2 gap-8 items-center bg-indigo-50 rounded-2xl p-6 shadow-md">
+          <div class="relative">
+            <img
+              src="./blog/server.jpg"
+              alt="Domácí server"
+              class="rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-[1.03]"
+            />
+          </div>
 
-    <!-- TEXT -->
-    <div>
-      <h3 class="text-2xl font-semibold text-indigo-700 mb-3">
-        Blokování reklam na všech zařízeních
-      </h3>
+        </div>
 
-      <p class="text-gray-700 text-lg leading-relaxed mb-4">
-        Pi-hole provozuji jako centrální DNS server v domácí síti.
-        Slouží k blokování reklam, trackerů a škodlivých domén
-        přímo na úrovni DNS – bez nutnosti instalace doplňků
-        na jednotlivá zařízení.
-      </p>
+      </details>
 
-      <p class="text-gray-700 text-lg leading-relaxed mb-4">
-        Nasazení probíhá na Linux serveru (Ubuntu) běžícím
-        jako virtuální stroj v Proxmoxu. Pi-hole je integrován
-        s routerem, který přesměrovává veškerý DNS provoz
-        klientů právě na tento server.
-      </p>
+      <!-- ZÁPIS 2: Pi-hole -->
+      <details class="group bg-white rounded-3xl border-2 border-indigo-200 shadow-xl hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
 
-      <ul class="list-disc list-inside text-gray-700 space-y-2">
-        <li>DNS filtering & blocking</li>
-        <li>Statistiky provozu a dotazů</li>
-        <li>Vlastní blacklist / whitelist</li>
-        <li>Integrace s DHCP / routerem</li>
-      </ul>
-      <br>
+        <summary class="cursor-pointer px-8 py-6 flex flex-col bg-gradient-to-r from-indigo-50 to-white relative focus:outline-none">
+          <div>
+            <h2 class="text-3xl font-bold text-indigo-700">
+              Pi-hole – síťový DNS filtr
+            </h2>
+
+            <span class="inline-flex items-center gap-1 mt-3 bg-indigo-100 text-indigo-700 text-sm font-medium px-3 py-1 rounded-full">
+              📅 6. 1. 2026
+            </span>
+          </div>
+        </summary>
+
+        <div class="overflow-hidden max-h-0 group-open:max-h-[1000px] transition-[max-height] duration-500 border-t border-indigo-200 px-8 py-10 grid md:grid-cols-2 gap-10 items-center">
+
+          <div>
+            <p class="text-gray-700 text-lg leading-relaxed mb-4">
+              Blokování reklam na všech zařízeních. Pi-hole provozuji jako centrální DNS server v domácí síti. Slouží k blokování reklam, trackerů a škodlivých domén přímo na úrovni DNS – bez nutnosti instalace doplňků na jednotlivá zařízení.
+            </p>
 
             <p class="text-gray-700 text-lg leading-relaxed mb-4">
-        Samozeřejmě to má taky nevýhody:
-        <ul class="list-disc list-inside text-gray-700 space-y-2">
-          <li>Někdy blokuje i užitečný obsah</li>
-          <li>Vyžaduje údržbu a aktualizace</li>
-          <li>Možnost selhání serveru ovlivní celou síť</li>
-        </ul>
-      </p>
-    </div>
-<br>
-    <!-- DYNAMICKÁ FOTKA -->
-    <div class="relative group">
-      <img
-        src="./blog/pi-hole.png"
-        alt="Pi-hole dashboard"
-        class="rounded-xl shadow-lg transition-all duration-500 group-hover:opacity-0"/>
-    </div>
+              Nasazení probíhá na Linux serveru (Ubuntu) běžícím jako virtuální stroj v Proxmoxu. Pi-hole je integrován s routerem, který přesměrovává veškerý DNS provoz klientů právě na tento server.
+            </p>
+
+            <ul class="list-disc list-inside text-gray-700 text-lg mb-4">
+              <li>DNS filtering & blocking</li>
+              <li>Statistiky provozu a dotazů</li>
+              <li>Vlastní blacklist / whitelist</li>
+              <li>Integrace s DHCP / routerem</li>
+            </ul>
+
+            <p class="text-gray-700 text-lg font-semibold mb-2">Nevýhody:</p>
+            <ul class="list-disc list-inside text-gray-700 text-lg">
+              <li>Někdy blokuje i užitečný obsah</li>
+              <li>Vyžaduje údržbu a aktualizace</li>
+              <li>Možnost selhání serveru ovlivní celou síť</li>
+            </ul>
+          </div>
+
+          <!-- OBRÁZEK PI-HOLE -->
+          <div class="relative">
+            <img
+              src="./blog/pi-hole.png"
+              alt="Pi-hole DNS filtr"
+              class="rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-[1.03]"
+            />
+          </div>
+
+        </div>
+
+      </details>
+
+    </section>
+    <!-- ===================== KONEC ZÁPISŮ ===================== -->
 
   </div>
-</section>
-
-
-
-
-  </div>
-
-  <!-- AUTO IMAGE SCRIPT -->
-  <script>
-    const images = [
-      './blog/server.jpg',
-      './blog/pi-hole.png'
-    ];
-
-    let index = 0;
-    const img = document.getElementById('auto-image');
-
-    setInterval(() => {
-      index = (index + 1) % images.length;
-      img.src = images[index];
-    }, 3000);
-  </script>
 
 </body>
 </html>
