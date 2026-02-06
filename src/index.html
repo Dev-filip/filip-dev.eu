@@ -150,6 +150,65 @@
         console.error(err);
       });
     });
+
+            document.addEventListener("DOMContentLoaded", function() {
+            var toastTimeout;
+
+            function showSecurityToast(message) {
+                var toast = document.getElementById("security-toast");
+                var msgSpan = document.getElementById("security-msg");
+                var progress = document.getElementById("security-progress");
+
+                msgSpan.innerText = message;
+
+                toast.classList.remove("show");
+                progress.style.transition = 'none';
+                progress.style.width = '0%';
+
+                void toast.offsetWidth; // Trigger reflow
+
+                toast.classList.add("show");
+                progress.style.transition = 'width 3s linear';
+                progress.style.width = '100%';
+
+                clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(function(){
+                    toast.classList.remove("show");
+                }, 3000);
+            }
+
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
+            document.onkeydown = function(e) {
+                if(e.keyCode == 123) {
+                    e.preventDefault();
+                    return false;
+                }
+                if(e.ctrlKey && (e.shiftKey && e.keyCode == 73 || e.shiftKey && e.keyCode == 74 || e.keyCode == 85)) {
+                    e.preventDefault();
+                    return false;
+                }
+                if(e.ctrlKey && e.keyCode == 83) {
+                    e.preventDefault();
+                    return false;
+                }
+                if(e.ctrlKey && e.keyCode == 65) {
+                    e.preventDefault();
+                    return false;
+                }
+                if(e.ctrlKey && e.keyCode == 67) {
+                    e.preventDefault();
+                    return false;
+                }
+            };
+            document.addEventListener('keyup', function(e) {
+                if (e.keyCode == 44) {
+                    navigator.clipboard.writeText('');
+                }
+            });
+        });
   </script>
 </body>
 </html>
