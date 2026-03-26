@@ -1,214 +1,815 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="./output.css" rel="stylesheet" />
-  <link rel="icon" href="./images/favicon.svg" type="image/x-icon" />
-  <title>Filip Burger - CV</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filip Burger – CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0e10;
+    --bg2: #15151a;
+    --bg3: #1c1c24;
+    --border: rgba(255,255,255,0.07);
+    --border-strong: rgba(255,255,255,0.13);
+    --text: #f0eff5;
+    --text2: #9997b0;
+    --text3: #5e5c78;
+    --accent: #7c6af7;
+    --accent2: #a89df9;
+    --accent-glow: rgba(124, 106, 247, 0.15);
+    --teal: #2dd9c0;
+    --amber: #f5a623;
+    --green: #5ed37a;
+    --font-heading: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Noise texture overlay ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.022;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Grid lines bg ── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── Layout ── */
+  .page {
+    position: relative; z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 80px 0 64px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: end;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -120px;
+    width: 500px; height: 400px;
+    background: radial-gradient(ellipse at center, rgba(124,106,247,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(48px, 8vw, 80px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+
+  h1 .last {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--accent2);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--text2);
+    margin-top: 20px;
+    max-width: 440px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: var(--bg3);
+    border: 1px solid var(--border-strong);
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--text2);
+    text-decoration: none;
+    transition: all 0.2s;
+    font-family: var(--font-mono);
+  }
+
+  .chip:hover {
+    border-color: var(--accent);
+    color: var(--accent2);
+    background: var(--accent-glow);
+  }
+
+  .chip svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* avatar */
+  .avatar {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: var(--bg3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 32px; font-weight: 800;
+    color: var(--accent2);
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .avatar::after {
+    content: '';
+    position: absolute; inset: -4px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--accent) 0%, transparent 40%, transparent 60%, var(--teal) 100%);
+    z-index: -1;
+    opacity: 0.5;
+  }
+
+  /* ── Section ── */
+  .section {
+    margin-top: 64px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    margin-right: 4px;
+  }
+
+  h2 {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── About ── */
+  .about-text {
+    font-size: 16px;
+    color: var(--text2);
+    font-weight: 300;
+    line-height: 1.75;
+    max-width: 620px;
+    border-left: 2px solid var(--accent);
+    padding-left: 20px;
+  }
+
+  /* ── Timeline cards ── */
+  .timeline { display: flex; flex-direction: column; gap: 16px; }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+  .card:hover::before { opacity: 1; }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+
+  .card-title {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .card-title a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-strong);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .card-title a:hover { color: var(--accent2); border-color: var(--accent); }
+
+  .card-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text3);
+    white-space: nowrap;
+  }
+
+  .card-sub {
+    font-size: 13px;
+    color: var(--accent2);
+    font-family: var(--font-mono);
+    margin-bottom: 10px;
+  }
+
+  .card-body {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ── Cert list ── */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .cert-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cert-item::after {
+    content: '↗';
+    position: absolute;
+    top: 12px; right: 14px;
+    font-size: 12px;
+    color: var(--text3);
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .cert-item:hover { border-color: var(--accent); background: var(--accent-glow); }
+  .cert-item:hover::after { color: var(--accent2); transform: translate(1px,-1px); }
+
+  .cert-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .cert-dot.pending {
+    background: transparent;
+    border: 1px solid var(--text3);
+  }
+
+  .cert-name {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .cert-desc {
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 2px;
+    font-family: var(--font-mono);
+  }
+
+  /* ── Skills ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+
+  .skill-group {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+
+  .skill-group-name {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 10px;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .skill-tag {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-family: var(--font-mono);
+  }
+
+  .tag-purple { background: rgba(124,106,247,0.12); color: var(--accent2); border: 1px solid rgba(124,106,247,0.2); }
+  .tag-teal   { background: rgba(45,217,192,0.1); color: var(--teal); border: 1px solid rgba(45,217,192,0.2); }
+  .tag-amber  { background: rgba(245,166,35,0.1); color: var(--amber); border: 1px solid rgba(245,166,35,0.2); }
+  .tag-green  { background: rgba(94,211,122,0.1); color: var(--green); border: 1px solid rgba(94,211,122,0.2); }
+
+  /* ── Languages ── */
+  .lang-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .lang-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    min-width: 180px;
+  }
+
+  .lang-name {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .lang-level {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 2px;
+  }
+
+  .lang-bar {
+    margin-top: 10px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .lang-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--teal));
+  }
+
+  /* ── Blog link ── */
+  .blog-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 40px;
+    padding: 14px 24px;
+    background: var(--bg2);
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+
+  .blog-link:hover {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .blog-link .arrow {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+
+  .blog-link:hover .arrow { transform: translate(2px,-2px); }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 80px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ── Scroll reveal ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+  .delay-5 { animation-delay: 0.5s; }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .hero { grid-template-columns: 1fr; }
+    .avatar { display: none; }
+    h1 { font-size: 44px; }
+  }
+
+  /* ── Cursor dot ── */
+  .cursor {
+    display: inline-block;
+    width: 3px; height: 1em;
+    background: var(--accent);
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+</style>
 </head>
-<body class="bg-gradient-to-r from-indigo-50 via-white to-indigo-50 min-h-screen font-sans text-gray-800">
-  <div class="max-w-3xl mx-auto p-8 bg-white rounded-3xl shadow-2xl mt-16 mb-16">
-    
-    <header class="text-center mb-12">
-      <h1 class="text-5xl font-extrabold text-indigo-700 mb-2 tracking-tight">Filip Burger</h1>
-      <p class="text-xl text-indigo-600 font-semibold">Student a nadšenec do IT</p>
-      <p class="text-gray-500 mt-3 text-sm">
-        📧 <a href="mailto:filipburger8@gmail.com" class="text-indigo-600 hover:underline">filipburger8@gmail.com</a> &nbsp;|&nbsp; 
-        💬 <button
-          id="discord-copy-btn"
-          class="font-mono text-indigo-500 hover:text-indigo-900 cursor-pointer focus:outline-none"
-          title="Klikni pro zkopírování Discord jména"
-        >
-          stylercz
-        </button> (Discord) &nbsp;|&nbsp;
-        🔗 <a href="https://www.linkedin.com/in/filip-burger-0160a9345/" target="_blank" class="text-indigo-600 hover:underline">LinkedIn</a> &nbsp;|&nbsp;
-        💻 <a href="https://github.com/Dev-filip" target="_blank" class="text-indigo-600 hover:underline">GitHub</a>
-      </p>
+<body>
+<main class="page">
 
-            <div class="mt-6">
-        <a
-          href="./blog.html"
-          class="inline-flex items-center gap-2 text-indigo-500 px-6 py-3 rounded-full font-semibold shadow-md hover:bg-indigo-700 hover:shadow-lg transition-all duration-300"
-        >
-          📘 Blog & Projekty
+  <!-- HERO -->
+  <header class="hero reveal">
+    <div>
+      <p class="hero-tag">Portfolio & CV</p>
+      <h1>Filip<br><span class="last">Burger</span><span class="cursor"></span></h1>
+      <p class="hero-sub">Student, nadšenec do IT. Věnuji se správě serverů, hardwaru a sítí. Rád řeším technické problémy a pracuji na reálných projektech.</p>
+      <div class="hero-links">
+        <a href="mailto:filipburger8@gmail.com" class="chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+          filipburger8@gmail.com
         </a>
+        <a href="https://www.linkedin.com/in/filip-burger-0160a9345/" target="_blank" class="chip">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/Dev-filip" target="_blank" class="chip">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          GitHub
+        </a>
+        <span class="chip" id="discord-btn" style="cursor:pointer" onclick="copyDiscord()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
+          <span id="discord-label">stylercz</span>
+        </span>
       </div>
-    </header>
+    </div>
+    <div class="avatar">FB</div>
+  </header>
 
-    <section class="mb-10">
-      <h2 class="text-3xl font-bold border-b-4 border-indigo-300 pb-2 mb-6">O mně</h2>
-      <p class="text-lg leading-relaxed text-gray-700">
-        Jsem student, věnuji se správě serverů, hardwaru a sítí.  
-        Mám praktické zkušenosti se správou herních serverů – můj poslední projekt, kterému jsem se věnoval byl
-        <span class="font-semibold">PixelArena.eu</span> - backend vývoj, správa pluginů, databáze a optimalizace výkonu.
-      </p>
-    </section>
+  <!-- O MNĚ -->
+  <section class="section reveal delay-1">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>O mně</h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="about-text">
+      Jsem student, věnuji se správě serverů, hardwaru a sítí. Mám praktické zkušenosti se správou herních serverů – můj poslední projekt byl <strong style="color:var(--text);font-weight:500">PixelArena.eu</strong>, kde jsem se věnoval backend vývoji, správě pluginů, databázím a optimalizaci výkonu.
+    </p>
+  </section>
 
-    <section class="mb-10">
-      <h2 class="text-3xl font-bold border-b-4 border-indigo-300 pb-2 mb-6">Vzdělání a certifikace</h2>
-
-      <div class="mb-8">
-        <h3 class="text-2xl font-semibold text-indigo-700 hover:text-indigo-900 transition duration-300">
-          <a href="https://sosasou.cz/" target="_blank" rel="noopener noreferrer">Soš a Sou Neratovice</a>
-        </h3>
-        <p class="text-indigo-500 font-medium mt-1">2023 - současnost</p>
-        <p class="text-gray-700 mt-1">Zaměření Počítačové sítě</p>
-        <p class="text-gray-600 mt-1 italic">V rámci školy absolvuji několik certifikací (CCNA 1,2,3)</p>
-        <p class="text-gray-700 mt-2">2 týdny praxe v <span class="font-semibold">Alza.cz</span> – Správa interního systému a hardwaru</p>
-      </div>
-
-      <div>
-        <h3 class="text-2xl font-semibold mb-4">Certifikace</h3>
-        <ul class="list-disc list-inside space-y-3 text-gray-700">
-          <li>
-            <a href="./images/NetworkingBasics_Certifikat.pdf" class="text-indigo-600 font-medium hover:underline">Networking Basics</a> – úvod do počítačových sítí, IP adresování, zařízení a principy přenosu dat.
-          </li>
-          <li>
-            <a href="./images/kontejnery_certifikat.pdf" class="text-indigo-600 font-medium hover:underline">Kontejnery (nejen) s Dockerem</a> – práce s kontejnery, tvorba image, základní orchestrace pomocí Docker Compose.
-          </li>
-          <li>
-            <a href="./images/cybersec_certifikat.pdf" class="text-indigo-600 font-medium hover:underline">Introduction to Cybersecurity</a> – základy kybernetické bezpečnosti, ochrana proti hrozbám, zabezpečení sítí a systémů.
-          </li>
-          <li>
-            <a href="./images/ccna_certifikat.pdf" class="text-indigo-600 font-medium hover:underline">CCNA 1</a> – základy sítí, modely OSI a TCP/IP, směrování, přepínání, IP adresování a konfigurace síťových zařízení.
-          </li>
-          <li>
-            <a href="#" class="text-indigo-600 font-medium hover:underline">CCNA 2 (rozpracované)</a> – pokročilé koncepty sítí, směrování, přepínání, bezpečnost a správa síťových zařízení.
-        </li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="mb-10">
-      <h2 class="text-3xl font-bold border-b-4 border-indigo-300 pb-2 mb-6">Pracovní zkušenosti</h2>
-
-      <div class="mb-6">
-        <h3 class="text-2xl font-semibold text-indigo-700 hover:text-indigo-900 transition duration-300">
-          Brigáda – Proks Plastic
-        </h3>
-        <p class="text-indigo-500 font-medium mt-1">Operátor výroby</p>
-        <p class="text-gray-500 mt-1">Každé prázdniny od roku 2023 - 2026</p>
-        <p class="text-gray-700 mt-2">
-          Obsluha výrobních strojů, kontrola kvality výrobků, balení a příprava materiálu pro expedici.
+  <!-- VZDĚLÁNÍ -->
+  <section class="section reveal delay-2">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Vzdělání</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="timeline">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <a href="https://sosasou.cz/" target="_blank">SoŠ a SoU Neratovice</a>
+          </div>
+          <span class="card-badge">2023 – současnost</span>
+        </div>
+        <p class="card-sub">Zaměření: Počítačové sítě</p>
+        <p class="card-body">
+          V rámci školy absolvuji certifikace CCNA&nbsp;1, 2 a 3. Součástí studia bylo také 2 týdny praxe v Alza.cz – správa interního systému a hardwaru.
         </p>
       </div>
+    </div>
+  </section>
 
-      <div class="mb-6">
-        <h3 class="text-2xl font-semibold text-indigo-700 hover:text-indigo-900 transition duration-300">
-          Správce Minecraft networku – PixelArena.eu
-        </h3>
-        <p class="text-indigo-500 font-medium mt-1">Backend vývoj & správa systému</p>
-        <p class="text-gray-500 mt-1">Duben 2025 – Září 2025</p>
-        <p class="text-gray-700 mt-2">
+  <!-- CERTIFIKACE -->
+  <section class="section reveal delay-2">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Certifikace</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="cert-grid">
+      <a href="https://filip-dev.xyz/src/images/NetworkingBasics_Certifikat.pdf" target="_blank" class="cert-item">
+        <span class="cert-dot"></span>
+        <div>
+          <div class="cert-name">Networking Basics</div>
+          <div class="cert-desc">IP adresování, sítě, přenos dat</div>
+        </div>
+      </a>
+      <a href="https://filip-dev.xyz/src/images/kontejnery_certifikat.pdf" target="_blank" class="cert-item">
+        <span class="cert-dot"></span>
+        <div>
+          <div class="cert-name">Kontejnery s Dockerem</div>
+          <div class="cert-desc">Docker, images, Docker Compose</div>
+        </div>
+      </a>
+      <a href="https://filip-dev.xyz/src/images/cybersec_certifikat.pdf" target="_blank" class="cert-item">
+        <span class="cert-dot"></span>
+        <div>
+          <div class="cert-name">Introduction to Cybersecurity</div>
+          <div class="cert-desc">Kybernetická bezpečnost, ochrana sítí</div>
+        </div>
+      </a>
+      <a href="https://filip-dev.xyz/src/images/ccna_certifikat.pdf" target="_blank" class="cert-item">
+        <span class="cert-dot"></span>
+        <div>
+          <div class="cert-name">CCNA 1</div>
+          <div class="cert-desc">Sítě, OSI/TCP-IP, směrování, přepínání</div>
+        </div>
+      </a>
+      <a href="https://filip-dev.xyz/src/images/english4it_certifikat.pdf" target="_blank" class="cert-item">
+        <span class="cert-dot"></span>
+        <div>
+          <div class="cert-name">English4IT</div>
+          <div class="cert-desc">Angličtina pro IT, B2</div>
+        </div>
+        </a>
+        <div class="cert-item" style="opacity:0.5;cursor:default;">
+          <span class="cert-dot pending"></span>
+        <div>
+          <div class="cert-name">CCNA 2 <span style="font-size:11px;color:var(--text3)">(v přípravě)</span></div>
+          <div class="cert-desc">Pokročilé sítě, bezpečnost, správa</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal delay-3">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Pracovní zkušenosti</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="timeline">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Správce Minecraft networku – PixelArena.eu</div>
+          <span class="card-badge">Dub 2025 – Zář 2025</span>
+        </div>
+        <p class="card-sub">Backend vývoj & správa systému</p>
+        <p class="card-body">
           Správa herních serverů a backend infrastruktury, konfigurace pluginů, správa databází (MySQL), optimalizace výkonu a řešení technických problémů.
         </p>
       </div>
-    </section>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Brigáda – Proks Plastic</div>
+          <span class="card-badge">Každé prázdniny 2023–2026</span>
+        </div>
+        <p class="card-sub">Operátor výroby</p>
+        <p class="card-body">
+          Obsluha výrobních strojů, kontrola kvality výrobků, balení a příprava materiálu pro expedici.
+        </p>
+      </div>
+    </div>
+  </section>
 
-    <section class="mb-10">
-      <h2 class="text-3xl font-bold border-b-4 border-indigo-300 pb-2 mb-6">Dovednosti</h2>
-      <ul class="list-disc list-inside text-gray-700 space-y-2 text-lg">
-        <li>HTML, CSS, GitHub ,Docker, Docker Compose</li>
-        <li>Správa počítačového hardwaru, sítí</li>
-        <li>Správa herních serverů (Pterodactyl panel, pelican panel)</li>
-        <li>Windows server (AD DS, DNS, DHCP, IIS...), Linux servery (Ubuntu)</li>
-        <li>Proxmox základy</li>
-      </ul>
-    </section>
+  <section class="section reveal delay-4">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>Dovednosti</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-name">Vývoj & Nástroje</div>
+        <div class="skill-tags">
+          <span class="skill-tag tag-purple">HTML</span>
+          <span class="skill-tag tag-purple">CSS</span>
+          <span class="skill-tag tag-purple">GitHub</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-name">Kontejnerizace</div>
+        <div class="skill-tags">
+          <span class="skill-tag tag-teal">Docker</span>
+          <span class="skill-tag tag-teal">Docker Compose</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-name">Servery & OS</div>
+        <div class="skill-tags">
+          <span class="skill-tag tag-amber">Windows Server</span>
+          <span class="skill-tag tag-amber">Ubuntu</span>
+          <span class="skill-tag tag-amber">Proxmox</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-name">Herní servery</div>
+        <div class="skill-tags">
+          <span class="skill-tag tag-green">Pterodactyl</span>
+          <span class="skill-tag tag-green">Pelican</span>
+          <span class="skill-tag tag-green">MySQL</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-name">Windows Server role</div>
+        <div class="skill-tags">
+          <span class="skill-tag tag-amber">AD DS</span>
+          <span class="skill-tag tag-amber">DNS</span>
+          <span class="skill-tag tag-amber">DHCP</span>
+          <span class="skill-tag tag-amber">IIS</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-name">Hardware & Sítě</div>
+        <div class="skill-tags">
+          <span class="skill-tag tag-teal">Správa HW</span>
+          <span class="skill-tag tag-teal">PC sítě</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <section>
-      <h2 class="text-3xl font-bold border-b-4 border-indigo-300 pb-2 mb-6">Jazyky</h2>
-      <ul class="list-disc list-inside text-gray-700 space-y-2 text-lg">
-        <li>Čeština – rodilý mluvčí</li>
-        <li>Angličtina – pokročilá (B2), Certifikace <a href="./images/english4it_certifikat.pdf" class="text-indigo-600 font-medium hover:underline">English4IT</a></li>
-      </ul>
-    </section>
+  <section class="section reveal delay-5">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2>Jazyky</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="lang-grid">
+      <div class="lang-card">
+        <div class="lang-name">Čeština</div>
+        <div class="lang-level">Rodilý mluvčí</div>
+        <div class="lang-bar"><div class="lang-bar-fill" style="width:100%"></div></div>
+      </div>
+      <div class="lang-card">
+        <a href="https://filip-dev.xyz/src/images/english4it_certifikat.pdf" target="_blank" style="text-decoration:none;color:inherit">
+          <div class="lang-name">Angličtina</div>
+          <div class="lang-level">Pokročilá – B2 · English4IT</div>
+          <div class="lang-bar"><div class="lang-bar-fill" style="width:75%"></div></div>
+        </a>
+      </div>
+    </div>
+  </section>
 
+  <div class="section reveal delay-5">
+    <a href="https://filip-dev.xyz/src/blog.html" class="blog-link">
+      <span class="arrow">↗</span>
+      <span>
+        <strong style="font-family:var(--font-heading);font-weight:700">Blog & Projekty</strong>
+        <span style="color:var(--text2);font-size:13px;display:block;margin-top:1px">Moje zápisky, tutoriály a projekty</span>
+      </span>
+    </a>
   </div>
 
-  <div
-    id="copy-notification"
-    class="fixed bottom-6 right-6 bg-indigo-600 text-white px-4 py-2 rounded shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 select-none"
-  >
-    Discord jméno zkopírováno!
-  </div>
+  <footer>
+    <span>filip-dev.xyz · 2025</span>
+    <span id="discord-footer" onclick="copyDiscord()" style="cursor:pointer">Discord: stylercz</span>
+  </footer>
 
-  <script>
-    const discordBtn = document.getElementById('discord-copy-btn');
-    const notification = document.getElementById('copy-notification');
+</main>
 
-    discordBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(discordBtn.textContent.trim()).then(() => {
-        notification.classList.remove('opacity-0', 'pointer-events-none');
-        setTimeout(() => {
-          notification.classList.add('opacity-0', 'pointer-events-none');
-        }, 2000);
-      }).catch(err => {
-        alert('Nepodařilo se zkopírovat do schránky.');
-        console.error(err);
-      });
-    });
+<script>
+function copyDiscord() {
+  navigator.clipboard.writeText('stylercz').then(() => {
+    const el = document.getElementById('discord-label');
+    const footer = document.getElementById('discord-footer');
+    if (el) el.textContent = 'Zkopírováno!';
+    if (footer) footer.textContent = 'Discord: Zkopírováno!';
+    setTimeout(() => {
+      if (el) el.textContent = 'stylercz';
+      if (footer) footer.textContent = 'Discord: stylercz';
+    }, 2000);
+  });
+}
 
-            document.addEventListener("DOMContentLoaded", function() {
-            var toastTimeout;
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.animationPlayState = 'running';
+    }
+  });
+}, { threshold: 0.1 });
 
-            function showSecurityToast(message) {
-                var toast = document.getElementById("security-toast");
-                var msgSpan = document.getElementById("security-msg");
-                var progress = document.getElementById("security-progress");
-
-                msgSpan.innerText = message;
-
-                toast.classList.remove("show");
-                progress.style.transition = 'none';
-                progress.style.width = '0%';
-
-                void toast.offsetWidth; // Trigger reflow
-
-                toast.classList.add("show");
-                progress.style.transition = 'width 3s linear';
-                progress.style.width = '100%';
-
-                clearTimeout(toastTimeout);
-                toastTimeout = setTimeout(function(){
-                    toast.classList.remove("show");
-                }, 3000);
-            }
-
-            document.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-            });
-
-            document.onkeydown = function(e) {
-                if(e.keyCode == 123) {
-                    e.preventDefault();
-                    return false;
-                }
-                if(e.ctrlKey && (e.shiftKey && e.keyCode == 73 || e.shiftKey && e.keyCode == 74 || e.keyCode == 85)) {
-                    e.preventDefault();
-                    return false;
-                }
-                if(e.ctrlKey && e.keyCode == 83) {
-                    e.preventDefault();
-                    return false;
-                }
-                if(e.ctrlKey && e.keyCode == 65) {
-                    e.preventDefault();
-                    return false;
-                }
-                if(e.ctrlKey && e.keyCode == 67) {
-                    e.preventDefault();
-                    return false;
-                }
-            };
-            document.addEventListener('keyup', function(e) {
-                if (e.keyCode == 44) {
-                    navigator.clipboard.writeText('');
-                }
-            });
-        });
-  </script>
+document.querySelectorAll('.section, footer').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  observer.observe(el);
+});
+</script>
 </body>
 </html>

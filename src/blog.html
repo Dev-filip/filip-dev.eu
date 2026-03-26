@@ -1,151 +1,530 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="./output.css" rel="stylesheet" />
-  <link rel="icon" href="./images/favicon.svg" type="image/x-icon" />
-  <meta name="description" content="Filip Burger – Blog a projekty">
-  <title>Filip Burger – Blog / Projekty</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filip Burger – Blog & Projekty</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <style>
-    summary {
-      list-style: none;
-    }
+  :root {
+    --bg: #0e0e10;
+    --bg2: #15151a;
+    --bg3: #1c1c24;
+    --border: rgba(255,255,255,0.07);
+    --border-strong: rgba(255,255,255,0.13);
+    --text: #f0eff5;
+    --text2: #9997b0;
+    --text3: #5e5c78;
+    --accent: #7c6af7;
+    --accent2: #a89df9;
+    --accent-glow: rgba(124, 106, 247, 0.15);
+    --teal: #2dd9c0;
+    --amber: #f5a623;
+    --green: #5ed37a;
+    --font-heading: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
 
-    summary::-webkit-details-marker {
-      display: none;
-    }
-  </style>
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.022;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .page {
+    position: relative; z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── Header ── */
+  .header {
+    padding: 56px 0 48px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -80px;
+    width: 400px; height: 300px;
+    background: radial-gradient(ellipse at center, rgba(45,217,192,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--accent2); }
+  .back-link svg { width: 12px; height: 12px; }
+
+  .page-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .page-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--teal);
+  }
+
+  h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(36px, 6vw, 58px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+
+  h1 .hl {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--teal);
+  }
+
+  .header-sub {
+    font-size: 15px;
+    color: var(--text2);
+    margin-top: 14px;
+    font-weight: 300;
+  }
+
+  /* ── Posts grid ── */
+  .posts {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  /* ── Post card ── */
+  .post {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr;
+    transition: border-color 0.25s, transform 0.25s;
+    position: relative;
+  }
+
+  .post::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--teal), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .post:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+  .post:hover::before { opacity: 1; }
+
+  /* post with image: two columns on wide screens */
+  .post.has-image {
+    grid-template-columns: 1fr 320px;
+  }
+
+  @media (max-width: 680px) {
+    .post.has-image { grid-template-columns: 1fr; }
+    .post-img { max-height: 220px; }
+  }
+
+  .post-body {
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .post-date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.06em;
+  }
+
+  .post-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 2px 9px;
+    border-radius: 100px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .tag-server  { background: rgba(124,106,247,0.12); color: var(--accent2); border: 1px solid rgba(124,106,247,0.2); }
+  .tag-network { background: rgba(45,217,192,0.1);   color: var(--teal);    border: 1px solid rgba(45,217,192,0.2); }
+  .tag-docker  { background: rgba(94,211,122,0.1);   color: var(--green);   border: 1px solid rgba(94,211,122,0.2); }
+  .tag-security{ background: rgba(245,166,35,0.1);   color: var(--amber);   border: 1px solid rgba(245,166,35,0.2); }
+
+  h2.post-title {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .post-text {
+    font-size: 14px;
+    color: var(--text2);
+    font-weight: 300;
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .post-text p + p { margin-top: 10px; }
+
+  /* hardware spec line */
+  .hw-spec {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    padding: 6px 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text3);
+    width: fit-content;
+  }
+
+  .hw-spec svg { width: 12px; height: 12px; color: var(--accent2); }
+
+  /* pros/cons */
+  .lists-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 500px) {
+    .lists-row { grid-template-columns: 1fr; }
+  }
+
+  .list-block {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  .list-block-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .list-block.pros .list-block-title { color: var(--green); }
+  .list-block.cons .list-block-title { color: var(--amber); }
+
+  .list-block ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .list-block ul li {
+    font-size: 13px;
+    color: var(--text2);
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font-weight: 300;
+  }
+
+  .list-block ul li::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .pros ul li::before { background: var(--green); }
+  .cons ul li::before { background: var(--amber); }
+
+  /* ── Post image ── */
+  .post-img {
+    width: 100%;
+    height: 100%;
+    min-height: 240px;
+    object-fit: cover;
+    display: block;
+    border-left: 1px solid var(--border);
+    filter: brightness(0.88) saturate(0.9);
+    transition: filter 0.3s;
+  }
+
+  .post:hover .post-img { filter: brightness(0.95) saturate(1); }
+
+  /* ── Post number ── */
+  .post-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text3);
+    margin-bottom: 6px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Empty state / CTA ── */
+  .more-cta {
+    margin-top: 48px;
+    padding: 28px 32px;
+    background: var(--bg2);
+    border: 1px dashed var(--border-strong);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .more-cta-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    background: var(--accent-glow);
+    border: 1px solid rgba(124,106,247,0.2);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .more-cta-icon svg { width: 20px; height: 20px; color: var(--accent2); }
+
+  .more-cta-text {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .more-cta-title {
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .more-cta-desc {
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 3px;
+    font-weight: 300;
+  }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 80px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  footer a { color: var(--text3); text-decoration: none; transition: color 0.2s; }
+  footer a:hover { color: var(--accent2); }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal { opacity: 0; animation: fadeUp 0.5s ease forwards; }
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.15s; }
+  .d3 { animation-delay: 0.25s; }
+  .d4 { animation-delay: 0.35s; }
+</style>
 </head>
+<body>
+<main class="page">
 
-<body class="bg-gradient-to-r from-indigo-50 via-white to-indigo-50 min-h-screen font-sans text-gray-800">
+  <!-- HEADER -->
+  <header class="header reveal d1">
+    <a href="https://filip-dev.xyz/src/index.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Zpět na CV
+    </a>
+    <p class="page-tag">Blog & Projekty</p>
+    <h1>Zápisky<br>& <span class="hl">Projekty</span></h1>
+    <p class="header-sub">Praktické projekty, servery a experimenty z reálného světa</p>
+  </header>
 
-  <div class="max-w-4xl mx-auto p-10 bg-white rounded-3xl shadow-2xl mt-16 mb-16">
+  <!-- POSTS -->
+  <div class="posts">
 
-    <!-- HEADER -->
-    <header class="text-center mb-16">
-      <h1 class="text-5xl font-extrabold text-indigo-700 mb-4 tracking-tight">
-        Blog & Projekty
-      </h1>
-      <p class="text-xl text-indigo-600 font-semibold">
-        Praktické projekty, servery a experimenty
-      </p>
-
-      <a
-        href="./index.html"
-        class="inline-block mt-8 text-indigo-600 font-medium hover:underline"
-      >
-        ← Zpět na CV
-      </a>
-    </header>
-
-    <!-- ===================== ZÁPISY ===================== -->
-    <section class="mb-16">
-
-      <!-- ZÁPIS 1: Domácí server -->
-      <details class="group bg-white rounded-3xl border-2 border-indigo-200 shadow-xl hover:shadow-2xl transition-shadow duration-300 overflow-hidden mb-8">
-
-        <summary class="cursor-pointer px-8 py-6 flex flex-col bg-gradient-to-r from-indigo-50 to-white relative focus:outline-none">
-          <div>
-            <h2 class="text-3xl font-bold text-indigo-700">
-              Domácí server & lab
-            </h2>
-
-            <span class="inline-flex items-center gap-1 mt-3 bg-indigo-100 text-indigo-700 text-sm font-medium px-3 py-1 rounded-full">
-              📅 5. 1. 2026
-            </span>
-          </div>
-        </summary>
-
-        <div class="overflow-hidden max-h-0 group-open:max-h-[1000px] transition-[max-height] duration-500 border-t border-indigo-200 px-8 py-10 grid md:grid-cols-2 gap-10 items-center">
-
-          <div>
-
-            <p class="text-gray-700 text-lg leading-relaxed">
-              Můj domácí server běží na Proxmox VE – open-source
-              virtualizační platformě, která mi umožňuje spravovat více
-              virtuálních strojů a kontejnerů na jednom fyzickém hardwaru.
-              <br><br>
-              Server využívám pro hostování herních serverů, webových
-              aplikací, Pi-hole a testování různých operačních systémů.
-              <br><br>
-              <span class="font-semibold text-gray-900">Hardware:</span>
-              i3-4170, 8 GB RAM, 128 GB SSD + HDD
-            </p>
-          </div>
-<br>
-
-          <div class="relative">
-            <img
-              src="./blog/server.jpg"
-              alt="Domácí server"
-              class="rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-[1.03]"
-            />
-          </div>
-
+    <!-- POST 1: Domácí server -->
+    <article class="post has-image reveal d2">
+      <div class="post-body">
+        <p class="post-num">// 001</p>
+        <div class="post-meta">
+          <span class="post-date">5. 1. 2026</span>
+          <span class="post-tag tag-server">Proxmox</span>
+          <span class="post-tag tag-server">Homelab</span>
         </div>
+        <h2 class="post-title">Domácí server & lab</h2>
+        <div class="post-text">
+          <p>Můj domácí server běží na Proxmox&nbsp;VE – open-source virtualizační platformě, která mi umožňuje spravovat více virtuálních strojů a kontejnerů na jednom fyzickém hardwaru.</p>
+          <p>Server využívám pro hostování herních serverů, webových aplikací, Pi-hole a testování různých operačních systémů.</p>
+        </div>
+        <div class="hw-spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          i3-4170 · 8 GB RAM · 128 GB SSD + HDD
+        </div>
+      </div>
+      <img class="post-img" src="https://filip-dev.xyz/src/blog/server.jpg" alt="Domácí server" loading="lazy">
+    </article>
 
-      </details>
-
-      <!-- ZÁPIS 2: Pi-hole -->
-      <details class="group bg-white rounded-3xl border-2 border-indigo-200 shadow-xl hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
-
-        <summary class="cursor-pointer px-8 py-6 flex flex-col bg-gradient-to-r from-indigo-50 to-white relative focus:outline-none">
-          <div>
-            <h2 class="text-3xl font-bold text-indigo-700">
-              Pi-hole – síťový DNS filtr
-            </h2>
-
-            <span class="inline-flex items-center gap-1 mt-3 bg-indigo-100 text-indigo-700 text-sm font-medium px-3 py-1 rounded-full">
-              📅 6. 1. 2026
-            </span>
-          </div>
-        </summary>
-
-        <div class="overflow-hidden max-h-0 group-open:max-h-[1000px] transition-[max-height] duration-500 border-t border-indigo-200 px-8 py-10 grid md:grid-cols-2 gap-10 items-center">
-
-          <div>
-            <p class="text-gray-700 text-lg leading-relaxed mb-4">
-              Blokování reklam na všech zařízeních. Pi-hole provozuji jako centrální DNS server v domácí síti. Slouží k blokování reklam, trackerů a škodlivých domén přímo na úrovni DNS – bez nutnosti instalace doplňků na jednotlivá zařízení.
-            </p>
-
-            <p class="text-gray-700 text-lg leading-relaxed mb-4">
-              Nasazení probíhá na Linux serveru (Ubuntu) běžícím jako virtuální stroj v Proxmoxu. Pi-hole je integrován s routerem, který přesměrovává veškerý DNS provoz klientů právě na tento server.
-            </p>
-
-            <ul class="list-disc list-inside text-gray-700 text-lg mb-4">
+    <!-- POST 2: Pi-hole -->
+    <article class="post has-image reveal d3">
+      <div class="post-body">
+        <p class="post-num">// 002</p>
+        <div class="post-meta">
+          <span class="post-date">6. 1. 2026</span>
+          <span class="post-tag tag-network">DNS</span>
+          <span class="post-tag tag-security">Bezpečnost</span>
+        </div>
+        <h2 class="post-title">Pi-hole – síťový DNS filtr</h2>
+        <div class="post-text">
+          <p>Blokování reklam na všech zařízeních v síti bez nutnosti instalace doplňků. Pi-hole provozuji jako centrální DNS server – filtruje reklamy, trackery a škodlivé domény přímo na úrovni DNS.</p>
+          <p>Nasazení probíhá na Ubuntu VM v Proxmoxu, integrovaném s routerem přesměrovávajícím veškerý DNS provoz.</p>
+        </div>
+        <div class="lists-row">
+          <div class="list-block pros">
+            <div class="list-block-title">Výhody</div>
+            <ul>
               <li>DNS filtering & blocking</li>
               <li>Statistiky provozu a dotazů</li>
               <li>Vlastní blacklist / whitelist</li>
               <li>Integrace s DHCP / routerem</li>
             </ul>
-
-            <p class="text-gray-700 text-lg font-semibold mb-2">Nevýhody:</p>
-            <ul class="list-disc list-inside text-gray-700 text-lg">
-              <li>Někdy blokuje i užitečný obsah</li>
-              <li>Vyžaduje údržbu a aktualizace</li>
-              <li>Možnost selhání serveru ovlivní celou síť</li>
+          </div>
+          <div class="list-block cons">
+            <div class="list-block-title">Nevýhody</div>
+            <ul>
+              <li>Někdy blokuje užitečný obsah</li>
+              <li>Vyžaduje pravidelnou údržbu</li>
+              <li>Výpadek serveru ovlivní celou síť</li>
             </ul>
           </div>
-<br>
-          <!-- OBRÁZEK PI-HOLE -->
-          <div class="relative">
-            <img
-              src="./blog/pi-hole.png"
-              alt="Pi-hole DNS filtr"
-              class="rounded-2xl shadow-lg transform transition-transform duration-300 hover:scale-[1.03]"
-            />
-          </div>
-
         </div>
+      </div>
+      <img class="post-img" src="https://filip-dev.xyz/src/blog/pi-hole.png" alt="Pi-hole DNS filtr" loading="lazy">
+    </article>
 
-      </details>
-
-    </section>
-    <!-- ===================== KONEC ZÁPISŮ ===================== -->
+    <!-- CTA: more posts coming -->
+    <div class="more-cta reveal d4">
+      <div class="more-cta-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </div>
+      <div class="more-cta-text">
+        <div class="more-cta-title">Další zápisky brzy</div>
+        <div class="more-cta-desc">Pracuji na dalších projektech – vrátím se s novými experimenty ze svého homelabů.</div>
+      </div>
+    </div>
 
   </div>
 
+  <footer>
+    <span><a href="https://filip-dev.xyz/src/index.html">← filip-dev.xyz</a></span>
+    <span>Blog & Projekty · 2026</span>
+  </footer>
+
+</main>
+
+<script>
+// Scroll reveal for posts below fold
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.animationPlayState = 'running';
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.post, .more-cta, footer').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  obs.observe(el);
+});
+</script>
 </body>
 </html>
