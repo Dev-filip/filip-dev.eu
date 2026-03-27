@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filip Burger – Kontakt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0e10;
+    --bg2: #15151a;
+    --bg3: #1c1c24;
+    --border: rgba(255,255,255,0.07);
+    --border-strong: rgba(255,255,255,0.13);
+    --text: #f0eff5;
+    --text2: #9997b0;
+    --text3: #5e5c78;
+    --accent: #7c6af7;
+    --accent2: #a89df9;
+    --accent-glow: rgba(124, 106, 247, 0.15);
+    --teal: #2dd9c0;
+    --amber: #f5a623;
+    --green: #5ed37a;
+    --font-heading: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.022;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .page {
+    position: relative; z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── Header ── */
+  .header {
+    padding: 56px 0 48px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -80px;
+    width: 420px; height: 320px;
+    background: radial-gradient(ellipse at center, rgba(124,106,247,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--accent2); }
+  .back-link svg { width: 12px; height: 12px; }
+
+  .page-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .page-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(36px, 6vw, 58px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+
+  h1 .hl {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--accent2);
+  }
+
+  .header-sub {
+    font-size: 15px;
+    color: var(--text2);
+    margin-top: 14px;
+    font-weight: 300;
+    max-width: 440px;
+  }
+
+  /* ── Layout: two columns ── */
+  .contact-layout {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  @media (max-width: 640px) {
+    .contact-layout { grid-template-columns: 1fr; }
+  }
+
+  /* ── Contact links sidebar ── */
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .contact-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-card::after {
+    content: '↗';
+    position: absolute;
+    right: 16px;
+    font-size: 13px;
+    color: var(--text3);
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .contact-card:hover {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    transform: translateX(3px);
+  }
+
+  .contact-card:hover::after {
+    color: var(--accent2);
+    transform: translate(2px, -2px);
+  }
+
+  .contact-card.no-link { cursor: default; }
+  .contact-card.no-link:hover { transform: none; }
+  .contact-card.no-link::after { display: none; }
+
+  .contact-icon {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .contact-icon svg { width: 16px; height: 16px; }
+
+  .icon-email   { background: rgba(124,106,247,0.12); color: var(--accent2); border: 1px solid rgba(124,106,247,0.2); }
+  .icon-discord { background: rgba(88,101,242,0.12);  color: #8b9cf7;        border: 1px solid rgba(88,101,242,0.2); }
+  .icon-linkedin{ background: rgba(45,217,192,0.10);  color: var(--teal);    border: 1px solid rgba(45,217,192,0.2); }
+  .icon-github  { background: rgba(240,239,245,0.06); color: var(--text2);   border: 1px solid var(--border-strong); }
+
+  .contact-info { flex: 1; min-width: 0; }
+
+  .contact-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 2px;
+  }
+
+  .contact-value {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Discord copy */
+  .discord-btn {
+    background: none; border: none;
+    width: 100%; text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+    color: inherit;
+    font-family: inherit;
+  }
+
+  .discord-btn::after {
+    content: 'klikni pro kopírování';
+    position: absolute;
+    right: 16px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text3);
+    transition: color 0.2s;
+  }
+
+  .discord-btn:hover {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .discord-btn:hover::after { color: var(--accent2); }
+
+  /* ── Form ── */
+  .form-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 28px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .form-title {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .form-desc {
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 22px;
+    font-weight: 300;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 7px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border-strong);
+    border-radius: 9px;
+    padding: 11px 14px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: none;
+    -webkit-appearance: none;
+  }
+
+  input[type="text"]::placeholder,
+  input[type="email"]::placeholder,
+  textarea::placeholder {
+    color: var(--text3);
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  textarea { min-height: 120px; line-height: 1.6; }
+
+  .submit-btn {
+    width: 100%;
+    margin-top: 6px;
+    padding: 13px 20px;
+    background: var(--accent);
+    border: none;
+    border-radius: 10px;
+    font-family: var(--font-heading);
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .submit-btn:hover { background: var(--accent2); }
+  .submit-btn:active { transform: scale(0.98); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .submit-btn svg { width: 16px; height: 16px; }
+
+  /* ── Success / Error state ── */
+  .form-msg {
+    display: none;
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-family: var(--font-mono);
+  }
+
+  .form-msg.success {
+    background: rgba(94,211,122,0.1);
+    border: 1px solid rgba(94,211,122,0.2);
+    color: var(--green);
+  }
+
+  .form-msg.error {
+    background: rgba(245,166,35,0.1);
+    border: 1px solid rgba(245,166,35,0.2);
+    color: var(--amber);
+  }
+
+  /* ── Formspree notice ── */
+  .setup-notice {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(245,166,35,0.07);
+    border: 1px solid rgba(245,166,35,0.15);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--amber);
+    line-height: 1.5;
+  }
+
+  .setup-notice a {
+    color: var(--amber);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 80px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  footer a { color: var(--text3); text-decoration: none; transition: color 0.2s; }
+  footer a:hover { color: var(--accent2); }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal { opacity: 0; animation: fadeUp 0.5s ease forwards; }
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.15s; }
+  .d3 { animation-delay: 0.25s; }
+</style>
+</head>
+<body>
+<main class="page">
+
+  <!-- HEADER -->
+  <header class="header reveal d1">
+    <a href="https://filip-dev.xyz/src/index.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Zpět na CV
+    </a>
+    <p class="page-tag">Kontakt</p>
+    <h1>Napiš<br>mi <span class="hl">zprávu</span></h1>
+    <p class="header-sub">Máš projekt, otázku nebo jen chceš pozdravit? Ozvi se – odpovím co nejdříve.</p>
+  </header>
+
+  <!-- LAYOUT -->
+  <div class="contact-layout">
+
+    <!-- LEFT: links -->
+    <div class="contact-links reveal d2">
+
+      <a href="mailto:filipburger8@gmail.com" class="contact-card">
+        <div class="contact-icon icon-email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        </div>
+        <div class="contact-info">
+          <div class="contact-label">Email</div>
+          <div class="contact-value">filipburger8@gmail.com</div>
+        </div>
+      </a>
+
+      <button class="discord-btn" onclick="copyDiscord(this)">
+        <div class="contact-icon icon-discord">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028 14.09 14.09 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>
+        </div>
+        <div class="contact-info">
+          <div class="contact-label">Discord</div>
+          <div class="contact-value" id="discord-val">stylercz</div>
+        </div>
+      </button>
+
+      <a href="https://www.linkedin.com/in/filip-burger-0160a9345/" target="_blank" class="contact-card">
+        <div class="contact-icon icon-linkedin">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </div>
+        <div class="contact-info">
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-value">filip-burger-0160a9345</div>
+        </div>
+      </a>
+
+      <a href="https://github.com/Dev-filip" target="_blank" class="contact-card">
+        <div class="contact-icon icon-github">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        </div>
+        <div class="contact-info">
+          <div class="contact-label">GitHub</div>
+          <div class="contact-value">Dev-filip</div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- RIGHT: form -->
+    <div class="reveal d3">
+      <div class="form-card">
+        <div class="form-title">Pošli zprávu</div>
+        <p class="form-desc">Vyplň formulář a zpráva přijde přímo na můj email.</p>
+
+        <form id="contact-form" action="https://formcarry.com/s/_m6J2ToO43I" method="POST" novalidate>
+          <div class="form-group">
+            <label for="name">Jméno</label>
+            <input type="text" id="name" name="name" placeholder="Jan Novák" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="email">Tvůj email</label>
+            <input type="email" id="email" name="email" placeholder="jan@example.com" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="message">Zpráva</label>
+            <textarea id="message" name="message" placeholder="Ahoj Filipe, chci se zeptat na..." required></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submit-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+            Odeslat zprávu
+          </button>
+        </form>
+
+        <div class="form-msg success" id="msg-success">
+          Zpráva odeslána! Ozvu se co nejdříve.
+        </div>
+        <div class="form-msg error" id="msg-error">
+          Něco se pokazilo. Zkus to znovu nebo napiš přímo na email.
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span><a href="https://filip-dev.xyz/src/index.html">← filip-dev.xyz</a></span>
+    <span>Kontakt · 2026</span>
+  </footer>
+
+</main>
+
+<script>
+// Discord copy
+function copyDiscord(btn) {
+  navigator.clipboard.writeText('stylercz').then(() => {
+    const val = document.getElementById('discord-val');
+    val.textContent = 'Zkopírováno!';
+    setTimeout(() => { val.textContent = 'stylercz'; }, 2000);
+  });
+}
+
+// Form submit via fetch (Formspree AJAX)
+const form = document.getElementById('contact-form');
+const btn  = document.getElementById('submit-btn');
+const ok   = document.getElementById('msg-success');
+const err  = document.getElementById('msg-error');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+btn.disabled = true;
+  btn.innerHTML = `<svg style="animation:spin .8s linear infinite;width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg> Odesílám…`;
+
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (res.ok) {
+      form.style.display = 'none';
+      ok.style.display = 'block';
+    } else {
+      throw new Error();
+    }
+  } catch {
+    err.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg> Odeslat zprávu`;
+  }
+});
+
+// Spin keyframe
+const style = document.createElement('style');
+style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+document.head.appendChild(style);
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.style.animationPlayState = 'running'; obs.unobserve(e.target); }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.contact-layout, footer').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
