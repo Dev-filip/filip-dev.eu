@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDH Chlumín – Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --fire: #E8380D; --fire-glow: #FF6B35;
+    --coal: #141414; --ash: #1E1E1E; --smoke: #2C2C2C;
+    --silver: #A0A0A0; --white: #F5F2EE; --green: #22c55e; --red: #ef4444;
+  }
+  body { font-family: 'Barlow', sans-serif; background: var(--coal); color: var(--white); min-height: 100vh; }
+
+  header {
+    background: var(--ash);
+    border-bottom: 2px solid var(--fire);
+    padding: 1rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.08em; }
+  .logo span { color: var(--fire); }
+  .logo small { font-family: 'Barlow', sans-serif; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--silver); display: block; margin-top: -4px; }
+  .header-nav { display: flex; gap: 0.5rem; }
+  .tab-btn {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.5rem 1.25rem; border-radius: 3px; border: none; cursor: pointer;
+    background: var(--smoke); color: var(--silver); transition: all 0.2s;
+  }
+  .tab-btn.active { background: var(--fire); color: var(--coal); }
+  .tab-btn:hover:not(.active) { background: #333; color: var(--white); }
+
+  .main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+
+  /* TABS */
+  .tab { display: none; }
+  .tab.active { display: block; }
+
+  /* FORM */
+  .form-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+    letter-spacing: 0.05em; margin-bottom: 0.25rem;
+  }
+  .form-desc { font-size: 0.9rem; color: var(--silver); margin-bottom: 2rem; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .form-full { grid-column: 1 / -1; }
+
+  .field label {
+    display: block; font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--silver); margin-bottom: 0.5rem;
+  }
+  .field input, .field textarea, .field select {
+    width: 100%; background: var(--smoke); border: 1px solid #333;
+    border-radius: 4px; color: var(--white); font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem; padding: 0.7rem 0.9rem;
+    transition: border-color 0.2s; outline: none;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--fire); }
+  .field select option { background: var(--smoke); }
+  .field textarea { resize: vertical; min-height: 100px; }
+
+  /* FOTKY */
+  .photo-section { margin-top: 0.5rem; }
+  .photo-preview {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+    margin-bottom: 0.75rem; min-height: 80px;
+  }
+  .photo-thumb {
+    position: relative; width: 100px; height: 80px;
+    border-radius: 4px; overflow: hidden; border: 1px solid #333;
+    background: var(--smoke);
+  }
+  .photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-thumb .remove-photo {
+    position: absolute; top: 3px; right: 3px;
+    background: rgba(239,68,68,0.9); border: none; border-radius: 50%;
+    width: 20px; height: 20px; cursor: pointer; color: white;
+    font-size: 12px; display: flex; align-items: center; justify-content: center;
+  }
+  .photo-url-row { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .photo-url-row input { flex: 1; }
+  .add-url-btn {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--smoke); border: 1px solid #444; color: var(--white);
+    padding: 0 1rem; border-radius: 4px; cursor: pointer; white-space: nowrap;
+    transition: border-color 0.2s;
+  }
+  .add-url-btn:hover { border-color: var(--fire); }
+
+  /* FILE UPLOAD */
+  .upload-area {
+    border: 2px dashed #333; border-radius: 6px; padding: 1.5rem;
+    text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 0.75rem;
+  }
+  .upload-area:hover, .upload-area.drag { border-color: var(--fire); background: rgba(232,56,13,0.04); }
+  .upload-area p { font-size: 0.85rem; color: var(--silver); }
+  .upload-area strong { color: var(--fire); }
+  #fileInput { display: none; }
+
+  .submit-row { display: flex; gap: 1rem; margin-top: 1.5rem; align-items: center; }
+  .btn-save {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--fire); color: var(--coal); border: none;
+    padding: 0.85rem 2.5rem; border-radius: 3px; cursor: pointer; transition: background 0.2s;
+  }
+  .btn-save:hover { background: var(--fire-glow); }
+  .btn-reset {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: transparent; color: var(--silver); border: 1px solid #444;
+    padding: 0.85rem 1.5rem; border-radius: 3px; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-reset:hover { border-color: var(--silver); color: var(--white); }
+
+  .toast {
+    display: none; align-items: center; gap: 0.6rem;
+    background: var(--green); color: white;
+    padding: 0.6rem 1rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600;
+  }
+  .toast.show { display: flex; }
+  .toast.err { background: var(--red); }
+
+  /* ── LIST TAB ── */
+  .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+  .list-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.05em; }
+  .search-box {
+    background: var(--smoke); border: 1px solid #333; border-radius: 4px;
+    color: var(--white); font-family: 'Barlow', sans-serif; font-size: 0.9rem;
+    padding: 0.6rem 1rem; outline: none; min-width: 220px;
+    transition: border-color 0.2s;
+  }
+  .search-box:focus { border-color: var(--fire); }
+
+  .post-list { display: flex; flex-direction: column; gap: 1px; }
+  .post-item {
+    background: var(--ash); padding: 1.1rem 1.25rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .post-thumb {
+    width: 72px; height: 52px; flex-shrink: 0;
+    border-radius: 3px; overflow: hidden; background: var(--smoke);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .post-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .post-info { flex: 1; min-width: 0; }
+  .post-info h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 600; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .post-meta { font-size: 0.75rem; color: var(--silver); margin-top: 2px; }
+  .post-kat {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: rgba(232,56,13,0.15); color: var(--fire);
+    padding: 0.2rem 0.6rem; border-radius: 2px; white-space: nowrap;
+  }
+  .post-actions { display: flex; gap: 0.5rem; }
+  .btn-edit, .btn-del {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.4rem 0.85rem; border-radius: 3px; border: none; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-edit { background: var(--smoke); color: var(--silver); }
+  .btn-edit:hover { background: #333; color: var(--white); }
+  .btn-del { background: rgba(239,68,68,0.1); color: var(--red); }
+  .btn-del:hover { background: var(--red); color: white; }
+
+  /* ── JSON TAB ── */
+  .json-box {
+    background: var(--smoke); border: 1px solid #333; border-radius: 6px;
+    padding: 1.5rem; font-family: 'Courier New', monospace; font-size: 0.8rem;
+    color: #a8d1ff; white-space: pre-wrap; word-break: break-all;
+    max-height: 500px; overflow-y: auto; margin-top: 1.5rem;
+  }
+  .copy-btn {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--smoke); border: 1px solid #444; color: var(--white);
+    padding: 0.6rem 1.25rem; border-radius: 3px; cursor: pointer; transition: all 0.2s;
+    margin-top: 1rem; display: inline-block;
+  }
+  .copy-btn:hover { border-color: var(--fire); color: var(--fire); }
+
+  .dl-btn {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--fire); border: none; color: var(--coal);
+    padding: 0.6rem 1.5rem; border-radius: 3px; cursor: pointer; transition: background 0.2s;
+    margin-top: 1rem; margin-left: 0.75rem; display: inline-block;
+  }
+  .dl-btn:hover { background: var(--fire-glow); }
+
+  .info-box {
+    background: rgba(232,56,13,0.07); border: 1px solid rgba(232,56,13,0.2);
+    border-radius: 6px; padding: 1.25rem 1.5rem; margin-bottom: 2rem;
+    font-size: 0.87rem; color: var(--silver); line-height: 1.7;
+  }
+  .info-box strong { color: var(--white); }
+  .info-box code { background: var(--smoke); padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.8rem; color: #a8d1ff; }
+
+  @media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .post-thumb, .post-kat { display: none; }
+    .main { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    SDH <span>Chlumín</span>
+    <small>Správa příspěvků</small>
+  </div>
+  <div class="header-nav">
+    <button class="tab-btn active" onclick="switchTab('pridat')">➕ Přidat příspěvek</button>
+    <button class="tab-btn" onclick="switchTab('seznam')">📋 Seznam</button>
+    <button class="tab-btn" onclick="switchTab('json')">📄 JSON / Export</button>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- ── TAB: PŘIDAT ── -->
+  <div id="tab-pridat" class="tab active">
+    <h2 class="form-title" id="form-title">Nový příspěvek</h2>
+    <p class="form-desc" id="form-desc">Vyplňte formulář a uložte příspěvek. Změny se projeví automaticky na webu.</p>
+
+
+    <div class="form-grid">
+      <div class="field">
+        <label>Nadpis *</label>
+        <input type="text" id="f-nadpis" placeholder="Název příspěvku nebo akce…">
+      </div>
+      <div class="field">
+        <label>Datum *</label>
+        <input type="date" id="f-datum">
+      </div>
+      <div class="field form-full">
+        <label>Krátký popis (perex)</label>
+        <textarea id="f-perex" placeholder="Stručný popis, co se stalo nebo co vás čeká…"></textarea>
+      </div>
+      <div class="field">
+        <label>Kategorie</label>
+        <select id="f-kategorie">
+          <option value="aktualita">Aktualita</option>
+          <option value="soutěž">Soutěž</option>
+          <option value="společenská akce">Společenská akce</option>
+          <option value="výcvik">Výcvik</option>
+          <option value="mladí hasiči">Mladí hasiči</option>
+          <option value="oznámení">Oznámení</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Odkaz na celý článek (URL, nepovinné)</label>
+        <input type="url" id="f-odkaz" placeholder="https://…">
+      </div>
+
+      <div class="field form-full">
+        <label>Fotografie</label>
+        <div class="photo-section">
+          <div class="photo-preview" id="photo-preview"></div>
+
+          <!-- nahrát soubor -->
+          <div class="upload-area" id="upload-area" onclick="document.getElementById('fileInput').click()">
+            <p>📁 <strong>Klikněte nebo přetáhněte</strong> obrázky sem</p>
+            <p style="margin-top:0.4rem;font-size:0.78rem;">JPG, PNG, WebP · Soubory se uloží jako Base64 v JSON</p>
+          </div>
+          <input type="file" id="fileInput" multiple accept="image/*">
+
+          <!-- nebo URL -->
+          <div class="photo-url-row">
+            <input type="url" id="photo-url-input" placeholder="…nebo vložte URL fotky (https://…)">
+            <button class="add-url-btn" onclick="addPhotoUrl()">+ Přidat URL</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-row">
+      <button class="btn-save" onclick="savePost()">💾 Uložit příspěvek</button>
+      <button class="btn-reset" onclick="resetForm()">Zrušit</button>
+      <div class="toast" id="toast"></div>
+    </div>
+  </div>
+
+  <!-- ── TAB: SEZNAM ── -->
+  <div id="tab-seznam" class="tab">
+    <div class="list-header">
+      <h2>Všechny příspěvky</h2>
+      <input class="search-box" type="text" id="search" placeholder="🔍 Hledat…" oninput="renderList()">
+    </div>
+    <div class="post-list" id="post-list"></div>
+  </div>
+
+  <!-- ── TAB: JSON ── -->
+  <div id="tab-json" class="tab">
+    <h2 class="form-title">Export JSON</h2>
+    <p class="form-desc">Zkopírujte nebo stáhněte JSON a nahraďte jím soubor <code style="background:var(--smoke);padding:0.1rem 0.4rem;border-radius:3px;">prispevky.json</code>.</p>
+    <button class="copy-btn" onclick="copyJson()">📋 Kopírovat JSON</button>
+    <button class="dl-btn" onclick="downloadJson()">⬇ Stáhnout prispevky.json</button>
+    <div class="json-box" id="json-box"></div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────
+const SAMPLE = [
+  { id:1, datum:"2022-05-21", nadpis:"2022 Dědkiáda Velvary", perex:"Zúčastnili jsme se tradiční hasičské soutěže Dědkiáda ve Velvarech. Skvělá atmosféra, silná konkurence a výborné výsledky.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/277/20220521_111731.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-dedkiada-velvary.html", kategorie:"soutěž" },
+  { id:2, datum:"2022-05-07", nadpis:"2022 Oužická \"Osma\"", perex:"Výjezd na oblíbenou soutěž Oužická Osma – tradice, bojovný duch a přátelská atmosféra.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/276/img-20220508-wa0000.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-ouzicka---osma-.html", kategorie:"soutěž" },
+  { id:3, datum:"2021-08-15", nadpis:"Oslava 140(+1). výročí SDH Chlumín", perex:"Slavnostní oslava vzniku sboru s bohatým programem pro celou rodinu. Ukázky techniky, soutěže pro děti.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/273/pozvanka-na-140.-vyroci.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/oslava-140--1-.-vyroci-vzniku-sdh-chlumin.html", kategorie:"společenská akce" },
+  { id:4, datum:"2019-11-23", nadpis:"2019 Libišský čtyřboj", perex:"Soutěžní klání čtyřčlenných hasičských družstev v Libiši. Výborné výkony celého týmu.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/261/imag6287.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-libissky-ctyrboj.html", kategorie:"soutěž" },
+  { id:5, datum:"2019-09-28", nadpis:"Soutěž o pohár starosty obce Chlumín", perex:"Každoroční domácí soutěž v požárním útoku o pohár starosty. Přijelo několik sborů z okolí.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/263/img_4130.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-soutez-v-pu-o-pohar-starosty-obce-chlumin.html", kategorie:"soutěž" }
+];
+
+let posts = JSON.parse(localStorage.getItem('sdh_posts') || 'null') || SAMPLE;
+let editId = null;
+let currentPhotos = []; // {type:'url'|'base64', src:string}
+
+function save() { localStorage.setItem('sdh_posts', JSON.stringify(posts)); }
+
+// ── TABS ──────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'seznam') renderList();
+  if (name === 'json') renderJson();
+}
+
+// ── FORM ──────────────────────────────────────────────
+document.getElementById('f-datum').value = new Date().toISOString().slice(0,10);
+
+function resetForm() {
+  editId = null; currentPhotos = [];
+  document.getElementById('f-nadpis').value = '';
+  document.getElementById('f-perex').value = '';
+  document.getElementById('f-odkaz').value = '';
+  document.getElementById('f-datum').value = new Date().toISOString().slice(0,10);
+  document.getElementById('f-kategorie').value = 'aktualita';
+  document.getElementById('form-title').textContent = 'Nový příspěvek';
+  document.getElementById('form-desc').textContent = 'Vyplňte formulář a uložte příspěvek.';
+  renderPhotoPreviews();
+}
+
+function showToast(msg, err = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast show' + (err ? ' err' : '');
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+function savePost() {
+  const nadpis = document.getElementById('f-nadpis').value.trim();
+  const datum = document.getElementById('f-datum').value;
+  if (!nadpis || !datum) { showToast('⚠ Vyplňte nadpis a datum!', true); return; }
+
+  const post = {
+    id: editId || Date.now(),
+    datum,
+    nadpis,
+    perex: document.getElementById('f-perex').value.trim(),
+    fotky: currentPhotos.map(p => p.src),
+    odkaz: document.getElementById('f-odkaz').value.trim(),
+    kategorie: document.getElementById('f-kategorie').value
+  };
+
+  if (editId) {
+    const idx = posts.findIndex(p => p.id === editId);
+    if (idx > -1) posts[idx] = post;
+  } else {
+    posts.unshift(post);
+  }
+  save(); resetForm();
+  showToast(editId ? '✓ Příspěvek upraven!' : '✓ Příspěvek uložen!');
+}
+
+// ── PHOTOS ────────────────────────────────────────────
+function renderPhotoPreviews() {
+  const box = document.getElementById('photo-preview');
+  box.innerHTML = currentPhotos.map((p, i) => `
+    <div class="photo-thumb">
+      <img src="${p.src}" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'72\' height=\'52\'><rect fill=\'%232C2C2C\' width=\'72\' height=\'52\'/></svg>'">
+      <button class="remove-photo" onclick="removePhoto(${i})">✕</button>
+    </div>`).join('');
+}
+
+function removePhoto(i) { currentPhotos.splice(i, 1); renderPhotoPreviews(); }
+
+function addPhotoUrl() {
+  const inp = document.getElementById('photo-url-input');
+  const url = inp.value.trim();
+  if (!url || !url.startsWith('http')) { return; }
+  currentPhotos.push({ type: 'url', src: url });
+  inp.value = '';
+  renderPhotoPreviews();
+}
+
+// File upload → Base64
+document.getElementById('fileInput').addEventListener('change', e => {
+  [...e.target.files].forEach(file => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      currentPhotos.push({ type: 'base64', src: ev.target.result });
+      renderPhotoPreviews();
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value = '';
+});
+
+// Drag & drop
+const ua = document.getElementById('upload-area');
+ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('drag'); });
+ua.addEventListener('dragleave', () => ua.classList.remove('drag'));
+ua.addEventListener('drop', e => {
+  e.preventDefault(); ua.classList.remove('drag');
+  [...e.dataTransfer.files].filter(f => f.type.startsWith('image/')).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = ev => { currentPhotos.push({ type: 'base64', src: ev.target.result }); renderPhotoPreviews(); };
+    reader.readAsDataURL(file);
+  });
+});
+
+// ── LIST ──────────────────────────────────────────────
+function formatDate(d) {
+  const [y,m,day] = d.split('-');
+  const mes = ['','ledna','února','března','dubna','května','června','července','srpna','září','října','listopadu','prosince'];
+  return `${parseInt(day)}. ${mes[parseInt(m)]} ${y}`;
+}
+
+function renderList() {
+  const q = (document.getElementById('search')?.value || '').toLowerCase();
+  const filtered = posts.filter(p => p.nadpis.toLowerCase().includes(q) || p.kategorie.toLowerCase().includes(q));
+  const el = document.getElementById('post-list');
+  if (!filtered.length) { el.innerHTML = '<p style="color:var(--silver);padding:2rem">Žádné příspěvky.</p>'; return; }
+  el.innerHTML = filtered.map(p => `
+    <div class="post-item">
+      <div class="post-thumb">
+        ${p.fotky?.length ? `<img src="${p.fotky[0]}" onerror="this.style.display='none'">` : '<span style="color:#444;font-size:1.5rem">🔥</span>'}
+      </div>
+      <div class="post-info">
+        <h3>${p.nadpis}</h3>
+        <div class="post-meta">${formatDate(p.datum)}</div>
+      </div>
+      <span class="post-kat">${p.kategorie}</span>
+      <div class="post-actions">
+        <button class="btn-edit" onclick="editPost(${p.id})">✏ Upravit</button>
+        <button class="btn-del" onclick="deletePost(${p.id})">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function deletePost(id) {
+  if (!confirm('Smazat příspěvek?')) return;
+  posts = posts.filter(p => p.id !== id);
+  save(); renderList();
+}
+
+function editPost(id) {
+  const p = posts.find(x => x.id === id);
+  if (!p) return;
+  editId = id;
+  currentPhotos = (p.fotky || []).map(s => ({ type: s.startsWith('data:') ? 'base64' : 'url', src: s }));
+  document.getElementById('f-nadpis').value = p.nadpis;
+  document.getElementById('f-datum').value = p.datum;
+  document.getElementById('f-perex').value = p.perex || '';
+  document.getElementById('f-odkaz').value = p.odkaz || '';
+  document.getElementById('f-kategorie').value = p.kategorie || 'aktualita';
+  document.getElementById('form-title').textContent = 'Upravit příspěvek';
+  document.getElementById('form-desc').textContent = `Upravujete: „${p.nadpis}"`;
+  renderPhotoPreviews();
+  // switch to form tab
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-pridat').classList.add('active');
+  document.querySelector('.tab-btn').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── JSON ──────────────────────────────────────────────
+function renderJson() {
+  document.getElementById('json-box').textContent = JSON.stringify(posts, null, 2);
+}
+
+function copyJson() {
+  navigator.clipboard.writeText(JSON.stringify(posts, null, 2));
+  showToast('✓ JSON zkopírován!');
+}
+
+function downloadJson() {
+  const blob = new Blob([JSON.stringify(posts, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'prispevky.json'; a.click();
+}
+</script>
+</body>
+</html>

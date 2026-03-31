@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1774983819818,
+    "datum": "2026-03-31",
+    "nadpis": "asdsadsdad",
+    "perex": "sadaas",
+    "fotky": [],
+    "odkaz": "",
+    "kategorie": "mladí hasiči"
+  },
+  {
+    "id": 1,
+    "datum": "2022-05-21",
+    "nadpis": "2022 Dědkiáda Velvary",
+    "perex": "Zúčastnili jsme se tradiční hasičské soutěže Dědkiáda ve Velvarech. Skvělá atmosféra, silná konkurence a výborné výsledky.",
+    "fotky": [
+      "https://sdh-chlumin.estranky.cz/img/picture/277/20220521_111731.jpg"
+    ],
+    "odkaz": "https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-dedkiada-velvary.html",
+    "kategorie": "soutěž"
+  },
+  {
+    "id": 2,
+    "datum": "2022-05-07",
+    "nadpis": "2022 Oužická \"Osma\"",
+    "perex": "Výjezd na oblíbenou soutěž Oužická Osma – tradice, bojovný duch a přátelská atmosféra.",
+    "fotky": [
+      "https://sdh-chlumin.estranky.cz/img/picture/276/img-20220508-wa0000.jpg"
+    ],
+    "odkaz": "https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-ouzicka---osma-.html",
+    "kategorie": "soutěž"
+  },
+  {
+    "id": 3,
+    "datum": "2021-08-15",
+    "nadpis": "Oslava 140(+1). výročí SDH Chlumín",
+    "perex": "Slavnostní oslava vzniku sboru s bohatým programem pro celou rodinu. Ukázky techniky, soutěže pro děti.",
+    "fotky": [
+      "https://sdh-chlumin.estranky.cz/img/picture/273/pozvanka-na-140.-vyroci.jpg"
+    ],
+    "odkaz": "https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/oslava-140--1-.-vyroci-vzniku-sdh-chlumin.html",
+    "kategorie": "společenská akce"
+  },
+  {
+    "id": 4,
+    "datum": "2019-11-23",
+    "nadpis": "2019 Libišský čtyřboj",
+    "perex": "Soutěžní klání čtyřčlenných hasičských družstev v Libiši. Výborné výkony celého týmu.",
+    "fotky": [
+      "https://sdh-chlumin.estranky.cz/img/picture/261/imag6287.jpg"
+    ],
+    "odkaz": "https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-libissky-ctyrboj.html",
+    "kategorie": "soutěž"
+  },
+  {
+    "id": 5,
+    "datum": "2019-09-28",
+    "nadpis": "Soutěž o pohár starosty obce Chlumín",
+    "perex": "Každoroční domácí soutěž v požárním útoku o pohár starosty. Přijelo několik sborů z okolí.",
+    "fotky": [
+      "https://sdh-chlumin.estranky.cz/img/picture/263/img_4130.jpg"
+    ],
+    "odkaz": "https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-soutez-v-pu-o-pohar-starosty-obce-chlumin.html",
+    "kategorie": "soutěž"
+  }
+]
