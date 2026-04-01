@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mladí hasiči – SDH Chlumín</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --fire:      #E8380D;
+  --fire-glow: #FF6B35;
+  --amber:     #FFC107;
+  --amber-lt:  #FFE082;
+  --coal:      #111111;
+  --ash:       #1A1A1A;
+  --smoke:     #252525;
+  --smoke2:    #2E2E2E;
+  --silver:    #9A9A9A;
+  --white:     #F5F2EE;
+  --green:     #2ECC71;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Barlow', sans-serif; background: var(--coal); color: var(--white); overflow-x: hidden; }
+
+/* ══════════════════════════════════
+   NAV
+══════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem;
+  background: rgba(17,17,17,0.95);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(232,56,13,.2);
+}
+.nav-logo { display: flex; align-items: center; gap: .7rem; text-decoration: none; }
+.nav-logo svg { width: 32px; height: 32px; }
+.nav-logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: .08em; color: var(--white); line-height:1; }
+.nav-logo-text span { color: var(--fire); }
+.nav-crumb {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .75rem;
+  font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--silver); display: flex; align-items: center; gap: .5rem;
+}
+.nav-crumb a { color: var(--silver); text-decoration: none; }
+.nav-crumb a:hover { color: var(--white); }
+.nav-crumb .sep { color: var(--fire); }
+.nav-back {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .78rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--coal); background: var(--fire);
+  padding: .4rem .95rem; border-radius: 3px; text-decoration: none;
+  transition: background .2s;
+}
+.nav-back:hover { background: var(--fire-glow); }
+
+/* ══════════════════════════════════
+   HERO
+══════════════════════════════════ */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  overflow: hidden; padding-top: 60px;
+}
+
+/* animated diagonal stripe background */
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 55% 55% at 75% 35%, rgba(255,193,7,.13) 0%, transparent 65%),
+    radial-gradient(ellipse 45% 60% at 15% 75%, rgba(232,56,13,.16) 0%, transparent 65%),
+    linear-gradient(160deg, #0d0805 0%, #111111 55%, #161006 100%);
+}
+
+/* big SVG flame silhouette bg decoration */
+.hero-flame-deco {
+  position: absolute; right: -5vw; top: 8vh;
+  width: clamp(300px, 45vw, 620px); opacity: .06;
+  pointer-events: none;
+}
+
+/* Soptík mascot area */
+.hero-mascot {
+  position: absolute; right: 6vw; bottom: 0;
+  width: clamp(200px, 28vw, 420px);
+  filter: drop-shadow(0 0 60px rgba(255,193,7,.25));
+  animation: floatMascot 4s ease-in-out infinite;
+}
+@keyframes floatMascot {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+
+/* sparks */
+.sparks { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.spark {
+  position: absolute;
+  width: 3px; height: 3px; border-radius: 50%;
+  animation: sparkRise linear infinite;
+  opacity: 0;
+}
+@keyframes sparkRise {
+  0%   { transform: translateY(0) translateX(0); opacity: .9; }
+  60%  { opacity: .4; }
+  100% { transform: translateY(-70vh) translateX(var(--dx)); opacity: 0; }
+}
+
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 0 5vw 8vh; max-width: 750px;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-family: 'Barlow Condensed', sans-serif; font-size: .72rem; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--amber);
+  border: 1px solid rgba(255,193,7,.35); padding: .3rem .8rem; border-radius: 2px;
+  margin-bottom: 1.2rem;
+  animation: fadeUp .7s ease both;
+}
+.hero-eyebrow::before {
+  content: ''; width: 7px; height: 7px; background: var(--amber);
+  border-radius: 50%; animation: blink 1.6s ease infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.6)} }
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4.5rem, 13vw, 11rem);
+  line-height: .85; letter-spacing: .02em;
+  animation: fadeUp .7s .1s ease both;
+}
+.hero-title .line1 { display: block; color: var(--white); }
+.hero-title .line2 {
+  display: block; color: var(--amber);
+  text-shadow: 0 0 80px rgba(255,193,7,.4);
+}
+.hero-title .line3 {
+  display: block; color: transparent;
+  -webkit-text-stroke: 1px rgba(245,242,238,.18);
+}
+
+.hero-sub {
+  margin-top: 1.4rem; font-size: 1.05rem; font-weight: 300;
+  color: var(--silver); max-width: 480px; line-height: 1.75;
+  animation: fadeUp .7s .22s ease both;
+}
+.hero-sub strong { color: var(--white); font-weight: 600; }
+
+.hero-cta {
+  display: flex; gap: .85rem; flex-wrap: wrap;
+  margin-top: 2.2rem;
+  animation: fadeUp .7s .34s ease both;
+}
+.btn-fire {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .9rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--coal); background: var(--amber);
+  padding: .8rem 2rem; border-radius: 3px; text-decoration: none;
+  transition: background .2s, transform .15s;
+}
+.btn-fire:hover { background: var(--amber-lt); transform: translateY(-2px); }
+.btn-ghost {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .9rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--white); border: 1px solid rgba(255,255,255,.2);
+  padding: .8rem 2rem; border-radius: 3px; text-decoration: none;
+  transition: border-color .2s, background .2s;
+}
+.btn-ghost:hover { border-color: var(--white); background: rgba(255,255,255,.05); }
+
+/* hero age pills */
+.age-pills {
+  display: flex; gap: .6rem; flex-wrap: wrap;
+  margin-top: 2.5rem;
+  animation: fadeUp .7s .46s ease both;
+}
+.age-pill {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .82rem; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: .45rem 1rem; border-radius: 2px; border: 1px solid;
+}
+.ap-ml { color: var(--green);  border-color: rgba(46,204,113,.35); background: rgba(46,204,113,.08); }
+.ap-st { color: var(--amber);  border-color: rgba(255,193,7,.35);  background: rgba(255,193,7,.08); }
+.ap-dr { color: var(--fire);   border-color: rgba(232,56,13,.35);  background: rgba(232,56,13,.08); }
+
+/* scrolling ticker */
+.ticker-wrap {
+  position: relative; z-index: 2;
+  background: var(--amber); overflow: hidden;
+  padding: .55rem 0; white-space: nowrap;
+}
+.ticker {
+  display: inline-block;
+  animation: tickerMove 22s linear infinite;
+  font-family: 'Barlow Condensed', sans-serif; font-size: .8rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--coal);
+}
+@keyframes tickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+
+/* ══════════════════════════════════
+   LAYOUT HELPERS
+══════════════════════════════════ */
+.section { padding: 5.5rem 5vw; }
+.section-sm { padding: 4rem 5vw; }
+.label {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .72rem; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--amber);
+  display: flex; align-items: center; gap: .65rem; margin-bottom: .6rem;
+}
+.label::after { content: ''; flex: 0 0 36px; height: 1px; background: var(--amber); }
+.sec-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  letter-spacing: .03em; line-height: 1; margin-bottom: .9rem;
+}
+.sec-lead { font-size: .97rem; font-weight: 300; color: var(--silver); max-width: 560px; line-height: 1.78; }
+.divider { height: 2px; background: linear-gradient(90deg, transparent, var(--amber), var(--fire), transparent); }
+
+/* ══════════════════════════════════
+   O NÁS / INTRO SPLIT
+══════════════════════════════════ */
+.intro-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+  align-items: start; margin-top: 3rem;
+}
+.intro-text p {
+  font-size: .95rem; color: var(--silver); line-height: 1.82; margin-bottom: 1.1rem;
+}
+.intro-text p strong { color: var(--white); font-weight: 600; }
+.intro-text p em { color: var(--amber); font-style: normal; font-weight: 600; }
+
+.warning-box {
+  background: rgba(232,56,13,.08);
+  border: 1px solid rgba(232,56,13,.3);
+  border-left: 3px solid var(--fire);
+  padding: 1.25rem 1.5rem; border-radius: 0 4px 4px 0; margin: 1.5rem 0;
+}
+.warning-box strong { color: var(--fire); display: block; font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .4rem; }
+.warning-box p { font-size: .88rem; color: var(--silver); line-height: 1.7; }
+
+/* sidebar quick info */
+.info-sidebar { display: flex; flex-direction: column; gap: 1px; }
+.info-card {
+  background: var(--smoke); padding: 1.4rem 1.5rem;
+  border-left: 3px solid transparent; transition: border-color .2s, background .2s;
+}
+.info-card:hover { border-left-color: var(--amber); background: var(--smoke2); }
+.info-card-icon {
+  width: 40px; height: 40px; background: rgba(255,193,7,.1); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+}
+.info-card-icon svg { width: 20px; height: 20px; }
+.info-card h3 {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .85rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--amber); margin-bottom: .4rem;
+}
+.info-card p { font-size: .87rem; color: var(--silver); line-height: 1.6; }
+.info-card strong { color: var(--white); }
+
+/* ══════════════════════════════════
+   VĚKOVÉ SKUPINY
+══════════════════════════════════ */
+.groups-section { background: var(--ash); }
+.groups-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 3rem; }
+.group-card {
+  position: relative; padding: 2.5rem 2rem; overflow: hidden;
+  background: var(--smoke);
+  transition: background .25s;
+}
+.group-card:hover { background: var(--smoke2); }
+.group-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.group-card.g-ml::before { background: var(--green); }
+.group-card.g-st::before { background: var(--amber); }
+.group-card.g-dr::before { background: var(--fire); }
+
+.group-num {
+  font-family: 'Bebas Neue', sans-serif; font-size: 5rem; line-height: 1;
+  letter-spacing: .02em; opacity: .07; position: absolute; top: .5rem; right: 1rem;
+}
+.group-tag {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .7rem; font-weight: 700;
+  letter-spacing: .15em; text-transform: uppercase; padding: .25rem .65rem;
+  border-radius: 2px; display: inline-block; margin-bottom: 1rem;
+}
+.g-ml .group-tag { background: rgba(46,204,113,.12); color: var(--green); }
+.g-st .group-tag { background: rgba(255,193,7,.12);  color: var(--amber); }
+.g-dr .group-tag { background: rgba(232,56,13,.12);  color: var(--fire); }
+
+.group-name {
+  font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: .05em;
+  line-height: 1; margin-bottom: .6rem;
+}
+.group-age { font-size: .82rem; color: var(--silver); margin-bottom: 1.2rem; }
+.group-time {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 1.05rem; font-weight: 700;
+  letter-spacing: .06em;
+}
+.g-ml .group-time { color: var(--green); }
+.g-st .group-time { color: var(--amber); }
+.g-dr .group-time { color: var(--fire); }
+
+/* ══════════════════════════════════
+   AKTIVITY TIMELINE
+══════════════════════════════════ */
+.activities-section { background: var(--coal); }
+.timeline { margin-top: 3rem; position: relative; }
+.timeline::before {
+  content: ''; position: absolute; left: 20px; top: 0; bottom: 0;
+  width: 1px; background: linear-gradient(to bottom, var(--amber), transparent);
+}
+.tl-item {
+  display: flex; gap: 2rem; padding: 0 0 2.5rem 0;
+  position: relative;
+}
+.tl-dot {
+  flex-shrink: 0; width: 41px; height: 41px;
+  background: var(--coal); border: 2px solid var(--amber);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; z-index: 1; transition: background .2s;
+}
+.tl-item:hover .tl-dot { background: var(--amber); }
+.tl-body { flex: 1; }
+.tl-body h3 {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 700;
+  letter-spacing: .05em; text-transform: uppercase; color: var(--white); margin-bottom: .4rem;
+}
+.tl-body p { font-size: .88rem; color: var(--silver); line-height: 1.7; }
+
+/* ══════════════════════════════════
+   INSTRUKTOŘI
+══════════════════════════════════ */
+.team-section { background: var(--ash); }
+.team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1px; margin-top: 3rem; }
+.team-card {
+  background: var(--smoke); padding: 2rem 1.75rem;
+  border-top: 2px solid transparent;
+  transition: border-color .2s, background .2s;
+}
+.team-card:hover { border-top-color: var(--amber); background: var(--smoke2); }
+.team-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(255,193,7,.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; margin-bottom: 1.2rem;
+}
+.team-name {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 1.05rem; font-weight: 700;
+  letter-spacing: .04em; color: var(--white); margin-bottom: .25rem;
+}
+.team-role { font-size: .78rem; color: var(--amber); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+
+/* ══════════════════════════════════
+   SOUTĚŽE & AKCE STRIP
+══════════════════════════════════ */
+.events-section { background: var(--coal); }
+.events-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1px; margin-top: 2.5rem; }
+.event-card {
+  background: var(--smoke); padding: 1.5rem;
+  display: flex; flex-direction: column; gap: .75rem;
+  border-bottom: 2px solid transparent; transition: border-color .2s, background .2s;
+}
+.event-card:hover { border-bottom-color: var(--amber); background: var(--smoke2); }
+.event-icon { font-size: 1.8rem; }
+.event-title {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase; color: var(--white);
+}
+.event-desc { font-size: .85rem; color: var(--silver); line-height: 1.65; }
+
+/* ══════════════════════════════════
+   DOKUMENTY / CTA BAND
+══════════════════════════════════ */
+.cta-band {
+  background: var(--amber);
+  padding: 4rem 5vw;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 2rem;
+}
+.cta-band h2 {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: .04em; color: var(--coal); line-height: 1;
+}
+.cta-band p { font-size: .9rem; color: rgba(17,17,17,.7); margin-top: .4rem; max-width: 420px; }
+.cta-band-btns { display: flex; gap: .75rem; flex-wrap: wrap; }
+.btn-dark {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .9rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--white); background: var(--coal);
+  padding: .85rem 2rem; border-radius: 3px; text-decoration: none; transition: background .2s;
+}
+.btn-dark:hover { background: #1e1e1e; }
+.btn-outline-dark {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .9rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--coal); border: 2px solid var(--coal);
+  padding: .85rem 2rem; border-radius: 3px; text-decoration: none; transition: background .2s;
+}
+.btn-outline-dark:hover { background: rgba(17,17,17,.1); }
+
+/* ══════════════════════════════════
+   FAQ / UPOZORNĚNÍ
+══════════════════════════════════ */
+.faq-section { background: var(--ash); }
+.faq-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1px; }
+.faq-item { background: var(--smoke); }
+.faq-q {
+  padding: 1.2rem 1.5rem; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase; color: var(--white);
+  transition: background .2s;
+}
+.faq-q:hover { background: var(--smoke2); }
+.faq-q .arrow { color: var(--amber); font-size: 1.2rem; transition: transform .3s; }
+.faq-q.open .arrow { transform: rotate(180deg); }
+.faq-a {
+  max-height: 0; overflow: hidden; transition: max-height .35s ease;
+}
+.faq-a-inner { padding: 0 1.5rem 1.4rem; font-size: .9rem; color: var(--silver); line-height: 1.78; }
+.faq-a-inner strong { color: var(--white); }
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer {
+  background: #0a0a0a; border-top: 1px solid rgba(255,255,255,.06);
+  padding: 2.5rem 5vw;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+}
+.fl { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: .08em; color: var(--silver); }
+.fl span { color: var(--amber); }
+footer p { font-size: .76rem; color: #444; }
+.flinks { display: flex; gap: 1.5rem; }
+.flinks a { font-size: .76rem; color: #444; text-decoration: none; transition: color .2s; }
+.flinks a:hover { color: var(--silver); }
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 900px) {
+  .intro-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .groups-grid { grid-template-columns: 1fr; }
+  .hero-mascot { display: none; }
+  nav { padding: 0 1.25rem; }
+  .section { padding: 4rem 1.25rem; }
+  .section-sm { padding: 3rem 1.25rem; }
+  .cta-band { padding: 3rem 1.25rem; }
+}
+@media (max-width: 600px) {
+  .hero-content { padding: 0 1.25rem 5vh; }
+  .hero-title { font-size: clamp(3.5rem, 18vw, 7rem); }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a class="nav-logo" href="sdh-chlumin-modern.html">
+    <svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" stroke="#E8380D" stroke-width="1.5"/><path d="M18 6c0 0-6 8-6 14a6 6 0 0 0 12 0c0-6-6-14-6-14z" fill="#E8380D"/><path d="M18 14c0 0-3 4-3 7a3 3 0 0 0 6 0c0-3-3-7-3-7z" fill="#FFC107"/></svg>
+    <span class="nav-logo-text">SDH <span>Chlumín</span></span>
+  </a>
+  <div class="nav-crumb">
+    <a href="sdh-chlumin-modern.html">Úvod</a>
+    <span class="sep">›</span>
+    <span style="color:var(--amber)">Mladí hasiči</span>
+  </div>
+  <a href="sdh-chlumin-modern.html" class="nav-back">← Zpět na web</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <!-- decorative flame -->
+  <svg class="hero-flame-deco" viewBox="0 0 400 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M200 20C200 20 60 180 60 320C60 420 120 540 200 540C280 540 340 420 340 320C340 180 200 20 200 20Z" fill="white"/>
+    <path d="M200 140C200 140 130 240 130 330C130 385 160 430 200 430C240 430 270 385 270 330C270 240 200 140 200 140Z" fill="white"/>
+  </svg>
+
+  <!-- Soptík mascot (using the original image from the site) -->
+  <img class="hero-mascot"
+       src="https://sdh-chlumin.estranky.cz/img/picture/209/soptik.jpg"
+       alt="Soptík – maskot mladých hasičů"
+       onerror="this.style.display='none'">
+
+  <div class="sparks" id="sparks"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">SDH Chlumín · oddíl mládeže</div>
+    <h1 class="hero-title">
+      <span class="line1">Mladí</span>
+      <span class="line2">hasiči</span>
+      <span class="line3">Chlumín</span>
+    </h1>
+    <p class="hero-sub">
+      Vzdělávání, sport, kamarádi a dobrodružství –
+      <strong>přidej se k nejlepšímu oddílu mladých hasičů</strong> na Mělnicku!
+    </p>
+
+    <div class="age-pills">
+      <span class="age-pill ap-ml">🟢 Mladší 6–11 let</span>
+      <span class="age-pill ap-st">🟡 Starší 12–15 let</span>
+      <span class="age-pill ap-dr">🔴 Dorost 16–18 let</span>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#nabor" class="btn-fire">Chci se přihlásit!</a>
+      <a href="#schuzky" class="btn-ghost">Kdy se scházíme?</a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <span class="ticker">
+    🔥 Schůzky každý čtvrtek 17:10–18:50 &nbsp;·&nbsp;
+    🏆 Soutěže v okrese Mělník &nbsp;·&nbsp;
+    🏕️ Hasičské soustředění o prázdninách &nbsp;·&nbsp;
+    🎖️ Odborné zkoušky a výcvik &nbsp;·&nbsp;
+    🚒 Ukázky techniky &nbsp;·&nbsp;
+    🌲 Výlety a společenské akce &nbsp;·&nbsp;
+    🔥 Schůzky každý čtvrtek 17:10–18:50 &nbsp;·&nbsp;
+    🏆 Soutěže v okrese Mělník &nbsp;·&nbsp;
+    🏕️ Hasičské soustředění o prázdninách &nbsp;·&nbsp;
+    🎖️ Odborné zkoušky a výcvik &nbsp;·&nbsp;
+    🚒 Ukázky techniky &nbsp;·&nbsp;
+    🌲 Výlety a společenské akce &nbsp;·&nbsp;
+  </span>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ O NÁS ══ -->
+<section class="section" style="background:var(--coal);" id="o-nas">
+  <div class="label">Kdo jsme</div>
+  <h2 class="sec-title">O oddílu mladých hasičů</h2>
+
+  <div class="intro-grid">
+    <div class="intro-text">
+      <p>
+        <strong>Mladým hasičem (MH)</strong> je hasič ve věku od 5 do 18 let –
+        SDH Chlumín přijímá děti od <em>6 let</em> na svých náborových akcích.
+        Každý mladý hasič je členem spolku Sboru dobrovolných hasičů Chlumín,
+        který je pobočným spolkem <strong>Sdružení hasičů Čech, Moravy a Slezska (SH ČMS)</strong>.
+      </p>
+      <p>
+        V oddílu působí <em>Rada mladých hasičů</em>, která zastupuje zájmy MH
+        vůči výboru SDH Chlumín. Do Rady si mladí hasiči volí své vlastní zástupce.
+      </p>
+      <p>
+        Na schůzkách se MH vzdělávají, trénují <strong>požární sport</strong>,
+        hrají hry, skládají odborné zkoušky, připravují se na společenské akce,
+        jezdí na hasičské soutěže i na výlety.
+      </p>
+      <p>
+        Vybraní hasiči se zúčastňují <strong>hasičských soutěží po okrese Mělník</strong>
+        a každoročně na konci ledna mají svůj prostor na Výroční valné hromadě SDH Chlumín.
+      </p>
+
+      <div class="warning-box">
+        <strong>⚠ Upozornění pro rodiče</strong>
+        <p>Mladí hasiči <strong>nejsou mateřskou školkou ani koutek na hlídání dětí!</strong>
+        Na soutěže skládáme družstva výhradně z těch MH, kteří splňují potřebnou úroveň
+        výkonnosti, spolehlivosti, ukázněnosti a nadšení pro požární sport.</p>
+      </div>
+
+      <p>
+        Celoroční úsilí MH hodnotíme na <strong>Výroční valné hromadě SDH Chlumín</strong>
+        vždy na konci ledna. Během letních prázdnin organizujeme oblíbené
+        <em>hasičské soustředění</em> u hasičské zbrojnice.
+      </p>
+    </div>
+
+    <!-- sidebar -->
+    <div class="info-sidebar" id="schuzky">
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#FFC107" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>Kdy se scházíme</h3>
+        <p>Schůzky probíhají <strong>každý čtvrtek</strong> v průběhu školního roku.</p>
+        <p style="margin-top:.5rem;"><strong style="color:var(--amber);font-size:1.1rem;">17:10 – 18:50</strong></p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#FFC107" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3>Kde se scházíme</h3>
+        <p>Hasičská zbrojnice Chlumín a přilehlé cvičiště.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#FFC107" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Věkové rozmezí</h3>
+        <p>Přijímáme děti <strong>od 6 let</strong> (3 věkové skupiny dle věku).</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#FFC107" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+        </div>
+        <h3>Materiály MH</h3>
+        <p>Odborné materiály, příručky a dokumenty ke stažení.</p>
+        <a href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/dokumenty/materialy-pro-mh.html" target="_blank"
+           style="display:inline-block;margin-top:.75rem;font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);text-decoration:none;">
+          Stáhnout materiály →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ VĚKOVÉ SKUPINY ══ -->
+<section class="section groups-section" id="skupiny">
+  <div class="label">Rozdělení</div>
+  <h2 class="sec-title">Věkové skupiny</h2>
+  <p class="sec-lead">Každá skupina má vlastní program přizpůsobený věku a schopnostem. Společná schůzka, odlišný tréninkový obsah.</p>
+
+  <div class="groups-grid">
+    <div class="group-card g-ml">
+      <div class="group-num">01</div>
+      <span class="group-tag">Mladší přípravka</span>
+      <div class="group-name">Mladší MH</div>
+      <div class="group-age">Věk 6 – 11 let</div>
+      <p style="font-size:.87rem;color:var(--silver);line-height:1.7;margin-bottom:1.25rem;">
+        Základy požárního sportu, hry, první pomoc, uzlování, orientace v přírodě a
+        příprava na soutěže kategorie přípravka.
+      </p>
+      <div class="group-time">Čt 17:10 – 18:50</div>
+    </div>
+
+    <div class="group-card g-st">
+      <div class="group-num">02</div>
+      <span class="group-tag">Starší složka</span>
+      <div class="group-name">Starší MH</div>
+      <div class="group-age">Věk 12 – 15 let</div>
+      <p style="font-size:.87rem;color:var(--silver);line-height:1.7;margin-bottom:1.25rem;">
+        Intenzivnější výcvik, požární útok, záchranářské disciplíny, odborné zkoušky
+        a účast na soutěžích v okrese Mělník.
+      </p>
+      <div class="group-time">Čt 17:10 – 18:50</div>
+    </div>
+
+    <div class="group-card g-dr">
+      <div class="group-num">03</div>
+      <span class="group-tag">Dorost</span>
+      <div class="group-name">Dorost MH</div>
+      <div class="group-age">Věk 16 – 18 let</div>
+      <p style="font-size:.87rem;color:var(--silver);line-height:1.7;margin-bottom:1.25rem;">
+        Příprava na vstup do dospělého sboru, vedení mladších, speciální tréninky
+        a reprezentace sboru na soutěžích dorostenecké kategorie.
+      </p>
+      <div class="group-time">Čt 17:10 – 18:50</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AKTIVITY ══ -->
+<section class="section activities-section" id="aktivity">
+  <div class="label">Co děláme</div>
+  <h2 class="sec-title">Celý rok v akci</h2>
+  <p class="sec-lead">Každý týden se něco děje – od tréninků přes výlety až po velké akce sboru.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot">🍂</div>
+      <div class="tl-body">
+        <h3>Září – Říjen · Start sezóny</h3>
+        <p>Zahájení schůzek po prázdninách, obnovení výcviku, podzimní soutěže (Pohár starosty Chlumín, soutěže v PÚ po okresu).</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">❄️</div>
+      <div class="tl-body">
+        <h3>Listopad – Prosinec · Zimní příprava</h3>
+        <p>Teoretická příprava, Floriánkovo uzlování v Libiši, vánoční setkání, příprava na Výroční valnou hromadu.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">🏆</div>
+      <div class="tl-body">
+        <h3>Leden · Valná hromada</h3>
+        <p>Výroční valná hromada SDH Chlumín – mladí hasiči prezentují celoroční výsledky a dostávají ocenění.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">🌸</div>
+      <div class="tl-body">
+        <h3>Únor – Duben · Jarní soutěže</h3>
+        <p>Běh jednotlivců na 60 m s překážkami, Vteřiny pro život, přípravné tréninky na hlavní sezónu.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">🔥</div>
+      <div class="tl-body">
+        <h3>Květen – Červen · Vrchol sezóny</h3>
+        <p>Dědkiáda Velvary, Oužická osma, soutěže po Mělnicku. Dětský den v ZŠ a MŠ Chlumín – ukázky pro veřejnost.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">🏕️</div>
+      <div class="tl-body">
+        <h3>Červenec – Srpen · Prázdniny</h3>
+        <p>Oblíbené <strong style="color:var(--white)">hasičské soustředění</strong> u zbrojnice, výlety (IQ Park Praha, lanovka Zbirov, hrad Okoř…) a volný program.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AKCE GRID ══ -->
+<section class="section-sm events-section" style="background:var(--ash);">
+  <div class="label">Přehled</div>
+  <h2 class="sec-title">Co zažijete u nás</h2>
+  <div class="events-row">
+    <div class="event-card">
+      <div class="event-icon">🚒</div>
+      <div class="event-title">Požární sport</div>
+      <div class="event-desc">Trénink požárního útoku, štafety, překážkový běh. Fyzická kondice i technická přesnost.</div>
+    </div>
+    <div class="event-card">
+      <div class="event-icon">🧩</div>
+      <div class="event-title">Odborné zkoušky</div>
+      <div class="event-desc">Znalosti z první pomoci, uzlování, orientace v terénu a základů požární ochrany.</div>
+    </div>
+    <div class="event-card">
+      <div class="event-icon">🏅</div>
+      <div class="event-title">Soutěže</div>
+      <div class="event-desc">Hasičské soutěže po okresu Mělník – Dědkiáda, Oužická Osma, Čtyřboj a mnoho dalších.</div>
+    </div>
+    <div class="event-card">
+      <div class="event-icon">🌲</div>
+      <div class="event-title">Výlety</div>
+      <div class="event-desc">IQ Portál Praha, lanovka Zbirov, hrad Okoř, Jumppark… každý rok jiné dobrodružství.</div>
+    </div>
+    <div class="event-card">
+      <div class="event-icon">🏕️</div>
+      <div class="event-title">Soustředění</div>
+      <div class="event-desc">Každoroční týdenní soustředění u hasičské zbrojnice – noc venku, soutěže, legrace.</div>
+    </div>
+    <div class="event-card">
+      <div class="event-icon">🎉</div>
+      <div class="event-title">Akce v obci</div>
+      <div class="event-desc">Dětský den, Valná hromada, oslava výročí – hasiči jsou všude, kde to žije.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ INSTRUKTOŘI ══ -->
+<section class="section team-section" id="team">
+  <div class="label">Váš tým</div>
+  <h2 class="sec-title">Instruktoři oddílu</h2>
+  <p class="sec-lead">O mladé hasiče se stará tým proškolených a nadšených instruktorů, kteří věnují svůj volný čas výchově nové generace.</p>
+
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">👩‍🚒</div>
+      <div class="team-name">Alena Hodysová</div>
+      <div class="team-role">Vedoucí mladých hasičů</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">👩‍🏫</div>
+      <div class="team-name">Jana Adamčíková</div>
+      <div class="team-role">Instruktor</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">👩‍🏫</div>
+      <div class="team-name">Eliška Bauerová</div>
+      <div class="team-role">Instruktor</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">👩‍🏫</div>
+      <div class="team-name">Markéta Šimonová</div>
+      <div class="team-role">Instruktor</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA BAND ══ -->
+<div class="cta-band" id="nabor">
+  <div>
+    <h2>Přidejte se k nám!</h2>
+    <p>Váš potomek chce být hasičem? Přijďte na schůzku a nezávazně se podívejte. Náborové akce pořádáme pravidelně v průběhu roku.</p>
+  </div>
+  <div class="cta-band-btns">
+    <a href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/dokumenty/materialy-pro-mh.html" target="_blank" class="btn-dark">📄 Materiály MH</a>
+    <a href="sdh-chlumin-modern.html#kontakt" class="btn-outline-dark">✉ Kontaktovat nás</a>
+  </div>
+</div>
+
+<!-- ══ FAQ ══ -->
+<section class="section faq-section">
+  <div class="label">Časté dotazy</div>
+  <h2 class="sec-title">Otázky rodičů</h2>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Od kolika let může dítě nastoupit?
+        <span class="arrow">▾</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">SDH Chlumín přijímá děti od <strong>6 let</strong> na svých náborových akcích. Oficiálně je věkové rozmezí pro mladé hasiče 5–18 let, ale nábor probíhá od školního věku.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Musí dítě platit členský příspěvek?
+        <span class="arrow">▾</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Podrobnosti o členství a případných příspěvcích zjistíte přímo u vedoucí oddílu <strong>Aleny Hodysové</strong> nebo na kontaktech SDH Chlumín.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Účastní se všechny děti soutěží?
+        <span class="arrow">▾</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Na soutěže vybíráme <strong>pouze MH, kteří splňují potřebnou výkonnost, spolehlivost, ukázněnost a nadšení</strong>. Schůzky jsou pro všechny, soutěžní tým se sestavuje dle výkonnosti.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Co děti potřebují na schůzku?
+        <span class="arrow">▾</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Sportovní oblečení a obuv vhodnou pro pohybové aktivity. Ostatní vybavení (přilby, zásahové oblečení na ukázky apod.) zajišťuje sbor.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Probíhají schůzky i o prázdninách?
+        <span class="arrow">▾</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Pravidelné čtvrteční schůzky jsou <strong>v průběhu školního roku</strong>. O letních prázdninách probíhá oblíbené hasičské soustředění a případně výlety. O mimořádných aktivitách informuje vedoucí oddílu.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Kde najdu fotky z akcí?
+        <span class="arrow">▾</span>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Fotogalerie jsou k dispozici na <a href="https://sdh-chlumin.estranky.cz/fotoalbum/" target="_blank" style="color:var(--amber)">sdh-chlumin.estranky.cz/fotoalbum/</a> a v sekci aktualit na tomto webu.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="fl">Mladí hasiči <span>SDH Chlumín</span></div>
+  <p>© 2025 Sbor dobrovolných hasičů Chlumín</p>
+  <div class="flinks">
+    <a href="sdh-chlumin-modern.html">Hlavní web</a>
+    <a href="https://sdh-chlumin.estranky.cz/fotoalbum/" target="_blank">Fotoalbum</a>
+    <a href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/dokumenty/materialy-pro-mh.html" target="_blank">Materiály MH</a>
+    <a href="http://www.hasik.cz" target="_blank">Hasík.cz</a>
+  </div>
+</footer>
+
+<script>
+// ── SPARKS ─────────────────────────────────────────────
+const sc = document.getElementById('sparks');
+for (let i = 0; i < 40; i++) {
+  const s = document.createElement('div');
+  s.className = 'spark';
+  const colors = ['#E8380D','#FFC107','#FF6B35','#FFE082'];
+  const size = 1.5 + Math.random() * 3.5;
+  s.style.cssText = `
+    left:${Math.random()*100}%;
+    bottom:${Math.random()*15}%;
+    width:${size}px; height:${size}px;
+    background:${colors[Math.floor(Math.random()*colors.length)]};
+    animation-duration:${3+Math.random()*6}s;
+    animation-delay:${Math.random()*9}s;
+    --dx:${(Math.random()-.5)*120}px;
+  `;
+  sc.appendChild(s);
+}
+
+// ── FAQ ACCORDION ───────────────────────────────────────
+function toggleFaq(btn) {
+  const isOpen = btn.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.classList.remove('open');
+    q.nextElementSibling.style.maxHeight = '0';
+  });
+  if (!isOpen) {
+    btn.classList.add('open');
+    const ans = btn.nextElementSibling;
+    ans.style.maxHeight = ans.scrollHeight + 'px';
+  }
+}
+
+// ── SCROLL REVEAL ───────────────────────────────────────
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.tl-item, .team-card, .event-card, .group-card, .info-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(24px)';
+  el.style.transition = 'opacity .55s ease, transform .55s ease';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>
