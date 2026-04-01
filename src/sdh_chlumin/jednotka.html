@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jednotka SDH Chlumín – JSDH</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--fire:#E8380D;--fire2:#FF6B35;--coal:#111;--ash:#181818;--smoke:#222;--smoke2:#2a2a2a;--border:#2a2a2a;--silver:#888;--muted:#4a4a4a;--white:#F4F1ED}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--coal);color:var(--white);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:rgba(17,17,17,.97);border-bottom:1px solid rgba(232,56,13,.18)}
+.nlogo{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.nlogo svg{width:28px;height:28px}
+.nlogo-t{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.08em;color:var(--white)}
+.nlogo-t span{color:var(--fire)}
+.nbread{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);display:flex;align-items:center;gap:.4rem}
+.nbread a{color:var(--silver);text-decoration:none;transition:color .15s}.nbread a:hover{color:var(--white)}
+.nbread .sep{color:var(--fire)}
+.nback{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coal);background:var(--fire);padding:.35rem .85rem;border-radius:3px;text-decoration:none;transition:background .15s}.nback:hover{background:var(--fire2)}
+
+/* HERO */
+.hero{position:relative;padding-top:56px;min-height:52vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 65% at 80% 30%,rgba(232,56,13,.13) 0%,transparent 65%),linear-gradient(160deg,#0e0605 0%,#111 60%,#141414 100%)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(232,56,13,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(232,56,13,.035) 1px,transparent 1px);background-size:55px 55px;mask-image:radial-gradient(ellipse 90% 80% at 50% 50%,black 10%,transparent 75%)}
+.hero-c{position:relative;z-index:2;padding:3.5rem 2rem 3rem;max-width:760px}
+.hlabel{display:inline-flex;align-items:center;gap:.45rem;font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--fire);border:1px solid rgba(232,56,13,.3);padding:.25rem .65rem;border-radius:2px;margin-bottom:.9rem;animation:fu .55s ease both}
+.hlabel::before{content:'';width:5px;height:5px;background:var(--fire);border-radius:50%;animation:blink 1.6s ease infinite}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.8)}}
+.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.2rem,8vw,7.5rem);line-height:.87;letter-spacing:.02em;animation:fu .55s .08s ease both}
+.hero-h1 .w{display:block;color:var(--white)}.hero-h1 .r{display:block;color:var(--fire)}.hero-h1 .g{display:block;color:transparent;-webkit-text-stroke:1px rgba(244,241,237,.1)}
+.hero-sub{margin-top:1.1rem;font-size:.94rem;font-weight:300;color:var(--silver);max-width:520px;line-height:1.75;animation:fu .55s .16s ease both}.hero-sub strong{color:var(--white);font-weight:500}
+.hstats{display:flex;gap:0;margin-top:2rem;animation:fu .55s .24s ease both;flex-wrap:wrap}
+.hs{padding:.85rem 1.75rem .85rem 0;border-right:1px solid var(--border);margin-right:1.75rem}
+.hs:last-child{border-right:none}
+.hs-n{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--white);line-height:1}
+.hs-l{font-size:.63rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--silver)}
+.hdiv{height:2px;background:linear-gradient(90deg,var(--fire),var(--fire2),transparent)}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:220px 1fr;align-items:start}
+.sidebar{position:sticky;top:56px;height:calc(100vh - 56px);background:var(--ash);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.sb-top{padding:1.25rem 1rem .85rem;border-bottom:1px solid var(--border)}
+.sb-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem}
+.sb-nav{list-style:none;flex:1;overflow-y:auto}
+.sb-nav a{display:flex;align-items:center;gap:.65rem;padding:.78rem 1rem;font-family:'Barlow Condensed',sans-serif;font-size:.83rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--silver);text-decoration:none;border-left:2px solid transparent;transition:all .15s}
+.sb-nav a:hover{color:var(--white);background:rgba(255,255,255,.03)}
+.sb-nav a.active{color:var(--white);border-left-color:var(--fire);background:rgba(232,56,13,.07)}
+.sb-nav .ico{width:13px;height:13px;flex-shrink:0;opacity:.45}.sb-nav a.active .ico{opacity:1;color:var(--fire)}
+.sb-num{font-family:'Bebas Neue',sans-serif;font-size:.95rem;color:var(--fire);opacity:.45;flex-shrink:0;width:16px}.sb-nav a.active .sb-num{opacity:1}
+.sb-foot{padding:.85rem 1rem;border-top:1px solid var(--border);font-size:.7rem;color:var(--muted)}.sb-foot a{color:var(--fire);text-decoration:none}
+
+.content{min-width:0}
+.sec{padding:4.5rem 3rem;border-bottom:1px solid var(--border)}
+.sec-alt{background:var(--ash)}
+.slbl{font-family:'Barlow Condensed',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fire);display:flex;align-items:center;gap:.55rem;margin-bottom:.55rem}
+.slbl::after{content:'';flex:0 0 28px;height:1px;background:var(--fire)}
+.sh2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.9rem,3vw,3rem);letter-spacing:.03em;line-height:1;margin-bottom:.8rem}
+.slead{font-size:.93rem;font-weight:300;color:var(--silver);max-width:600px;line-height:1.8;margin-bottom:2rem}
+
+/* CARDS */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1px}
+.card{background:var(--smoke);padding:1.4rem;border-top:2px solid transparent;transition:border-color .2s,background .2s}
+.card:hover{border-top-color:var(--fire);background:var(--smoke2)}
+.card h3{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fire);margin-bottom:.5rem}
+.card p{font-size:.83rem;color:var(--silver);line-height:1.7}.card p strong{color:var(--white)}
+
+.strip3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:2rem}
+.sitem{background:var(--smoke);padding:1.4rem;text-align:center}
+.sitem-n{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--fire);line-height:1}
+.sitem-l{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);margin-top:.25rem}
+
+.leg-list{margin-top:2rem;padding-left:1.4rem;border-left:2px solid rgba(232,56,13,.2);display:flex;flex-direction:column;gap:.6rem}
+.leg-item{font-size:.83rem;color:var(--silver);line-height:1.6}.leg-item strong{color:var(--white);display:block;font-size:.78rem}
+
+/* CINNOST */
+.cinbox{background:var(--smoke);border-left:3px solid var(--fire);padding:1.1rem 1.4rem;margin-bottom:2rem;border-radius:0 4px 4px 0}
+.cinbox p{font-size:.9rem;color:var(--white);line-height:1.65;margin-bottom:.4rem}.cinbox p:last-child{margin-bottom:0;color:var(--silver);font-size:.83rem}
+.yblock{margin-bottom:2rem}
+.yhead{display:flex;align-items:center;gap:.85rem;cursor:pointer;padding:.5rem 0;user-select:none}
+.ybadge{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.05em;color:var(--fire);line-height:1}
+.yline{flex:1;height:1px;background:var(--border)}
+.ycount{font-family:'Barlow Condensed',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--silver)}
+.ytog{width:20px;height:20px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--silver);font-size:.65rem;transition:all .2s;flex-shrink:0}
+.yhead.open .ytog{border-color:var(--fire);color:var(--fire);transform:rotate(180deg)}
+.etable{width:100%;border-collapse:collapse;display:none}
+.yblock.open .etable{display:table}
+.etable tr{border-bottom:1px solid rgba(255,255,255,.035)}.etable tr:hover{background:rgba(255,255,255,.018)}
+.etable td{padding:.55rem .35rem;font-size:.8rem;line-height:1.5;vertical-align:top}
+.td-d{color:var(--muted);width:115px;white-space:nowrap;font-family:'Barlow Condensed',sans-serif;letter-spacing:.02em}
+.td-t{width:95px}
+.td-x{color:var(--silver)}.td-x strong{color:var(--white);font-weight:500}
+.tag{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.12rem .45rem;border-radius:2px;white-space:nowrap}
+.tp{background:rgba(232,56,13,.14);color:var(--fire)}
+.tt{background:rgba(100,160,255,.11);color:#6aa3ff}
+.ts{background:rgba(100,220,100,.09);color:#6de06d}
+.tu{background:rgba(200,180,100,.09);color:#d4c06a}
+.tc{background:rgba(160,100,220,.09);color:#b07de0}
+
+/* TECHNIKA */
+.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-bottom:2rem}
+.vcard{background:var(--smoke);border-top:2px solid transparent;transition:border-color .2s,background .2s;overflow:hidden}
+.vcard:hover{border-top-color:var(--fire);background:var(--smoke2)}
+.vimg{height:190px;background:var(--smoke2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.vimg img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}.vcard:hover .vimg img{transform:scale(1.05)}
+.vph{text-align:center;padding:2rem}
+.vph svg{width:56px;height:56px;opacity:.1}
+.vph p{font-size:.72rem;color:var(--muted);margin-top:.4rem}
+.vbody{padding:1.4rem}
+.vname{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.04em;margin-bottom:.25rem}
+.vsub{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fire);margin-bottom:.8rem}
+.vspecs{display:flex;flex-direction:column;gap:.35rem}
+.vsp{display:flex;gap:.65rem;font-size:.8rem}
+.vsp-k{color:var(--muted);min-width:90px;flex-shrink:0}
+.vsp-v{color:var(--silver)}.vsp-v strong{color:var(--white);font-weight:500}
+.egrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:1.5rem}
+.eitem{background:var(--smoke);padding:1.1rem;transition:background .2s}.eitem:hover{background:var(--smoke2)}
+.eico{font-size:1.4rem;margin-bottom:.5rem}
+.ename{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--white);margin-bottom:.25rem}
+.edesc{font-size:.75rem;color:var(--silver);line-height:1.6}
+
+/* CLENOVE */
+.mtable{width:100%;border-collapse:collapse;margin-bottom:1.5rem}
+.mtable thead tr{background:var(--smoke2)}
+.mtable thead th{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--silver);padding:.7rem .9rem;text-align:left}
+.mtable tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .12s}.mtable tbody tr:hover{background:rgba(255,255,255,.025)}
+.mtable td{padding:.75rem .9rem;font-size:.84rem}
+.td-name{color:var(--white);font-weight:500}
+.td-role{color:var(--silver)}
+.badges{display:flex;flex-wrap:wrap;gap:.28rem}
+.b{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.14rem .45rem;border-radius:2px}
+.bv{background:rgba(232,56,13,.14);color:var(--fire)}
+.bs{background:rgba(200,180,100,.1);color:#d4c06a}
+.bh{background:rgba(160,100,220,.1);color:#b07de0}
+.bd{background:rgba(100,160,255,.11);color:#6aa3ff}
+.bm{background:rgba(100,220,100,.09);color:#6de06d}
+.legbox{background:var(--smoke);padding:1.1rem 1.4rem;margin-top:1.25rem;display:flex;flex-wrap:wrap;gap:1.25rem}
+.legbox span{font-size:.78rem;color:var(--silver);display:flex;align-items:center;gap:.4rem}
+
+/* NABOR */
+.nsplit{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
+.ntext p{font-size:.9rem;color:var(--silver);line-height:1.8;margin-bottom:.9rem}.ntext p strong{color:var(--white);font-weight:600}.ntext p em{color:var(--fire);font-style:normal;font-weight:600}
+.rlist{display:flex;flex-direction:column;gap:1px;margin:1.4rem 0}
+.ritem{background:var(--smoke);padding:.9rem 1.15rem;display:flex;align-items:flex-start;gap:.8rem;border-left:2px solid transparent;transition:all .15s}.ritem:hover{border-left-color:var(--fire);background:var(--smoke2)}
+.rico{font-size:1rem;flex-shrink:0;margin-top:1px}
+.rbody h4{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--white);margin-bottom:.18rem}
+.rbody p{font-size:.77rem;color:var(--silver);line-height:1.55}
+.cbox{background:var(--smoke);border:1px solid rgba(232,56,13,.22);border-radius:4px;overflow:hidden;position:sticky;top:76px}
+.cbox-h{background:var(--fire);padding:1.15rem 1.4rem}
+.cbox-h h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.04em;color:var(--coal);line-height:1}
+.cbox-h p{font-size:.77rem;color:rgba(17,17,17,.7);margin-top:.25rem}
+.cbox-b{padding:1.4rem}
+.ci{display:flex;align-items:flex-start;gap:.8rem;margin-bottom:1rem}.ci:last-child{margin-bottom:0}
+.ci svg{width:15px;height:15px;flex-shrink:0;margin-top:2px;color:var(--fire)}
+.ci-in strong{display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--silver);margin-bottom:.12rem}
+.ci-in span{font-size:.87rem;color:var(--white)}
+.ci-in a{color:var(--fire);text-decoration:none}
+.ctabtn{display:block;width:100%;margin-top:1.4rem;font-family:'Barlow Condensed',sans-serif;font-size:.87rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-align:center;color:var(--coal);background:var(--fire);padding:.8rem;border-radius:3px;text-decoration:none;transition:background .15s}.ctabtn:hover{background:var(--fire2)}
+.mquote{margin-top:1.75rem;border-left:3px solid var(--fire);padding:1.15rem 1.4rem;background:rgba(232,56,13,.045)}
+.mquote p{font-size:.92rem;font-style:italic;color:var(--white);line-height:1.7;margin-bottom:.5rem}
+.mquote cite{font-size:.7rem;color:var(--silver);font-style:normal;letter-spacing:.08em;text-transform:uppercase}
+
+/* MOBILE TABS */
+.mob-tabs{display:none}
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr}.sidebar{display:none}
+  .mob-tabs{display:flex;overflow-x:auto;position:sticky;top:56px;z-index:100;background:var(--ash);border-bottom:1px solid var(--border);scrollbar-width:none}
+  .mob-tabs::-webkit-scrollbar{display:none}
+  .mob-tab{flex-shrink:0;font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--silver);padding:.7rem 1rem;border-bottom:2px solid transparent;text-decoration:none;white-space:nowrap;transition:all .15s}
+  .mob-tab.active,.mob-tab:hover{color:var(--white);border-bottom-color:var(--fire)}
+  .sec{padding:3rem 1.25rem}
+  .grid2,.strip3,.vgrid,.egrid,.nsplit{grid-template-columns:1fr}
+  nav{padding:0 1rem}.hero-c{padding:2.5rem 1.25rem 2.5rem}
+  .nbread{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nlogo" href="sdh-chlumin-modern.html">
+    <svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" stroke="#E8380D" stroke-width="1.5"/><path d="M18 6c0 0-6 8-6 14a6 6 0 0 0 12 0c0-6-6-14-6-14z" fill="#E8380D"/><path d="M18 14c0 0-3 4-3 7a3 3 0 0 0 6 0c0-3-3-7-3-7z" fill="#FFC107"/></svg>
+    <span class="nlogo-t">SDH <span>Chlumín</span></span>
+  </a>
+  <div class="nbread"><a href="sdh-chlumin-modern.html">Úvod</a><span class="sep">›</span><span style="color:var(--white)">Jednotka SDH</span></div>
+  <a href="sdh-chlumin-modern.html" class="nback">← Zpět</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="hero-c">
+    <div class="hlabel">JSDH Chlumín · Složka IZS ČR</div>
+    <h1 class="hero-h1"><span class="w">Jednotka</span><span class="r">SDH</span><span class="g">Chlumín</span></h1>
+    <p class="hero-sub"><strong>Dobrovolná zásahová složka</strong> Integrovaného záchranného systému ČR. Připraveni vyjet 24 hodin denně, 7 dní v týdnu, 365 dní v roce – bez nároku na odměnu.</p>
+    <div class="hstats">
+      <div class="hs"><div class="hs-n">11</div><div class="hs-l">Členů jednotky</div></div>
+      <div class="hs"><div class="hs-n">24/7</div><div class="hs-l">Pohotovost</div></div>
+      <div class="hs"><div class="hs-n">JPO II</div><div class="hs-l">Kategorie</div></div>
+      <div class="hs"><div class="hs-n">Pá 18:00</div><div class="hs-l">Schůzky</div></div>
+    </div>
+  </div>
+</div>
+<div class="hdiv"></div>
+
+<div class="mob-tabs">
+  <a class="mob-tab active" href="#o-jednotce">O jednotce</a>
+  <a class="mob-tab" href="#cinnost">Činnost</a>
+  <a class="mob-tab" href="#technika">Technika</a>
+  <a class="mob-tab" href="#clenove">Členové</a>
+  <a class="mob-tab" href="#nabor">Nábor</a>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sb-top"><div class="sb-lbl">Sekce</div></div>
+    <ul class="sb-nav">
+      <li><a href="#o-jednotce" class="active"><span class="sb-num">01</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>O Jednotce</a></li>
+      <li><a href="#cinnost"><span class="sb-num">02</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Činnost JSDH</a></li>
+      <li><a href="#technika"><span class="sb-num">03</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Technika</a></li>
+      <li><a href="#clenove"><span class="sb-num">04</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Členové</a></li>
+      <li><a href="#nabor"><span class="sb-num">05</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>Nábor</a></li>
+    </ul>
+    <div class="sb-foot">Schůzky: <strong style="color:var(--white)">pátek 18:00</strong><br>Velitel: <a href="tel:602355719">602 355 719</a></div>
+  </aside>
+
+  <main class="content">
+
+    <!-- ── 01 O JEDNOTCE ── -->
+    <section class="sec" id="o-jednotce">
+      <div class="slbl">01 / Co je JSDH</div>
+      <h2 class="sh2">O Jednotce SDH Chlumín</h2>
+      <p class="slead">Jednotka sboru dobrovolných hasičů obce (JSDHO) je zásahová složka zřízená obcí Chlumín. Je základní složkou Integrovaného záchranného systému ČR.</p>
+      <div class="grid2">
+        <div class="card"><h3>Zřízení a správa</h3><p>Jednotka je zřizována a spravována obcí v <strong>samostatné působnosti</strong>. Zřídit JSDHO je <strong>povinnost obce</strong> daná zákonem č. 133/1985 Sb. o požární ochraně. Jednotka není právnickou osobou, nemá IČO.</p></div>
+        <div class="card"><h3>Financování</h3><p>Jednotka je <strong>financována obcí</strong> – výdaje jsou součástí rozpočtu obce. Obec zajišťuje požární zbrojnici, techniku, věcné prostředky a odbornou způsobilost členů.</p></div>
+        <div class="card"><h3>Členství</h3><p>Členství je <strong>dobrovolné</strong>, vzniká smluvním vztahem mezi fyzickou osobou a obcí. <strong>Minimální věk: 18 let.</strong> Člen JSDH zpravidla není zaměstnancem obce.</p></div>
+        <div class="card"><h3>Funkce v jednotce</h3><p>Velitel jednotky, velitel družstva, strojník, starší hasič, hasič. Pro <strong>velitele a strojníka</strong> je nutný odborný kurz a zkouška. Velitele jmenuje starosta obce.</p></div>
+        <div class="card"><h3>Plošné pokrytí & IZS</h3><p>JSDHO jsou dle zákona rozmístěny po celém ČR. <strong>Jsou základní složkou IZS</strong> spolu s HZS ČR, Policií ČR a zdravotnickou záchrannou službou.</p></div>
+        <div class="card"><h3>Pohotovost</h3><p>Členové JSDH jsou v <strong>nepřetržité pohotovosti 24/7/365</strong>, připraveni vyjet k mimořádné události – přestože to dělají <strong>dobrovolně a bez nároku na odměnu.</strong></p></div>
+      </div>
+      <div class="strip3">
+        <div class="sitem"><div class="sitem-n">24/7</div><div class="sitem-l">Nepřetržitá pohotovost</div></div>
+        <div class="sitem"><div class="sitem-n">365</div><div class="sitem-l">Dní v roce připraveni</div></div>
+        <div class="sitem"><div class="sitem-n">0 Kč</div><div class="sitem-l">Odměna – čistá dobrovolnost</div></div>
+      </div>
+      <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--silver);margin-top:2.75rem;margin-bottom:.85rem">Základní legislativa</h3>
+      <div class="leg-list">
+        <div class="leg-item"><strong>Zákon č. 133/1985 Sb.</strong>O požární ochraně</div>
+        <div class="leg-item"><strong>Zákon č. 238/2000 Sb.</strong>O Hasičském záchranném sboru</div>
+        <div class="leg-item"><strong>Zákon č. 239/2000 Sb.</strong>O Integrovaném záchranném systému</div>
+        <div class="leg-item"><strong>Zákon č. 240/2000 Sb.</strong>O krizovém řízení</div>
+        <div class="leg-item"><strong>Vyhláška MV č. 247/2001 Sb.</strong>O organizaci a činnosti jednotek požární ochrany</div>
+      </div>
+    </section>
+
+    <!-- ── 02 ČINNOST ── -->
+    <section class="sec sec-alt" id="cinnost">
+      <div class="slbl">02 / Záznamy</div>
+      <h2 class="sh2">Činnost JSDH</h2>
+      <p class="slead">Přehled zásahů, školení, výcviků a ostatních aktivit jednotky. Záznamy za roky 2015–2019.</p>
+      <div class="cinbox">
+        <p>📅 <strong>Pravidelné schůzky</strong> se konají každý <strong>pátek od 18:00</strong> v hasičské zbrojnici Chlumín.</p>
+        <p>Zájemci o členství mohou přijít osobně nebo volat veliteli na <strong>602 355 719</strong>.</p>
+      </div>
+      <div id="year-blocks"></div>
+    </section>
+
+    <!-- ── 03 TECHNIKA ── -->
+    <section class="sec" id="technika">
+      <div class="slbl">03 / Vozidla & výstroj</div>
+      <h2 class="sh2">Technika jednotky</h2>
+      <p class="slead">Vybavení jednotky SDH Chlumín. Veškerá technika je ve vlastnictví obce a slouží výhradně pro zásahovou činnost.</p>
+      <div class="vgrid">
+        <div class="vcard">
+          <div class="vimg"><img src="https://sdh-chlumin.estranky.cz/img/mid/1024/p3130038.jpg" alt="CAS 25" onerror="this.parentElement.innerHTML='<div class=vph><svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#E8380D\' stroke-width=\'1\'><rect x=\'1\' y=\'3\' width=\'15\' height=\'13\' rx=\'2\'/><path d=\'M16 8h4l3 3v5h-7V8z\'/><circle cx=\'5.5\' cy=\'18.5\' r=\'2.5\'/><circle cx=\'18.5\' cy=\'18.5\' r=\'2.5\'/></svg><p>Fotografie v přípravě</p></div>'"></div>
+          <div class="vbody">
+            <div class="vname">CAS 25 Š706 RTHP</div>
+            <div class="vsub">Cisternová automobilová stříkačka</div>
+            <div class="vspecs">
+              <div class="vsp"><span class="vsp-k">Objem nádrže:</span><span class="vsp-v"><strong>2 500 l</strong> vody</span></div>
+              <div class="vsp"><span class="vsp-k">Čerpadlo:</span><span class="vsp-v">1 600 l/min</span></div>
+              <div class="vsp"><span class="vsp-k">Stav:</span><span class="vsp-v" style="color:#6de06d">Provozuschopné</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="vcard">
+          <div class="vimg"><div class="vph"><svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><p>Fotografie v přípravě</p></div></div>
+          <div class="vbody">
+            <div class="vname">DA – Dopravní automobil</div>
+            <div class="vsub">Lehké zásahové vozidlo</div>
+            <div class="vspecs">
+              <div class="vsp"><span class="vsp-k">Posádka:</span><span class="vsp-v">až <strong>9 osob</strong></span></div>
+              <div class="vsp"><span class="vsp-k">Využití:</span><span class="vsp-v">přeprava, záloha</span></div>
+              <div class="vsp"><span class="vsp-k">Stav:</span><span class="vsp-v" style="color:#6de06d">Provozuschopné</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--silver);margin-bottom:.85rem">Výstroj a výzbroj</h3>
+      <div class="egrid">
+        <div class="eitem"><div class="eico">😷</div><div class="ename">Dýchací technika</div><div class="edesc">Autonomní dýchací přístroje pro zásahy v zakouřeném prostoru. Nositelé DT pravidelně školeni.</div></div>
+        <div class="eitem"><div class="eico">🪚</div><div class="ename">Motorové pily</div><div class="edesc">Pro odstraňování padlých stromů při vichřicích. Obsluha certifikována.</div></div>
+        <div class="eitem"><div class="eico">💧</div><div class="ename">Čerpadla</div><div class="edesc">Přenosná motorová čerpadla pro čerpání vody a provzdušňování rybníků.</div></div>
+        <div class="eitem"><div class="eico">🔦</div><div class="ename">Osvětlení</div><div class="edesc">Přenosné osvětlovací soupravy pro zásahy v noci a ztížených podmínkách.</div></div>
+        <div class="eitem"><div class="eico">🚧</div><div class="ename">Technická výzbroj</div><div class="edesc">Hydraulické nástroje, páky, lana, kotvy a další technické prostředky.</div></div>
+        <div class="eitem"><div class="eico">📟</div><div class="ename">Spojovací technika</div><div class="edesc">Radiostanice, výjezdový tablet FIREPORT pro příjem výzev z krajského střediska.</div></div>
+      </div>
+      <div style="margin-top:1.5rem;background:var(--smoke);padding:1.1rem 1.4rem;border-radius:4px">
+        <p style="font-size:.82rem;color:var(--silver);line-height:1.7">📸 Kompletní fotogalerie techniky: <a href="https://sdh-chlumin.estranky.cz/fotoalbum/nase-technika/" target="_blank" style="color:var(--fire)">fotoalbum SDH Chlumín</a>. Stránka je průběžně doplňována.</p>
+      </div>
+    </section>
+
+    <!-- ── 04 ČLENOVÉ ── -->
+    <section class="sec sec-alt" id="clenove">
+      <div class="slbl">04 / Lidé</div>
+      <h2 class="sh2">Členové jednotky</h2>
+      <p class="slead">Aktuální složení zásahové jednotky SDH obce Chlumín – celkem <strong style="color:var(--white)">11 členů</strong>.</p>
+      <table class="mtable">
+        <thead><tr><th>#</th><th>Jméno</th><th>Funkce</th><th>Kvalifikace</th></tr></thead>
+        <tbody>
+          <tr><td style="color:var(--muted);font-family:'Barlow Condensed',sans-serif">01</td><td class="td-name">Ing. Chlebo Ján</td><td class="td-role">Velitel jednotky, strojník</td><td><div class="badges"><span class="b bv">Velitel</span><span class="b bs">Strojník</span><span class="b bd">DT</span><span class="b bm">MP</span></div></td></tr>
+          <tr><td style="color:var(--muted);font-family:'Barlow Condensed',sans-serif">02</td><td class="td-name">Bittner Jan</td><td class="td-role">Velitel družstva</td><td><div class="badges"><span class="b bv">Vel. dr.</span><span class="b bd">DT</span><span class="b bm">MP</span></div></td></tr>
+          <tr><td style="color:var(--muted);font-family:'Barlow Condensed',sans-serif">03</td><td class="td-name">Bittner Jaroslav</td><td class="td-role">Strojník</td><td><div class="badges"><span class="b bs">Strojník</span><span class="b bd">DT</span><span class="b bm">MP</span></div></td></tr>
+          <tr><td style="color:var(--muted);font-family:'Barlow Condensed',sans-serif">04</td><td class="td-name">Bláha Zdeněk</td><td class="td-role">Strojník</td><td><div class="badges"><span class="b bs">Strojník</span><span class="b bd">DT</span><span class="b bm">MP</span></div></td></tr>
+          <tr><td style="color:var(--muted);font-family:'Barlow Condensed',sans-serif">05</td><td class="td-name">Štyller Jakub</td><td class="td-role">Strojník</td><td><div class="badges"><span class="b bs">Strojník</span><span class="b bd">DT</span><span class="b bm">MP</span></div></td></tr>
+          <tr><td style="color:var(--muted);font-family:'Barlow Condensed',sans-serif">06</td><td class="td-name">Bc. Pokorný Václav</td><td class="td-role">Strojník</td><td><div class="badges"><span class="b bs">Strojník</span><span class="b bm">MP</span></div></td></tr>
+          <tr><td style="color:var(--muted);font-family:'Barlow Condensed',sans-serif">07</td><td class="td-name">Vysoký Martin</td><td class="td-role">Strojník</td><td><div class="badges"><span class="b bs">Strojník</span></div></td></tr>
+          <tr><td style="color:var(--muted);font-family:'Barlow Condensed',sans-serif">08</td><td class="td-name">Cenkner Robert</td><td class="td-role">Hasič</td><td><div class="badges"><span class="b bh">Hasič</span><span class="b bd">DT</span><span class="b bm">MP</span></div></td></tr>
+          <tr><td style="color:var(--muted);font-family:'Barlow Condensed',sans-serif">09</td><td class="td-name">Bc. Brabec Petr</td><td class="td-role">Hasič</td><td><div class="badges"><span class="b bh">Hasič</span><span class="b bd">DT</span><span class="b bm">MP</span></div></td></tr>
+          <tr><td style="color:var(--muted);font-family:'Barlow Condensed',sans-serif">10</td><td class="td-name">Smrčka Antonín</td><td class="td-role">Hasič</td><td><div class="badges"><span class="b bh">Hasič</span><span class="b bd">DT</span></div></td></tr>
+          <tr><td style="color:var(--muted);font-family:'Barlow Condensed',sans-serif">11</td><td class="td-name">Pertžilka Tomáš</td><td class="td-role">Hasič</td><td><div class="badges"><span class="b bh">Hasič</span></div></td></tr>
+        </tbody>
+      </table>
+      <div class="legbox">
+        <span><span class="b bd">DT</span>Nositel dýchací techniky</span>
+        <span><span class="b bm">MP</span>Obsluha motorové pily</span>
+        <span><span class="b bv">Velitel</span>Velitel / vel. družstva</span>
+        <span><span class="b bs">Strojník</span>Strojník</span>
+        <span><span class="b bh">Hasič</span>Hasič</span>
+      </div>
+      <div style="margin-top:1.5rem;padding:1.1rem 1.4rem;background:rgba(232,56,13,.05);border:1px solid rgba(232,56,13,.14);border-radius:4px">
+        <p style="font-size:.82rem;color:var(--silver);line-height:1.65">⚠ Data odpovídají stavu k červnu 2024. Pro aktuální informace kontaktujte velitele jednotky.</p>
+      </div>
+    </section>
+
+    <!-- ── 05 NÁBOR ── -->
+    <section class="sec" id="nabor">
+      <div class="slbl">05 / Přidejte se</div>
+      <h2 class="sh2">Nábor do jednotky SDH</h2>
+      <p class="slead">Staňte se dobrovolným hasičem. Hledáme nové posily do zásahové jednotky SDH obce Chlumín.</p>
+      <div class="nsplit">
+        <div class="ntext">
+          <p>Jste <strong>aktivní, pohodový člověk</strong>, který se jen tak něčeho nezalekne? Hledáte partu kamarádů, kteří umí podat pomocnou ruku v době, kdy je druzí potřebují?</p>
+          <p><em>Pojďte s námi společně pomáhat druhým!</em> Nechybíme u žádné větší mimořádné události. Naše jednotka je zařazena do plošného pokrytí a zasahujeme i mimo obec Chlumín.</p>
+          <p>Není třeba žádných hasičských znalostí a dovedností – jen <strong>chuť a čas se je naučit</strong>. Odměnou je někdy trochu vděku a vlastní dobrý pocit.</p>
+          <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--silver);margin:1.5rem 0 .65rem">Co požadujeme</h3>
+          <div class="rlist">
+            <div class="ritem"><div class="rico">🔞</div><div class="rbody"><h4>Minimální věk 18 let</h4><p>Zákonný požadavek pro členství v JSDH.</p></div></div>
+            <div class="ritem"><div class="rico">✅</div><div class="rbody"><h4>Trestní bezúhonnost</h4><p>Doložení výpisem z rejstříku trestů.</p></div></div>
+            <div class="ritem"><div class="rico">🏥</div><div class="rbody"><h4>Zdravotní způsobilost</h4><p>Potvrzení od lékaře – bez závažných zdravotních omezení.</p></div></div>
+            <div class="ritem"><div class="rico">💪</div><div class="rbody"><h4>Dobrá fyzická zdatnost</h4><p>Zásahová činnost je náročná. Kondice se průběžně rozvíjí výcvikem.</p></div></div>
+            <div class="ritem"><div class="rico">🤝</div><div class="rbody"><h4>Zodpovědnost a ochota pomáhat</h4><p>Základ každého dobrého hasiče – bez ohledu na zkušenosti.</p></div></div>
+          </div>
+          <div class="mquote"><p>„Dobrovolnost zavazuje. Každý člen naší jednotky se vzdal pohodlí vlastního gauče ve chvíli, kdy to ostatní potřebovali nejvíce."</p><cite>JSDH Chlumín</cite></div>
+        </div>
+        <div>
+          <div class="cbox">
+            <div class="cbox-h"><h3>Mám zájem!</h3><p>Kontaktujte velitele nebo přijďte osobně</p></div>
+            <div class="cbox-b">
+              <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><div class="ci-in"><strong>Telefon velitele</strong><span><a href="tel:602355719">602 355 719</a></span></div></div>
+              <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><div class="ci-in"><strong>Schůzky jednotky</strong><span>Každý pátek od 18:00</span></div></div>
+              <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><div class="ci-in"><strong>Adresa zbrojnice</strong><span>JSDH Chlumín, čp. 186<br>277 43 Chlumín</span></div></div>
+              <a href="tel:602355719" class="ctabtn">📞 Zavolat veliteli</a>
+            </div>
+          </div>
+          <div style="margin-top:1.25rem;background:var(--smoke);padding:1.1rem 1.4rem">
+            <h4 style="font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);margin-bottom:.75rem">Co vás čeká po nástupu</h4>
+            <div style="display:flex;flex-direction:column;gap:.5rem">
+              <div style="display:flex;gap:.65rem;font-size:.8rem;color:var(--silver)"><span style="color:var(--fire)">→</span>Základní školení a BOZP</div>
+              <div style="display:flex;gap:.65rem;font-size:.8rem;color:var(--silver)"><span style="color:var(--fire)">→</span>Výcvik s technikou a výstrojí</div>
+              <div style="display:flex;gap:.65rem;font-size:.8rem;color:var(--silver)"><span style="color:var(--fire)">→</span>Odborné kurzy (DT, motorové pily…)</div>
+              <div style="display:flex;gap:.65rem;font-size:.8rem;color:var(--silver)"><span style="color:var(--fire)">→</span>Pravidelné páteční schůzky</div>
+              <div style="display:flex;gap:.65rem;font-size:.8rem;color:var(--silver)"><span style="color:var(--fire)">→</span>Parta lidí, co to myslí vážně</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer style="background:#0a0a0a;border-top:1px solid #1a1a1a;padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+  <span style="font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.08em;color:var(--silver)">Jednotka SDH <span style="color:var(--fire)">Chlumín</span></span>
+  <span style="font-size:.72rem;color:var(--muted)">© 2025 Sbor dobrovolných hasičů Chlumín</span>
+  <div style="display:flex;gap:1.4rem">
+    <a href="sdh-chlumin-modern.html" style="font-size:.72rem;color:var(--muted);text-decoration:none">Hlavní web</a>
+    <a href="mladi-hasici.html" style="font-size:.72rem;color:var(--muted);text-decoration:none">Mladí hasiči</a>
+    <a href="https://sdh-chlumin.estranky.cz/fotoalbum/odborna-priprava/" target="_blank" style="font-size:.72rem;color:var(--muted);text-decoration:none">Fotoalbum</a>
+  </div>
+</footer>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────
+const EVENTS={
+  2019:[
+    {d:'20.12.',t:'tu',x:'Oprava techniky – CAS 25 Š706'},
+    {d:'13.12.',t:'tu',x:'Oprava techniky – CAS 25 Š706'},
+    {d:'30.11.',t:'tc',x:'Technická pomoc – asistence při rozsvěcení vánočního stromu · Chlumín'},
+    {d:'29.11.',t:'tu',x:'Údržba techniky, výstroje a výzbroje'},
+    {d:'22.11.',t:'ts',x:'Odborná příprava členů JSDH'},
+    {d:'14.11.',t:'tu',x:'Oprava techniky – CAS 25 Š706'},
+    {d:'1.11.',t:'ts',x:'Školení – BOZP, obsluha motorových pil'},
+    {d:'28.10. 17:22',t:'tp',x:'<strong>Zásah – Požár komína RD</strong> · Hostín u Vojkovic'},
+    {d:'26.10.',t:'tc',x:'Technická pomoc – asistence při pálení · Hostín u Vojkovic'},
+    {d:'5.10.',t:'ts',x:'Odborná příprava – soutěž „O pohár starosty obce Dřínov"'},
+    {d:'4.10.',t:'ts',x:'Odborná příprava – testy agregátů, výcvik s dýchací technikou'},
+    {d:'30.9.',t:'ts',x:'Odborná příprava – kondiční jízdy, testy agregátů'},
+    {d:'30.9. 11:50',t:'tt',x:'<strong>Zásah – Odstranění poškozeného stromu</strong> po vichřici · Byškovice I/9'},
+    {d:'28.9.',t:'ts',x:'Školení – výcvik s dýchací technikou'},
+    {d:'28.9.',t:'ts',x:'Odborná příprava – soutěž „O pohár starosty obce Chlumín"'},
+    {d:'5.9.',t:'ts',x:'Školení – výcvik s dýchací technikou'},
+    {d:'26.8. 15:30',t:'tt',x:'<strong>Zásah – Vyproštění srnce z bahna</strong> · Kozárovice'},
+    {d:'25.8. 6:35',t:'tp',x:'<strong>Zásah – Požár podkroví RD</strong> · Obříství'},
+    {d:'2.8.',t:'ts',x:'Školení – výcvik s dýchací technikou'},
+    {d:'2.8. 14:44',t:'tp',x:'<strong>Zásah – Požár traktoru na poli</strong> · Újezdec'},
+    {d:'27.7. 14:02',t:'tp',x:'<strong>Zásah – Požár lesa</strong> · Vojkovice'},
+    {d:'2.7. 7:51',t:'tt',x:'<strong>Zásah – Vyproštění koně z bahna</strong> · Kozárovice'},
+    {d:'26.6. 17:40',t:'tp',x:'<strong>Zásah – Požár hnojiště</strong> · Obříství-Korycany'},
+    {d:'22.6.',t:'tc',x:'Asistence – Slavnosti zeleniny Hanka Mochov · Zálezlice'},
+    {d:'7.6.',t:'ts',x:'Výcvik s dýchací technikou'},
+    {d:'31.5.',t:'tt',x:'<strong>Zásah – Provzdušnění rybníku</strong> (záchrana ryb) · Újezdec'},
+    {d:'30.5. 15:57',t:'tt',x:'<strong>Zásah – Likvidace bodavého hmyzu</strong> · Chlumín'},
+    {d:'11.5.',t:'tc',x:'Asistence – Slavnosti chřestu · Hostín u Vojkovic'},
+    {d:'4.5.',t:'ts',x:'Odborná příprava – soutěž v PÚ „Oužická osma"'},
+    {d:'30.4.',t:'tc',x:'Asistence při pálení (čarodějnice) · Újezdec a Chlumín'},
+    {d:'30.3. 10:50',t:'tp',x:'<strong>Zásah – Požár suchého porostu</strong>, rákosí · Obříství'},
+    {d:'29.3.',t:'tt',x:'<strong>Zásah – Provzdušnění rybníku</strong> · Chlumín'},
+    {d:'23.3.',t:'ts',x:'Odborná příprava – soutěž JPO „Vteřiny pro život"'},
+    {d:'15.3.',t:'tt',x:'<strong>Zásah – Odstranění nebezpečného stromu</strong> · Hostín u Vojkovic'},
+    {d:'11.3.',t:'tt',x:'<strong>Zásah – Odstranění spadlého stromu</strong> · Hostín u Vojkovic'},
+    {d:'8.3.',t:'tu',x:'Údržba techniky, výstroje a výzbroje'},
+    {d:'3.3. 18:01',t:'tp',x:'<strong>Zásah – Požár suchého porostu</strong> u Vltavy · Zálezlice'},
+    {d:'1.3.',t:'ts',x:'Školení – výcvik s dýchací technikou'},
+    {d:'22.2.',t:'tu',x:'Údržba techniky, výstroje a výzbroje'},
+    {d:'15.2.',t:'tu',x:'Údržba techniky, výstroje a výzbroje'},
+    {d:'1.2.',t:'ts',x:'Školení členů JSDH'},
+    {d:'25.1.',t:'tu',x:'Drobné opravy a údržba HZ'},
+    {d:'11.1.',t:'tu',x:'Údržba techniky, výstroje a výzbroje'},
+    {d:'4.1.',t:'ts',x:'Školení členů JSDH'},
+  ],
+  2018:[
+    {d:'14.12.',t:'ts',x:'Výcvik s dýchací technikou'},
+    {d:'8.12.',t:'ts',x:'Přezkoušení členů JSDH, výcvik s dýchací technikou'},
+    {d:'29.11. 16:09',t:'tp',x:'<strong>Zásah – Požár chladícího zařízení</strong> v zemědělském areálu · Zálezlice'},
+    {d:'24.11.',t:'tc',x:'Asistence při společenské akci · Chlumín'},
+    {d:'17.11.',t:'tc',x:'Asistence při pálení · Hostín u Vojkovic'},
+    {d:'11.11.',t:'tc',x:'Asistence při společenské akci · Hostín u Vojkovic'},
+    {d:'9.11.',t:'ts',x:'Školení – cyklická příprava strojníků'},
+    {d:'3.11.',t:'tc',x:'Asistence při pálení · Chlumín'},
+    {d:'2.11.',t:'ts',x:'Školení – výcvik s dýchací technikou'},
+    {d:'19.10.',t:'ts',x:'Výcvik s dýchací technikou'},
+    {d:'17.10.',t:'tc',x:'Asistence při pálení · Chlumín'},
+    {d:'5.10.',t:'ts',x:'Školení, údržba agregátů'},
+    {d:'29.9. 10:10',t:'tt',x:'<strong>Zásah – Vyproštění osoby z uzamčené budovy</strong> · Chlumín'},
+    {d:'7.9.',t:'ts',x:'Školení členů JSDH'},
+    {d:'10.8.',t:'tc',x:'Provzdušnění rybníku · Chlumín'},
+    {d:'1.8.',t:'tc',x:'Závlaha stromů v obci · Chlumín'},
+    {d:'26.7. 10:38',t:'tp',x:'<strong>Zásah – Požár lisu slámy na poli</strong> · Netřeba'},
+    {d:'26.7.',t:'tc',x:'Provzdušnění rybníku · Chlumín'},
+    {d:'23.7. 11:43',t:'tp',x:'<strong>Zásah – Požár strniště</strong> · Obříství Úpor'},
+    {d:'22.7. 17:15',t:'tt',x:'<strong>Zásah – Vyproštění koně z bahna rybníka</strong> · Hostín u Vojkovic'},
+    {d:'20.7.',t:'ts',x:'Výcvik s dýchací technikou'},
+    {d:'7.7. 13:18',t:'tp',x:'<strong>Zásah – Požár strniště</strong> · Netřeba'},
+    {d:'7.7. 10:43',t:'tp',x:'<strong>Zásah – Požár strniště</strong> (2. výjezd) · Netřeba'},
+    {d:'3.7. 15:17',t:'tp',x:'<strong>Zásah – Požár silážního žlabu a obilí</strong> · Netřeba-Korycany'},
+    {d:'28.6. 13:41',t:'tp',x:'<strong>Zásah – Požár ubytovny</strong> · Hostín u Vojkovic'},
+    {d:'23.6.',t:'tc',x:'Asistence – Slavnosti zeleniny Hanka Mochov · Zálezlice'},
+    {d:'1.6.',t:'ts',x:'Školení členů JSDH'},
+    {d:'18.5. 22:58',t:'tt',x:'<strong>Zásah – Vyproštění automobilu z řeky</strong> · Obříství'},
+    {d:'18.5.',t:'ts',x:'Školení členů JSDH'},
+    {d:'16.5. 16:00',t:'tp',x:'<strong>Zásah – Požár skládky odpadů</strong> · Uhy'},
+    {d:'12.5.',t:'tc',x:'Asistence – Slavnosti chřestu · Hostín u Vojkovic'},
+    {d:'4.5.',t:'tu',x:'Údržba agregátů, školení'},
+    {d:'30.4.',t:'tc',x:'Asistence při pálení (čarodějnice) · Újezdec, Hostín u Vojkovic, Chlumín'},
+    {d:'20.4.',t:'ts',x:'Školení – cyklická příprava velitelů · Střemy'},
+    {d:'15.4.',t:'ts',x:'Odborná příprava – soutěž JPO „Vteřiny pro život"'},
+    {d:'6.4.',t:'ts',x:'Školení – svolávací systém FIREPORT'},
+    {d:'31.3.',t:'tc',x:'Brigáda JSDH Chlumín'},
+    {d:'23.3.',t:'ts',x:'Školení, výcvik s dýchací technikou'},
+    {d:'9.3.',t:'tu',x:'Údržba agregátů'},
+    {d:'23.2. 16:52',t:'tp',x:'<strong>Zásah – Záloha za HZS Neratovice</strong> – požár mrazíren Mochov'},
+    {d:'9.2.',t:'tu',x:'Údržba techniky'},
+    {d:'3.2.',t:'tc',x:'Asistence při pálení · Chlumín'},
+    {d:'24.1.',t:'tt',x:'<strong>Zásah – Havárie kanalizace v MŠ Chlumín</strong>'},
+    {d:'12.1.',t:'ts',x:'Školení – BOZP, PO, ověření znalostí členů JSDH'},
+  ],
+  2017:[
+    {d:'1.12.',t:'ts',x:'Školení členů JSDH'},
+    {d:'13.11.',t:'tt',x:'Odstranění poškozeného stromu · Chlumín'},
+    {d:'3.11.',t:'ts',x:'Výcvik s dýchací technikou, BOZP, motorové pily'},
+    {d:'29.10. 13:30',t:'tt',x:'<strong>Zásah – Odstranění poškozeného stromu</strong> po vichřici · Chlumín'},
+    {d:'29.10. 10:20',t:'tt',x:'<strong>Zásah – Odstranění nebezpečných větví</strong> · silnice Chlumín/Korycany'},
+    {d:'13.10. 10:47',t:'tp',x:'<strong>Zásah – Požár po pádu elektrického vedení</strong> · Obříství'},
+    {d:'30.9.',t:'tu',x:'Údržba agregátů'},
+    {d:'8.9.',t:'ts',x:'Výcvik s dýchací technikou'},
+    {d:'13.8.',t:'tc',x:'Asistence při opravě zvonu kostela · Chlumín'},
+    {d:'10.8.',t:'tc',x:'Odstranění větví po větrné smršti · Chlumín'},
+    {d:'1.8. 14:36',t:'tp',x:'<strong>Zásah – Požár strniště</strong> · Byškovice'},
+    {d:'14.7.',t:'ts',x:'Školení členů JSDH'},
+    {d:'30.6.',t:'ts',x:'Školení členů JSDH'},
+    {d:'16.6.',t:'ts',x:'Výcvik s dýchací technikou'},
+    {d:'2.6.',t:'ts',x:'Školení členů JSDH'},
+    {d:'1.6.',t:'tc',x:'Asistence při společenské akci ZŠ · Chlumín'},
+    {d:'27.5.',t:'tc',x:'Asistence při společenské akci · Hostín u Vojkovic'},
+    {d:'19.5.',t:'ts',x:'Školení členů JSDH'},
+    {d:'6.5.',t:'tu',x:'Údržba agregátů'},
+    {d:'6.5.',t:'ts',x:'Odborná příprava – soutěž v PÚ · Úžice'},
+    {d:'30.4.',t:'tc',x:'Asistence při pálení (čarodějnice) · Újezdec, Hostín u Vojkovic, Chlumín'},
+    {d:'28.4.',t:'ts',x:'Školení – cyklická příprava velitelů · Cítov'},
+    {d:'20.4.',t:'ts',x:'Školení – dýchací technika'},
+    {d:'7.4.',t:'tu',x:'Údržba agregátů'},
+    {d:'25.3.',t:'ts',x:'Odborná příprava – soutěž „Vteřiny pro život" · Chlumín'},
+    {d:'24.3.',t:'ts',x:'Školení a fyzická příprava'},
+    {d:'19.3.',t:'ts',x:'Školení a ověření znalostí členů JSDH'},
+    {d:'17.3.',t:'tu',x:'Údržba vozového parku'},
+    {d:'5.3.',t:'tc',x:'Asistence při pálení · Hostín u Vojkovic'},
+    {d:'24.2.',t:'ts',x:'Výcvik s dýchací technikou'},
+    {d:'18.2.',t:'ts',x:'Školení členů JSDH'},
+    {d:'4.2.',t:'tc',x:'Asistence při pálení · Obříství'},
+    {d:'16.1.',t:'tu',x:'Údržba agregátů'},
+  ],
+  2016:[
+    {d:'26.11.',t:'tc',x:'Asistence při kulturní akci + čištění dešťové kanalizace · Chlumín'},
+    {d:'11.11.',t:'tc',x:'Asistence při společenské akci · Hostín u Vojkovic'},
+    {d:'5.11.',t:'ts',x:'Školení členů jednotky v HZ Chlumín'},
+    {d:'5.11.',t:'tc',x:'Asistence při pálení · Chlumín'},
+    {d:'20.10.',t:'ts',x:'Výcvik s dýchací technikou'},
+    {d:'16.10. 13:13',t:'tp',x:'<strong>Zásah – Aktivní záloha za HZS Neratovice</strong>'},
+    {d:'30.9.',t:'ts',x:'Školení – cyklická příprava strojníků · Neratovice Mlékojedy'},
+    {d:'17.9. 18:42',t:'tp',x:'<strong>Zásah – Neohlášené pálení průmyslového odpadu</strong> · Vojkovice'},
+    {d:'12.9.',t:'tc',x:'Čerpání vody do požární nádrže · Újezdec'},
+    {d:'3.9. 16:52',t:'tp',x:'<strong>Zásah – Neohlášené pálení průmyslového odpadu</strong> · Obříství'},
+    {d:'25.8. 10:30',t:'tp',x:'<strong>Zásah – Požár motorového vozidla</strong> · Hostín u Vojkovic'},
+    {d:'27.7. 20:47',t:'tt',x:'<strong>Zásah – Likvidace bodavého hmyzu</strong> · Chlumín'},
+    {d:'27.7. 15:43',t:'tt',x:'<strong>Zásah – Odstranění padlých stromů na vozovku</strong> · Obříství'},
+    {d:'29.6. 17:38',t:'tt',x:'<strong>Zásah – Odstranění nebezpečných větví</strong> · Chlumín'},
+    {d:'27.6. 17:45',t:'tp',x:'<strong>Zásah – Neohlášené pálení</strong> · Korycany'},
+    {d:'27.6.',t:'tc',x:'Čištění potoka po přívalovém dešti · Chlumín'},
+    {d:'25.6.',t:'tt',x:'<strong>Zásah – Aktivní záloha za HZS Neratovice</strong> · Chlumín'},
+    {d:'25.6. 16:30',t:'tt',x:'<strong>Zásah – Odstranění větví</strong> po větrné smršti · Chlumín'},
+    {d:'4.6.',t:'tc',x:'Asistence při kulturní akci · Hostín u Vojkovic'},
+    {d:'27.5.',t:'ts',x:'Školení – cyklická příprava velitelů · Lužec nad Vltavou'},
+    {d:'12.5. 17:10',t:'tt',x:'<strong>Zásah – Likvidace včelího roje</strong> · Obříství'},
+    {d:'7.5.',t:'tc',x:'Asistence při společenské akci · Hostín u Vojkovic'},
+    {d:'7.5.',t:'ts',x:'Odborná příprava – soutěž v PÚ · Úžice'},
+    {d:'30.4.',t:'tc',x:'Asistence při pálení (čarodějnice) · Újezdec, Hostín u Vojkovic, Chlumín'},
+    {d:'19.3.',t:'tc',x:'Asistence při pálení · Hostín u Vojkovic a Chlumín'},
+    {d:'22.2. 4:19',t:'tp',x:'<strong>Zásah – Požár sazí v komíně</strong> · Obříství'},
+    {d:'14.2.',t:'tc',x:'Brigáda JSDH Chlumín'},
+    {d:'11.2.',t:'tc',x:'Technická pomoc · Hostín u Vojkovic'},
+    {d:'6.2.',t:'tu',x:'Údržba agregátů'},
+    {d:'25.1.',t:'ts',x:'Školení – ovládání výjezdového tabletu'},
+    {d:'16.1.',t:'ts',x:'Školení a ověření znalostí členů JSDH'},
+  ],
+  2015:[
+    {d:'5.12.',t:'ts',x:'Školení členů jednotky v HZ Chlumín'},
+    {d:'29.11.',t:'tc',x:'Asistence při kulturní akci · Chlumín'},
+    {d:'14.11.',t:'ts',x:'Školení – praktický výcvik HZS Kostelec nad Labem'},
+    {d:'13.11.',t:'tc',x:'Asistence při kulturní akci · Hostín u Vojkovic'},
+    {d:'7.11.',t:'tt',x:'Likvidace vosího hnízda pod střechou RD · Chlumín'},
+    {d:'30.10.',t:'ts',x:'Školení – motorové pily + BOZP'},
+    {d:'28.10.',t:'tu',x:'Údržba agregátů'},
+    {d:'24.10.',t:'ts',x:'Školení členů jednotky v HZ Chlumín'},
+    {d:'20.10.',t:'tc',x:'Provzdušnění vody pro záchranu ryb · Chlumín'},
+    {d:'10.–11.10.',t:'ts',x:'Školení – kurz Nositel dýchací techniky (2 os.) · ÚHS Bílé Poličany'},
+    {d:'25.9.',t:'ts',x:'Školení – cyklická příprava strojníků · Nelahozeves'},
+    {d:'22.9. 15:07',t:'tp',x:'<strong>Zásah – Požár kontejneru s odpadem</strong> · Dřínov'},
+    {d:'17.–19.9.',t:'ts',x:'Školení – základní kurz strojníků (1 os.) · HZS Neratovice'},
+    {d:'18.–19.9.',t:'ts',x:'Školení – kurz Technik ochrany obyvatelstva · HZS Kamenice'},
+    {d:'19.–20.9.',t:'ts',x:'Školení – kurz Nositel dýchací techniky (2 os.) · HZS Mělník'},
+    {d:'13.9.',t:'tu',x:'Údržba agregátů'},
+    {d:'13.9.',t:'tc',x:'Asistence při pálení · Chlumín'},
+    {d:'8.9.',t:'tc',x:'Čištění dešťové kanalizace · Hostín u Vojkovic'},
+    {d:'3.9.',t:'tc',x:'Asistence při pálení · areál MV ČR Netřeba'},
+    {d:'29.8.',t:'tt',x:'Likvidace vosího hnízda v podkroví RD · Chlumín'},
+    {d:'29.8.',t:'ts',x:'Fyzická příprava – soutěž „O pohár starosty obce Chlumín"'},
+    {d:'20.8.',t:'tt',x:'Likvidace vosího hnízda · Obříství'},
+    {d:'14.8. 18:45',t:'tc',x:'Záloha za HZS Neratovice v HZ Chlumín'},
+    {d:'12.8.',t:'tc',x:'Kropení prašných cest při stavební činnosti · Hostín u Vojkovic'},
+    {d:'9.8. 17:00',t:'tp',x:'<strong>Zásah – Požár lesního porostu</strong> · Vojkovice'},
+    {d:'7.8. 22:59',t:'tp',x:'<strong>Zásah – Požár trávy</strong> · Obříství'},
+    {d:'31.7. 9:54',t:'tp',x:'<strong>Zásah – Požár pole (tráva)</strong> · Zálezlice'},
+    {d:'23.7. 16:50',t:'tp',x:'<strong>Zásah – Požár pole</strong> · Chlumín–Hostín u Vojkovic'},
+    {d:'19.7.',t:'tc',x:'Provzdušnění rybníku · Chlumín'},
+    {d:'26.6.',t:'ts',x:'Výcvik s dýchací technikou'},
+    {d:'25.6. 8:14',t:'tt',x:'<strong>Zásah – Pátrání po pohřešované osobě</strong> · Vojkovice a okolí'},
+    {d:'12.6.',t:'ts',x:'Školení členů jednotky'},
+    {d:'5.6.',t:'tu',x:'Kontrola a údržba agregátů, školení'},
+    {d:'4.6. 16:52',t:'tp',x:'<strong>Zásah – Požár budovy</strong> · Hostín u Vojkovic'},
+    {d:'30.5.',t:'tc',x:'Asistence při kulturní akci ZŠ Chlumín'},
+    {d:'29.5.',t:'ts',x:'Školení – cyklická příprava velitelů (3 os.) · Lužec nad Vltavou'},
+    {d:'26.5. 7:18',t:'tp',x:'<strong>Zásah – Požár motorového vozidla</strong> · Hostín u Vojkovic'},
+    {d:'15.5.',t:'tc',x:'Asistence při pálení · Hostín u Vojkovic'},
+    {d:'2.5.',t:'ts',x:'Fyzická příprava – soutěž „Oužická osma"'},
+    {d:'30.4.',t:'tc',x:'Asistence při pálení (čarodějnice) · Chlumín, Újezdec, Dřínov'},
+    {d:'17.4.',t:'ts',x:'Školení členů jednotky'},
+    {d:'10.4.',t:'tc',x:'Asistence při pálení · Hostín u Vojkovic'},
+    {d:'31.3. 16:50',t:'tt',x:'<strong>Zásah – Odstranění větví</strong> po větrné smršti · Chlumín'},
+    {d:'27.3.',t:'ts',x:'Školení členů jednotky'},
+    {d:'21.3.',t:'tu',x:'Údržba věcných prostředků'},
+    {d:'20.3.',t:'ts',x:'Školení členů jednotky'},
+    {d:'27.2.',t:'tu',x:'Údržba agregátů a věcných prostředků'},
+    {d:'21.2.',t:'tc',x:'Asistence při pálení · Chlumín'},
+    {d:'20.2.',t:'ts',x:'Školení členů jednotky'},
+    {d:'13.2.',t:'ts',x:'Školení členů jednotky'},
+    {d:'6.2.',t:'ts',x:'Školení členů jednotky'},
+    {d:'18.1.',t:'ts',x:'Školení členů jednotky'},
+  ]
+};
+const TM={tp:'<span class="tag tp">🔥 Zásah – Požár</span>',tt:'<span class="tag tt">🔧 Tech. pomoc</span>',ts:'<span class="tag ts">📚 Školení/Výcvik</span>',tu:'<span class="tag tu">🔩 Údržba</span>',tc:'<span class="tag tc">🤝 Pomoc/Asistence</span>'};
+
+// render year blocks
+const container=document.getElementById('year-blocks');
+const years=[2019,2018,2017,2016,2015];
+years.forEach((yr,i)=>{
+  const rows=EVENTS[yr]||[];
+  const div=document.createElement('div');
+  div.className='yblock'+(i===0?' open':'');
+  div.id='yb'+yr;
+  const rows_html=rows.map(r=>`<tr><td class="td-d">${r.d}</td><td class="td-t">${TM[r.t]||''}</td><td class="td-x">${r.x}</td></tr>`).join('');
+  div.innerHTML=`
+    <div class="yhead${i===0?' open':''}" onclick="toggleY(${yr})">
+      <div class="ybadge">${yr}</div>
+      <div class="yline"></div>
+      <div class="ycount">${rows.length} záznamů</div>
+      <div class="ytog">▾</div>
+    </div>
+    <table class="etable"><tbody>${rows_html}</tbody></table>`;
+  container.appendChild(div);
+});
+
+function toggleY(yr){
+  const b=document.getElementById('yb'+yr);
+  const h=b.querySelector('.yhead');
+  const isOpen=b.classList.contains('open');
+  document.querySelectorAll('.yblock').forEach(x=>{x.classList.remove('open');x.querySelector('.yhead').classList.remove('open')});
+  if(!isOpen){b.classList.add('open');h.classList.add('open')}
+}
+
+// sticky nav highlight
+const secs=['o-jednotce','cinnost','technika','clenove','nabor'];
+const sbA=document.querySelectorAll('.sb-nav a');
+const mobA=document.querySelectorAll('.mob-tab');
+function onScroll(){
+  let cur='o-jednotce';
+  secs.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=100)cur=id});
+  sbA.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+  mobA.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+</script>
+</body>
+</html>
