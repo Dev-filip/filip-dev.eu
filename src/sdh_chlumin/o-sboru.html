@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O sboru – SDH Chlumín</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--fire:#E8380D;--fire2:#FF6B35;--coal:#111;--ash:#181818;--smoke:#222;--smoke2:#2a2a2a;--border:#252525;--silver:#888;--muted:#4a4a4a;--white:#F4F1ED;--amber:#FFC107;--green:#2ECC71}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--coal);color:var(--white);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:rgba(17,17,17,.97);border-bottom:1px solid rgba(232,56,13,.2)}
+.nlogo{display:flex;align-items:center;gap:.65rem;text-decoration:none}
+.nlogo svg{width:30px;height:30px}
+.nlogo-t{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.08em;color:var(--white)}.nlogo-t span{color:var(--fire)}
+.nbread{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);display:flex;align-items:center;gap:.4rem}
+.nbread a{color:var(--silver);text-decoration:none}.nbread a:hover{color:var(--white)}.nbread .sep{color:var(--fire)}
+.nback{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coal);background:var(--fire);padding:.35rem .9rem;border-radius:3px;text-decoration:none;transition:background .15s}.nback:hover{background:var(--fire2)}
+/* IN-PAGE NAV TABS */
+.tab-bar{position:sticky;top:56px;z-index:100;background:var(--ash);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--silver);padding:.85rem 1.5rem;border-bottom:2px solid transparent;text-decoration:none;white-space:nowrap;transition:all .15s}
+.tab-btn:hover,.tab-btn.active{color:var(--white);border-bottom-color:var(--fire)}
+
+/* HERO */
+.hero{position:relative;padding-top:56px;min-height:34vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 75% 25%,rgba(232,56,13,.11) 0%,transparent 60%),linear-gradient(160deg,#0e0605 0%,#111 60%,#141414 100%)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(232,56,13,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(232,56,13,.03) 1px,transparent 1px);background-size:55px 55px;mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 10%,transparent 75%)}
+.hero-c{position:relative;z-index:2;padding:2.5rem 2rem 2.5rem;max-width:700px}
+.hlabel{display:inline-flex;align-items:center;gap:.45rem;font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--fire);border:1px solid rgba(232,56,13,.3);padding:.25rem .65rem;border-radius:2px;margin-bottom:.75rem}
+.hlabel::before{content:'';width:5px;height:5px;background:var(--fire);border-radius:50%}
+.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,8vw,6.5rem);line-height:.9;letter-spacing:.02em}
+.hero-h1 .r{display:block;color:var(--fire)}.hero-h1 .w{display:block;color:var(--white)}
+.hdiv{height:2px;background:linear-gradient(90deg,var(--fire),var(--fire2),transparent)}
+
+/* SECTIONS */
+.sec{padding:4.5rem 5vw;max-width:1100px;margin:0 auto}
+.sec-alt{background:var(--ash)}
+.sec-label{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fire);display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem}
+.sec-label::after{content:'';flex:0 0 28px;height:1px;background:var(--fire)}
+.sec-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,3.5vw,3rem);letter-spacing:.03em;line-height:1;margin-bottom:.75rem}
+.sec-lead{font-size:.9rem;color:var(--silver);max-width:600px;line-height:1.78;font-weight:300;margin-bottom:2.5rem}
+
+/* PRESS CARDS */
+.press-list{display:flex;flex-direction:column;gap:1px}
+.press-card{background:var(--smoke);padding:1.5rem;border-left:3px solid transparent;transition:border-color .2s,background .2s}
+.press-card:hover{border-left-color:var(--fire);background:var(--smoke2)}
+.press-meta{font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fire);margin-bottom:.5rem;display:flex;gap:1rem;align-items:center}
+.press-source{color:var(--silver)}
+.press-title{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.04em;color:var(--white);margin-bottom:.55rem}
+.press-excerpt{font-size:.85rem;color:var(--silver);line-height:1.72}
+.press-excerpt em{color:var(--white);font-style:italic}
+.press-link{display:inline-flex;align-items:center;gap:.35rem;margin-top:.85rem;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fire);text-decoration:none}
+.press-link:hover{text-decoration:underline}
+
+/* MEMBER SEARCH */
+.search-bar{position:relative;margin-bottom:1.5rem;max-width:400px}
+.search-bar input{width:100%;background:var(--smoke);border:1px solid var(--border);border-radius:4px;color:var(--white);font-family:'Barlow',sans-serif;font-size:.9rem;padding:.7rem 1rem .7rem 2.5rem;outline:none;transition:border-color .15s}
+.search-bar input:focus{border-color:var(--fire)}
+.search-bar svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--silver);pointer-events:none}
+
+/* MEMBER TABLE */
+.member-stats{display:flex;gap:2rem;margin-bottom:2rem;flex-wrap:wrap}
+.mstat{text-align:center}
+.mstat-n{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--fire);line-height:1}
+.mstat-l{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);font-family:'Barlow Condensed',sans-serif}
+
+.member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px}
+.member-pill{background:var(--smoke);padding:.8rem 1rem;display:flex;align-items:center;gap:.75rem;border-left:2px solid transparent;transition:all .15s}
+.member-pill:hover{background:var(--smoke2);border-left-color:var(--fire)}
+.member-pill.mh{border-left-color:rgba(46,204,113,.3)}
+.member-pill.mh:hover{border-left-color:var(--green)}
+.mp-avatar{width:32px;height:32px;border-radius:50%;background:rgba(232,56,13,.1);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.member-pill.mh .mp-avatar{background:rgba(46,204,113,.1)}
+.mp-name{font-size:.84rem;font-weight:500;color:var(--white);line-height:1.3}
+.mp-tag{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-top:.1rem}
+.hidden{display:none!important}
+
+.legend-strip{display:flex;gap:1.5rem;margin-top:1.5rem;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:.4rem;font-size:.75rem;color:var(--silver);font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.led{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+footer{background:#0a0a0a;border-top:1px solid #1a1a1a;padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.fl{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.08em;color:var(--silver)}.fl span{color:var(--fire)}
+footer p{font-size:.72rem;color:var(--muted)}
+.flinks{display:flex;gap:1.4rem}.flinks a{font-size:.72rem;color:var(--muted);text-decoration:none;transition:color .2s}.flinks a:hover{color:var(--silver)}
+@media(max-width:640px){.hero-c{padding:2rem 1.25rem 2rem}.sec{padding:3rem 1.25rem}.nbread{display:none}nav{padding:0 1rem}.member-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nlogo" href="sdh-chlumin-modern.html"><svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" stroke="#E8380D" stroke-width="1.5"/><path d="M18 6c0 0-6 8-6 14a6 6 0 0 0 12 0c0-6-6-14-6-14z" fill="#E8380D"/><path d="M18 14c0 0-3 4-3 7a3 3 0 0 0 6 0c0-3-3-7-3-7z" fill="#FFC107"/></svg><span class="nlogo-t">SDH <span>Chlumín</span></span></a>
+  <div class="nbread"><a href="sdh-chlumin-modern.html">Úvod</a><span class="sep">›</span><span style="color:var(--white)">O sboru</span></div>
+  <a href="sdh-chlumin-modern.html" class="nback">← Zpět</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="hero-c">
+    <div class="hlabel">SDH Chlumín · sbor & média</div>
+    <h1 class="hero-h1"><span class="r">Napsali</span><span class="w">o nás · Členové</span></h1>
+  </div>
+</div>
+<div class="hdiv"></div>
+
+<div class="tab-bar">
+  <a class="tab-btn active" href="#napsali">📰 Napsali o nás</a>
+  <a class="tab-btn" href="#clenove">👥 Seznam členů</a>
+</div>
+
+<!-- NAPSALI O NÁS -->
+<div class="sec" id="napsali" style="padding-top:4rem">
+  <div class="sec-label">Média</div>
+  <h2 class="sec-h2">Napsali o nás</h2>
+  <p class="sec-lead">Články a zmínky z tisku o SDH Chlumín – Týdeník Mělnicko a další regionální média.</p>
+  <div class="press-list">
+
+    <div class="press-card">
+      <div class="press-meta"><span>8. dubna 2009</span><span class="press-source">Týdeník Mělnicko</span></div>
+      <div class="press-title">Chlumínští dobrovolní hasiči před 130. narozeninami</div>
+      <div class="press-excerpt">Sbor dobrovolných hasičů v Chlumíně se kromě práce s mládeží a účasti na okresních soutěžích věnuje převážně pořádání kulturních a společenských akcí v obci i mimo ni. <em>„Snažíme se obnovovat tradice, které byly v obci po dlouhá léta udržovány a naši předchůdci dodnes vzpomínány. V roce 2010 oslaví náš sbor 130 let."</em></div>
+      <a class="press-link" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/napsali-o-nas/chluminsti-dobrovolni-hasici-pred-130_-narozeninami.html" target="_blank">Číst celý článek →</a>
+    </div>
+
+    <div class="press-card">
+      <div class="press-meta"><span>1. dubna 2009</span><span class="press-source">Týdeník Mělnicko</span></div>
+      <div class="press-title">Chlumín vítal jaro netradičním masopustem</div>
+      <div class="press-excerpt">Dne 21. 3. 2009 proběhl v obci Chlumín netradiční masopust s přivítáním jara. Místní sbor dobrovolných hasičů připravil pro zdejší spoluobčany a náhodné kolemjdoucí opravdu bohatý masopustní rej, který byl zakončen v místním hostinci karnevalem pro děti a poté i pro dospělé.</div>
+      <a class="press-link" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/napsali-o-nas/tydenik-melnicko.html" target="_blank">Číst celý článek →</a>
+    </div>
+
+    <div class="press-card">
+      <div class="press-meta"><span>15. října 2008</span><span class="press-source">Týdeník Mělnicko</span></div>
+      <div class="press-title">Netradiční závody hasičů</div>
+      <div class="press-excerpt">V sobotu 11. 10. 2008 proběhla ve Spomyšli netradiční soutěž dobrovolných hasičů. Z pěti pozvaných obcí přijelo devět soutěžních družstev. Hasičského víceboje se účastnily cisternové vozy s osádkou.</div>
+      <a class="press-link" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/napsali-o-nas/tydenik-melnicko-15_10_2008.html" target="_blank">Číst celý článek →</a>
+    </div>
+
+    <div class="press-card">
+      <div class="press-meta"><span>2. července 2008</span><span class="press-source">Týdeník Mělnicko</span></div>
+      <div class="press-title">Chlumín vítal prázdniny – „Hurá na prázdniny 2008"</div>
+      <div class="press-excerpt">Chlumín zažil veselou a pestrou sobotu – místní Sbor dobrovolných hasičů ve spolupráci s Mateřskou a Základní školou v Chlumíně a s tamním Obecním úřadem připravili hezké odpoledne dětem a jejich blízkým – „Přivítání prázdnin pro děti a mládež".</div>
+      <a class="press-link" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/napsali-o-nas/tydenik-melnicko-02_07_2008---akce-hura-na-prazdniny-2008.html" target="_blank">Číst celý článek →</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ČLENOVÉ -->
+<div style="background:var(--ash)" id="clenove">
+<div class="sec" style="padding-top:4rem">
+  <div class="sec-label">Členská základna</div>
+  <h2 class="sec-h2">Seznam členů SDH Chlumín</h2>
+  <p class="sec-lead">Kompletní seznam členů Sboru dobrovolných hasičů obce Chlumín. Členové označení <strong style="color:var(--green)">MH</strong> jsou mladí hasiči do 18 let.</p>
+
+  <div class="member-stats">
+    <div class="mstat"><div class="mstat-n">40</div><div class="mstat-l">Celkem členů</div></div>
+    <div class="mstat"><div class="mstat-n" style="color:var(--green)">16</div><div class="mstat-l">Mladých hasičů</div></div>
+    <div class="mstat"><div class="mstat-n">24</div><div class="mstat-l">Dospělých členů</div></div>
+  </div>
+
+  <div class="search-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="member-search" placeholder="Hledat člena…" oninput="filterMembers(this.value)">
+  </div>
+
+  <div class="member-grid" id="member-grid">
+    <!-- dospělí -->
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Bauerová Eliška</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Bittner Jan</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Bittner Jaroslav</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">👩</div><div><div class="mp-name">Bittnerová Bedřiška</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">👩</div><div><div class="mp-name">Bittnerová Olga</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Bláha Zdeněk</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Bc. Brabec Petr</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Cenkner Robert</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Douša Radek</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Douša Radoslav</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">👩</div><div><div class="mp-name">Doušová Eva</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">👩</div><div><div class="mp-name">Doušová Veronika</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">👩</div><div><div class="mp-name">Hodysová Alena</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Ing. Chlebo Ján</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Martínek Jan</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Petržilka Tomáš</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Bc. Pokorný Václav</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Smrčka Antonín</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Suchánek Jiří</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Štyller Jakub</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Veltruský Antonín</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Veselý Stanislav</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">👩</div><div><div class="mp-name">Volfová Lucie</div></div></div>
+    <div class="member-pill"><div class="mp-avatar">🧑</div><div><div class="mp-name">Vysoký Martin</div></div></div>
+    <!-- mladí hasiči -->
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Baranová Michaela</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Baran Patrik</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Bauer Matyáš</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Bauer Zdeněk</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Bittner Jan</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Bittner Jan ml.</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Bittnerová Adéla</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Bittnerová Veronika</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Burger Filip</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Douša Lukáš</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Janoch Jan</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Janoch Lukáš</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Lipták Antonín</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Martínková Karolína</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Martínková Marie</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Minařík Martin</div><div class="mp-tag">MH</div></div></div>
+    <div class="member-pill mh"><div class="mp-avatar">🧒</div><div><div class="mp-name">Šimonová Markéta</div><div class="mp-tag">MH</div></div></div>
+  </div>
+
+  <div id="no-results" class="hidden" style="padding:2rem;text-align:center;color:var(--silver);font-size:.9rem">Žádný člen nenalezen.</div>
+
+  <div class="legend-strip">
+    <div class="leg"><div class="led" style="background:var(--fire)"></div>Dospělý člen SDH</div>
+    <div class="leg"><div class="led" style="background:var(--green)"></div>Mladý hasič (MH) – do 18 let</div>
+  </div>
+
+  <div style="margin-top:1.5rem;padding:1.1rem 1.4rem;background:var(--smoke);border-radius:4px;font-size:.82rem;color:var(--silver);line-height:1.7">
+    ⚠ Data odpovídají stavu k červnu 2024. Pro aktuální seznam kontaktujte <strong style="color:var(--white)">výbor SDH Chlumín</strong>.
+  </div>
+</div>
+</div>
+
+<footer>
+  <div class="fl">SDH <span>Chlumín</span></div>
+  <p>© 2026 Sbor dobrovolných hasičů Chlumín</p>
+  <div class="flinks">
+    <a href="sdh-chlumin-modern.html">Hlavní web</a>
+    <a href="vybor.html">Výbor SDH</a>
+    <a href="mladi-hasici.html">Mladí hasiči</a>
+  </div>
+</footer>
+
+<script>
+// Tab highlight on scroll
+const sections = ['napsali','clenove'];
+const tabs = document.querySelectorAll('.tab-btn');
+window.addEventListener('scroll', () => {
+  let cur = 'napsali';
+  sections.forEach(id => { const el = document.getElementById(id); if(el && el.getBoundingClientRect().top <= 120) cur = id; });
+  tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === '#'+cur));
+}, {passive:true});
+
+// Member search
+function filterMembers(q) {
+  const term = q.toLowerCase().trim();
+  const pills = document.querySelectorAll('.member-pill');
+  let visible = 0;
+  pills.forEach(p => {
+    const name = p.querySelector('.mp-name').textContent.toLowerCase();
+    const show = !term || name.includes(term);
+    p.classList.toggle('hidden', !show);
+    if(show) visible++;
+  });
+  document.getElementById('no-results').classList.toggle('hidden', visible > 0);
+}
+</script>
+</body>
+</html>

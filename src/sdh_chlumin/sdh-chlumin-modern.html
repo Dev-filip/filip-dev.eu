@@ -166,6 +166,44 @@
   .nc-photos img:hover { opacity: 1; }
   .nc-photo-more { height: 54px; width: 72px; background: var(--smoke); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--silver); flex-shrink: 0; }
 
+  /* ── MODAL AKTUALITY ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center; padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: #1a1a1a; border: 1px solid #2e2e2e;
+    border-radius: 6px; width: 100%; max-width: 720px;
+    max-height: 90vh; display: flex; flex-direction: column;
+    animation: modalIn .25s ease;
+  }
+  @keyframes modalIn { from { opacity:0; transform:translateY(20px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+  .modal-header {
+    padding: 1.25rem 1.5rem; border-bottom: 1px solid #2a2a2a;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+    flex-shrink: 0;
+  }
+  .modal-header-left {}
+  .modal-date { font-family: 'Barlow Condensed', sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--fire); margin-bottom: .35rem; }
+  .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem); letter-spacing: .03em; line-height: 1; color: var(--white); }
+  .modal-close { background: none; border: 1px solid #333; color: var(--silver); width: 36px; height: 36px; border-radius: 4px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .15s; }
+  .modal-close:hover { border-color: var(--fire); color: var(--white); }
+  .modal-body { padding: 1.5rem; overflow-y: auto; flex: 1; }
+  .modal-img { width: 100%; max-height: 340px; object-fit: cover; border-radius: 4px; margin-bottom: 1.25rem; image-rendering: -webkit-optimize-contrast; }
+  .modal-photo-strip { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .modal-photo-strip img { height: 70px; width: 100px; object-fit: cover; border-radius: 3px; cursor: pointer; opacity: .8; transition: opacity .15s; border: 1px solid #333; }
+  .modal-photo-strip img:hover { opacity: 1; border-color: var(--fire); }
+  .modal-text { font-size: .92rem; color: var(--silver); line-height: 1.82; }
+  .modal-text strong { color: var(--white); }
+  .modal-kat { display: inline-block; font-family: 'Barlow Condensed', sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; background: rgba(232,56,13,.12); color: var(--fire); padding: .2rem .6rem; border-radius: 2px; margin-bottom: 1rem; }
+  .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid #2a2a2a; display: flex; gap: .75rem; flex-shrink: 0; flex-wrap: wrap; }
+  .modal-ext-btn { font-family: 'Barlow Condensed', sans-serif; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--coal); background: var(--fire); padding: .55rem 1.25rem; border-radius: 3px; text-decoration: none; transition: background .15s; }
+  .modal-ext-btn:hover { background: var(--fire-glow); }
+  .modal-close-btn { font-family: 'Barlow Condensed', sans-serif; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--silver); background: none; border: 1px solid #333; padding: .55rem 1.25rem; border-radius: 3px; cursor: pointer; transition: all .15s; }
+  .modal-close-btn:hover { border-color: var(--silver); color: var(--white); }
+
   /* MOBILE */
   @media (max-width: 768px) {
     .hero-stats { display: none; }
@@ -199,9 +237,9 @@
   </a>
 </nav>
 
-
 <section class="hero">
-  <div class="hero-bg"></div>  <div class="particles" id="particles"></div>
+  <div class="hero-bg"></div>
+  <div class="particles" id="particles"></div>
   <div class="hero-content">
     <div class="hero-badge">Sbor dobrovolných hasičů · Chlumín · od roku 1880</div>
     <h1 class="hero-title">
@@ -277,17 +315,17 @@
       <h3>Plán akcí</h3>
       <p>Kalendář plánovaných akcí, soutěží a společenských událostí sboru.</p>
     </a>
-    <a class="card-item" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/dokumenty/" target="_blank" style="text-decoration:none;">
+    <a class="card-item" href="dokumenty.html" style="text-decoration:none;">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
       <h3>Dokumenty</h3>
       <p>Stanovy, výroční zprávy a další oficiální dokumenty sboru ke stažení.</p>
     </a>
-    <a class="card-item" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/napsali-o-nas/" target="_blank" style="text-decoration:none;">
+    <a class="card-item" href="o-sboru.html#napsali" style="text-decoration:none;">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
       <h3>Napsali o nás</h3>
       <p>Mediální ohlasy, články z tisku a zmínky o činnosti SDH Chlumín.</p>
     </a>
-    <a class="card-item" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/seznam-clenu-sdh-chlumin/" target="_blank" style="text-decoration:none;">
+    <a class="card-item" href="o-sboru.html#clenove" style="text-decoration:none;">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
       <h3>Členové</h3>
       <p>Seznam členů Sboru dobrovolných hasičů obce Chlumín.</p>
@@ -387,6 +425,21 @@
   </div>
 </section>
 
+<!-- MODAL AKTUALITY -->
+<div class="modal-overlay" id="post-modal" onclick="closeModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="modal-date" id="modal-date"></div>
+        <div class="modal-title" id="modal-title"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
 <footer>
   <div class="footer-logo">SDH <span>Chlumín</span></div>
   <p>© 2026 Sbor dobrovolných hasičů Chlumín</p>
@@ -450,8 +503,9 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// RENDER NEWS
+// RENDER NEWS – cards open modal, not redirect
 let allPosts = [], activeKat = 'vše';
+
 function renderNews(posts) {
   const grid = document.getElementById('news-grid');
   const filtered = activeKat === 'vše' ? posts : posts.filter(p => p.kategorie === activeKat);
@@ -459,36 +513,32 @@ function renderNews(posts) {
     grid.innerHTML = `<div style="grid-column:1/-1;padding:3rem;text-align:center;color:var(--silver);"><p>Žádné příspěvky v této kategorii.</p></div>`;
     return;
   }
-  grid.innerHTML = filtered.map(post => {
+  grid.innerHTML = filtered.map((post, idx) => {
     const fotky = post.fotky || [];
     const hlavniFoto = fotky[0];
-    // Use full-size image URL (swap /mid/ for /img/picture/ for estranky images)
-    function sharpUrl(url) {
-      if (!url) return url;
-      return url.replace('/img/mid/', '/img/picture/');
-    }
+    function sharpUrl(url) { return url ? url.replace('/img/mid/', '/img/picture/') : url; }
     const fotoHtml = hlavniFoto
-      ? `<div class="nc-img"><img src="${sharpUrl(hlavniFoto)}" alt="${post.nadpis}" loading="lazy" onerror="this.src='${hlavniFoto}'" onclick="event.preventDefault();openLightbox(${JSON.stringify(fotky)},0)"></div>`
+      ? `<div class="nc-img"><img src="${sharpUrl(hlavniFoto)}" alt="${post.nadpis}" loading="lazy" onerror="this.src='${hlavniFoto}'" onclick="event.stopPropagation()"></div>`
       : `<div class="nc-img"><div class="nc-no-img">${FIRE_SVG}</div></div>`;
     const thumbsHtml = fotky.length > 1 ? `
       <div class="nc-photos">
-        ${fotky.slice(0,4).map((f,i) => `<img src="${f}" loading="lazy" onclick="event.preventDefault();openLightbox(${JSON.stringify(fotky)},${i})" title="Foto ${i+1}">`).join('')}
+        ${fotky.slice(0,4).map((f,i) => `<img src="${f}" loading="lazy" onclick="event.stopPropagation();openModal(allPosts[${filtered.indexOf(post)}],${i})" title="Foto ${i+1}">`).join('')}
         ${fotky.length > 4 ? `<div class="nc-photo-more">+${fotky.length-4}</div>` : ''}
       </div>` : '';
-    const odkaz = post.odkaz || '#';
     return `
-      <a class="news-card" href="${odkaz}">
+      <div class="news-card" onclick="openModal(allPosts[${allPosts.indexOf(post)}])" style="cursor:pointer;">
         ${fotoHtml}
         <div class="nc-body">
           <div class="nc-date">${formatDate(post.datum)} · <span style="color:var(--silver)">${post.kategorie}</span></div>
           <div class="nc-title">${post.nadpis}</div>
           ${post.perex ? `<div class="nc-excerpt">${post.perex}</div>` : ''}
-          ${post.odkaz ? `<span class="nc-more">Číst více →</span>` : ''}
+          <span class="nc-more">Číst více →</span>
         </div>
         ${thumbsHtml}
-      </a>`;
+      </div>`;
   }).join('');
 }
+
 function filterNews(btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -496,10 +546,54 @@ function filterNews(btn) {
   renderNews(allPosts);
 }
 
+// MODAL
+function openModal(post, fotoIdx) {
+  if (!post) return;
+  const fotky = post.fotky || [];
+  const MESICE_FULL = ['','ledna','února','března','dubna','května','června','července','srpna','září','října','listopadu','prosince'];
+  function fmtFull(d) { const [y,m,day] = d.split('-'); return `${parseInt(day)}. ${MESICE_FULL[parseInt(m)]} ${y}`; }
+  function sharpUrl(url) { return url ? url.replace('/img/mid/', '/img/picture/') : url; }
+
+  document.getElementById('modal-date').textContent = fmtFull(post.datum);
+  document.getElementById('modal-title').textContent = post.nadpis;
+
+  // body
+  let bodyHtml = '';
+  if (fotky.length) {
+    const mainIdx = fotoIdx !== undefined ? fotoIdx : 0;
+    bodyHtml += `<img class="modal-img" id="modal-main-img" src="${sharpUrl(fotky[mainIdx])}" onerror="this.src='${fotky[mainIdx]}'" alt="${post.nadpis}">`;
+    if (fotky.length > 1) {
+      bodyHtml += `<div class="modal-photo-strip">${fotky.map((f,i) => `<img src="${sharpUrl(f)}" onerror="this.src='${f}'" onclick="document.getElementById('modal-main-img').src='${sharpUrl(f)}'" title="Foto ${i+1}">`).join('')}</div>`;
+    }
+  }
+  bodyHtml += `<div class="modal-kat">${post.kategorie}</div>`;
+  if (post.perex) bodyHtml += `<div class="modal-text">${post.perex}</div>`;
+  document.getElementById('modal-body').innerHTML = bodyHtml;
+
+  // footer
+  let footerHtml = '';
+  if (post.odkaz) footerHtml += `<a class="modal-ext-btn" href="${post.odkaz}" target="_blank">🔗 Otevřít celý příspěvek</a>`;
+  footerHtml += `<button class="modal-close-btn" onclick="closeModal()">Zavřít</button>`;
+  document.getElementById('modal-footer').innerHTML = footerHtml;
+
+  document.getElementById('post-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('post-modal')) return;
+  document.getElementById('post-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { document.getElementById('post-modal').classList.remove('open'); document.body.style.overflow = ''; }
+});
+
 // LOAD JSON
 const FALLBACK = [
   { id:1, datum:"2022-05-21", nadpis:"2022 Dědkiáda Velvary", perex:"Zúčastnili jsme se tradiční hasičské soutěže Dědkiáda ve Velvarech.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/277/20220521_111731.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-dedkiada-velvary.html", kategorie:"soutěž" },
-  { id:2, datum:"2022-05-07", nadpis:"2022 Oužická Osma", perex:"Výjezd na oblíbenou soutěž – tradice a bojovný duch.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/276/img-20220508-wa0000.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-ouzicka---osma-.html", kategorie:"soutěž" },
+  { id:2, datum:"2022-05-07", nadpis:"2022 Oužická \\\"Osma\\\"", perex:"Výjezd na oblíbenou soutěž – tradice a bojovný duch.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/276/img-20220508-wa0000.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-ouzicka---osma-.html", kategorie:"soutěž" },
   { id:3, datum:"2021-08-15", nadpis:"Oslava 140(+1). výročí SDH Chlumín", perex:"Slavnostní oslava vzniku sboru s bohatým programem pro celou rodinu.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/273/pozvanka-na-140.-vyroci.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/oslava-140--1-.-vyroci-vzniku-sdh-chlumin.html", kategorie:"společenská akce" },
   { id:4, datum:"2019-11-23", nadpis:"2019 Libišský čtyřboj", perex:"Soutěžní klání čtyřčlenných hasičských družstev v Libiši.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/261/imag6287.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-libissky-ctyrboj.html", kategorie:"soutěž" },
   { id:5, datum:"2019-09-28", nadpis:"Soutěž o pohár starosty Chlumína", perex:"Každoroční domácí soutěž v požárním útoku.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/263/img_4130.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-soutez-v-pu-o-pohar-starosty-obce-chlumin.html", kategorie:"soutěž" }

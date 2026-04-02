@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dokumenty – SDH Chlumín</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--fire:#E8380D;--fire2:#FF6B35;--coal:#111;--ash:#181818;--smoke:#222;--smoke2:#2a2a2a;--border:#252525;--silver:#888;--muted:#4a4a4a;--white:#F4F1ED}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--coal);color:var(--white);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:rgba(17,17,17,.97);border-bottom:1px solid rgba(232,56,13,.2)}
+.nlogo{display:flex;align-items:center;gap:.65rem;text-decoration:none}
+.nlogo svg{width:30px;height:30px}
+.nlogo-t{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.08em;color:var(--white)}.nlogo-t span{color:var(--fire)}
+.nbread{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);display:flex;align-items:center;gap:.4rem}
+.nbread a{color:var(--silver);text-decoration:none}.nbread a:hover{color:var(--white)}.nbread .sep{color:var(--fire)}
+.nback{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coal);background:var(--fire);padding:.35rem .9rem;border-radius:3px;text-decoration:none;transition:background .15s}.nback:hover{background:var(--fire2)}
+
+.hero{position:relative;padding-top:56px;min-height:36vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 75% 25%,rgba(232,56,13,.11) 0%,transparent 60%),linear-gradient(160deg,#0e0605 0%,#111 60%,#141414 100%)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(232,56,13,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(232,56,13,.03) 1px,transparent 1px);background-size:55px 55px;mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 10%,transparent 75%)}
+.hero-c{position:relative;z-index:2;padding:3rem 2rem 3rem;max-width:700px}
+.hlabel{display:inline-flex;align-items:center;gap:.45rem;font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--fire);border:1px solid rgba(232,56,13,.3);padding:.25rem .65rem;border-radius:2px;margin-bottom:.9rem}
+.hlabel::before{content:'';width:5px;height:5px;background:var(--fire);border-radius:50%}
+.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.2rem,9vw,7.5rem);line-height:.88;letter-spacing:.02em}
+.hero-h1 .r{display:block;color:var(--fire)}.hero-h1 .w{display:block;color:var(--white)}
+.hero-sub{margin-top:1rem;font-size:.92rem;font-weight:300;color:var(--silver);max-width:500px;line-height:1.75}.hero-sub strong{color:var(--white)}
+.hdiv{height:2px;background:linear-gradient(90deg,var(--fire),var(--fire2),transparent)}
+
+.page-body{padding:4.5rem 5vw 6rem;max-width:1000px;margin:0 auto}
+.sec-label{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fire);display:flex;align-items:center;gap:.6rem;margin-bottom:.65rem}
+.sec-label::after{content:'';flex:0 0 28px;height:1px;background:var(--fire)}
+.sec-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:.03em;line-height:1;margin-bottom:1.5rem}
+
+/* DOC LIST */
+.doc-group{margin-bottom:3rem}
+.doc-list{display:flex;flex-direction:column;gap:1px}
+.doc-item{background:var(--smoke);display:flex;align-items:center;gap:1rem;padding:.9rem 1.25rem;transition:background .15s;border-left:2px solid transparent;text-decoration:none;color:var(--white)}
+.doc-item:hover{background:var(--smoke2);border-left-color:var(--fire)}
+.doc-icon{width:36px;height:36px;flex-shrink:0;background:rgba(232,56,13,.1);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+.doc-info{flex:1;min-width:0}
+.doc-name{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:600;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-meta{font-size:.73rem;color:var(--silver);margin-top:.15rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:.05em}
+.doc-ext{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.18rem .5rem;border-radius:2px;flex-shrink:0}
+.ext-pdf{background:rgba(239,68,68,.12);color:#f87171}
+.ext-doc{background:rgba(59,130,246,.12);color:#60a5fa}
+.ext-web{background:rgba(232,56,13,.12);color:var(--fire)}
+
+.note{background:var(--smoke);border:1px solid var(--border);border-radius:4px;padding:1.1rem 1.4rem;margin-top:2rem;font-size:.82rem;color:var(--silver);line-height:1.7}
+.note strong{color:var(--white)}
+
+footer{background:#0a0a0a;border-top:1px solid #1a1a1a;padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.fl{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.08em;color:var(--silver)}.fl span{color:var(--fire)}
+footer p{font-size:.72rem;color:var(--muted)}
+.flinks{display:flex;gap:1.4rem}.flinks a{font-size:.72rem;color:var(--muted);text-decoration:none;transition:color .2s}.flinks a:hover{color:var(--silver)}
+@media(max-width:640px){.hero-c{padding:2rem 1.25rem 2.5rem}.page-body{padding:3rem 1.25rem 5rem}.nbread{display:none}nav{padding:0 1rem}.doc-name{font-size:.85rem}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nlogo" href="sdh-chlumin-modern.html"><svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" stroke="#E8380D" stroke-width="1.5"/><path d="M18 6c0 0-6 8-6 14a6 6 0 0 0 12 0c0-6-6-14-6-14z" fill="#E8380D"/><path d="M18 14c0 0-3 4-3 7a3 3 0 0 0 6 0c0-3-3-7-3-7z" fill="#FFC107"/></svg><span class="nlogo-t">SDH <span>Chlumín</span></span></a>
+  <div class="nbread"><a href="sdh-chlumin-modern.html">Úvod</a><span class="sep">›</span><span style="color:var(--white)">Dokumenty</span></div>
+  <a href="sdh-chlumin-modern.html" class="nback">← Zpět</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="hero-c">
+    <div class="hlabel">SDH Chlumín · ke stažení</div>
+    <h1 class="hero-h1"><span class="r">Dokumenty</span><span class="w">SDH Chlumín</span></h1>
+    <p class="hero-sub">Stanovy, výroční zprávy, řády a materiály ke stažení. Dokumenty <strong>SH ČMS</strong> i výroční zprávy SDH Chlumín.</p>
+  </div>
+</div>
+<div class="hdiv"></div>
+
+<div class="page-body">
+
+  <!-- STANOVY & ŘÁDY -->
+  <div class="doc-group">
+    <div class="sec-label">SH ČMS</div>
+    <h2 class="sec-h2">Stanovy a řády</h2>
+    <div class="doc-list">
+      <a class="doc-item" href="http://www.dh.cz" >
+        <div class="doc-icon">🌐</div>
+        <div class="doc-info"><div class="doc-name">Sdružení hasičů Čech, Moravy a Slezska</div><div class="doc-meta">Hlavní stránka SH ČMS · www.dh.cz</div></div>
+        <span class="doc-ext ext-web">Web</span>
+      </a>
+      <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/16/stanovy-shcms-2014.pdf" >
+        <div class="doc-icon">📄</div>
+        <div class="doc-info"><div class="doc-name">Stanovy SH ČMS od 2014</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+      </a>
+      <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/33/stanovy-sh-cms-2017.pdf" >
+        <div class="doc-icon">📄</div>
+        <div class="doc-info"><div class="doc-name">Stanovy SH ČMS od 2017</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+      </a>
+      <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/36/jednac-a-volebn-rad-sh-ms--2018.pdf" >
+        <div class="doc-icon">📄</div>
+        <div class="doc-info"><div class="doc-name">Jednací a volební řád SH ČMS od 2018</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+      </a>
+      <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/35/organizan-rad-zmna-2019.doc" >
+        <div class="doc-icon">📝</div>
+        <div class="doc-info"><div class="doc-name">Organizační řád SH ČMS od 2019</div><div class="doc-meta">DOC dokument</div></div>
+        <span class="doc-ext ext-doc">DOC</span>
+      </a>
+      <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/19/stejnokrojovy-predpis-2016-.pdf" >
+        <div class="doc-icon">📄</div>
+        <div class="doc-info"><div class="doc-name">Stejnokrojový předpis SH ČMS od 2016</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+      </a>
+      <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/34/prirucka-funkcionare-sboru_2019.pdf" >
+        <div class="doc-icon">📄</div>
+        <div class="doc-info"><div class="doc-name">Rukověť funkcionáře SDH 2019</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+      </a>
+    </div>
+    <div class="note">Přílohy k výše uvedeným dokumentům jsou uvedeny na webu <strong>SH ČMS · <a href="http://www.dh.cz"  style="color:var(--fire)">www.dh.cz</a></strong>.</div>
+  </div>
+
+  <!-- VÝROČNÍ ZPRÁVY -->
+  <div class="doc-group">
+    <div class="sec-label">Ze zákona</div>
+    <h2 class="sec-h2">Výroční zprávy SDH Chlumín</h2>
+    <div class="doc-list">
+      <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/32/vyrocni-zprava-sh-cms---sdh-chlumin-2019__vc_hosp.pdf" >
+        <div class="doc-icon">📊</div>
+        <div class="doc-info"><div class="doc-name">Výroční zpráva SDH Chlumín 2019</div><div class="doc-meta">Včetně hospodaření · PDF</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+      </a>
+      <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/29/vyrocni-zprava-sh-cms---sdh-chlumin-2018_.pdf" >
+        <div class="doc-icon">📊</div>
+        <div class="doc-info"><div class="doc-name">Výroční zpráva SDH Chlumín 2018</div><div class="doc-meta">Včetně přehledu o majetku · PDF</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+      </a>
+      <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/26/vyrocni-zprava-sh-cms---sdh-chlumin-2017.pdf" >
+        <div class="doc-icon">📊</div>
+        <div class="doc-info"><div class="doc-name">Výroční zpráva SDH Chlumín 2017</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+      </a>
+      <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/24/vyrocni-zprava-sh-cms---sdh-chlumin-2016_-bez-cisel.pdf" >
+        <div class="doc-icon">📊</div>
+        <div class="doc-info"><div class="doc-name">Výroční zpráva SDH Chlumín 2016</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+      </a>
+      <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/25/prehled-o-majetku-a-zavazcich-2016.pdf" >
+        <div class="doc-icon">📋</div>
+        <div class="doc-info"><div class="doc-name">Přehled o majetku a závazcích 2016</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+      </a>
+      <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/27/prehled-o-majetku-a-zavazcich-sdh-chlumin-2017.pdf" >
+        <div class="doc-icon">📋</div>
+        <div class="doc-info"><div class="doc-name">Přehled o majetku a závazcích SDH Chlumín 2017</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- MATERIÁLY MH -->
+  <div class="doc-group">
+    <div class="sec-label">Mládež</div>
+    <h2 class="sec-h2">Materiály pro mladé hasiče</h2>
+    <div class="doc-list">
+    <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/5/smernice-plamen-2016.pdf" >
+        <div class="doc-icon">📄</div>
+        <div class="doc-info"><div class="doc-name">Směrnice celoroční hry Plamen 2016</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+      </a>
+    <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/9/obrazky-zpv-strelba.pdf" >
+        <div class="doc-icon">📄</div>
+        <div class="doc-info"><div class="doc-name">Schema střelnice pro ZPV</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+          </a>
+    <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/6/topo-znacky.pdf" >
+        <div class="doc-icon">📄</div>
+        <div class="doc-info"><div class="doc-name">Topografické značky od 2016</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+          </a>
+     <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/7/obrazky-zpv-po.pdf" >
+        <div class="doc-icon">📄</div>
+        <div class="doc-info"><div class="doc-name">Požární ochrana pro ZPV</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+          </a>
+    <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/13/uzle.jpg" target="_blank">
+       <div class="doc-icon">📄</div>
+       <div class="doc-info"><div class="doc-name">Základní uzle</div><div class="doc-meta">PDF dokument</div></div>
+       <span class="doc-ext ext-pdf">PDF</span>
+        </a>
+    <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/30/graficke-znacky-technickych-prostredku-po.pdf" >
+        <div class="doc-icon">📄</div>
+        <div class="doc-info"><div class="doc-name">Grafické značky technických prostředků PO</div><div class="doc-meta">PDF dokument</div></div>
+        <span class="doc-ext ext-pdf">PDF</span>
+          </a>
+        <a class="doc-item" href="https://sdh-chlumin.estranky.cz/file/31/topografie_obrazky_libissky-4boj.pdf" >
+            <div class="doc-icon">📄</div>
+            <div class="doc-info"><div class="doc-name">Topografické značky pro Libišský čtyřboj</div><div class="doc-meta">PDF dokument</div></div>
+            <span class="doc-ext ext-pdf">PDF</span>
+        </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="fl">SDH <span>Chlumín</span></div>
+  <p>© 2026 Sbor dobrovolných hasičů Chlumín</p>
+  <div class="flinks">
+    <a href="sdh-chlumin-modern.html">Hlavní web</a>
+    <a href="vybor.html">Výbor SDH</a>
+    <a href="mladi-hasici.html">Mladí hasiči</a>
+  </div>
+</footer>
+</body>
+</html>
