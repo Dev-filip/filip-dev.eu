@@ -8,483 +8,165 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --fire: #E8380D;
-    --fire-dark: #B52A06;
-    --fire-glow: #FF6B35;
-    --coal: #141414;
-    --ash: #1E1E1E;
-    --smoke: #2C2C2C;
-    --silver: #A0A0A0;
-    --white: #F5F2EE;
-    --accent: #FFC107;
+    --fire: #E8380D; --fire-dark: #B52A06; --fire-glow: #FF6B35;
+    --coal: #141414; --ash: #1E1E1E; --smoke: #2C2C2C;
+    --silver: #A0A0A0; --white: #F5F2EE; --accent: #FFC107;
   }
-
   html { scroll-behavior: smooth; }
+  body { font-family: 'Barlow', sans-serif; background: var(--coal); color: var(--white); overflow-x: hidden; }
 
-  body {
-    font-family: 'Barlow', sans-serif;
-    background: var(--coal);
-    color: var(--white);
-    overflow-x: hidden;
-  }
-
-  /* ─── NAV ─── */
+  /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 2.5rem;
-    height: 64px;
-    background: rgba(20,20,20,0.92);
-    backdrop-filter: blur(12px);
+    padding: 0 2.5rem; height: 64px;
+    background: rgba(20,20,20,0.92); backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(232,56,13,0.25);
   }
-
-  .nav-logo {
-    display: flex; align-items: center; gap: 0.75rem;
-    text-decoration: none;
-  }
+  .nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
   .nav-logo svg { width: 36px; height: 36px; }
-  .nav-logo-text {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.35rem;
-    color: var(--white);
-    letter-spacing: 0.08em;
-    line-height: 1;
-  }
+  .nav-logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem; color: var(--white); letter-spacing: 0.08em; line-height: 1; }
   .nav-logo-text span { color: var(--fire); }
-
   .nav-links { display: flex; gap: 0.25rem; }
-  .nav-links a {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--silver);
-    text-decoration: none;
-    padding: 0.4rem 0.75rem;
-    border-radius: 4px;
-    transition: color 0.2s, background 0.2s;
-  }
+  .nav-links a { font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--silver); text-decoration: none; padding: 0.4rem 0.75rem; border-radius: 4px; transition: color 0.2s, background 0.2s; }
   .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.07); }
   .nav-links a.active { color: var(--fire); }
-
-  .nav-emergency {
-    display: flex; align-items: center; gap: 0.5rem;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.8rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--coal);
-    background: var(--fire);
-    padding: 0.45rem 1rem;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
+  .nav-emergency { display: flex; align-items: center; gap: 0.5rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--coal); background: var(--fire); padding: 0.45rem 1rem; border-radius: 4px; text-decoration: none; transition: background 0.2s; }
   .nav-emergency:hover { background: var(--fire-glow); }
 
-  /* ─── HERO ─── */
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex; align-items: flex-end;
-    overflow: hidden;
-  }
-
-  .hero-bg {
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(232,56,13,0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(180,40,6,0.12) 0%, transparent 60%),
-      linear-gradient(175deg, #1a0a06 0%, #0e0e0e 50%, #141414 100%);
-  }
-
-  /* Animated fire particles */
+  /* HERO */
+  .hero { position: relative; min-height: 100vh; display: flex; align-items: flex-end; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 70% 40%, rgba(232,56,13,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 60% at 20% 80%, rgba(180,40,6,0.12) 0%, transparent 60%), linear-gradient(175deg, #1a0a06 0%, #0e0e0e 50%, #141414 100%); }
   .particles { position: absolute; inset: 0; pointer-events: none; }
-  .particle {
-    position: absolute; bottom: 0;
-    width: 3px; height: 3px;
-    border-radius: 50%;
-    background: var(--fire);
-    animation: rise linear infinite;
-    opacity: 0;
-  }
-  @keyframes rise {
-    0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; }
-    50%  { transform: translateY(-40vh) translateX(var(--drift)) scale(0.6); opacity: 0.4; }
-    100% { transform: translateY(-90vh) translateX(calc(var(--drift)*2)) scale(0.1); opacity: 0; }
-  }
-
-  .hero-content {
-    position: relative; z-index: 2;
-    padding: 0 5vw 8vh;
-    max-width: 900px;
-  }
-
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.75rem; font-weight: 700;
-    letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--fire);
-    border: 1px solid rgba(232,56,13,0.4);
-    padding: 0.35rem 0.85rem;
-    border-radius: 2px;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.8s ease both;
-  }
-  .hero-badge::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--fire);
-    border-radius: 50%;
-    animation: pulse 1.5s ease infinite;
-  }
+  .particle { position: absolute; bottom: 0; width: 3px; height: 3px; border-radius: 50%; background: var(--fire); animation: rise linear infinite; opacity: 0; }
+  @keyframes rise { 0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; } 50% { transform: translateY(-40vh) translateX(var(--drift)) scale(0.6); opacity: 0.4; } 100% { transform: translateY(-90vh) translateX(calc(var(--drift)*2)) scale(0.1); opacity: 0; } }
+  .hero-content { position: relative; z-index: 2; padding: 0 5vw 8vh; max-width: 900px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fire); border: 1px solid rgba(232,56,13,0.4); padding: 0.35rem 0.85rem; border-radius: 2px; margin-bottom: 1.5rem; animation: fadeUp 0.8s ease both; }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--fire); border-radius: 50%; animation: pulse 1.5s ease infinite; }
   @keyframes pulse { 0%,100% { opacity:1; transform: scale(1); } 50% { opacity:0.5; transform: scale(1.5); } }
-
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(4rem, 12vw, 10rem);
-    line-height: 0.88;
-    letter-spacing: 0.02em;
-    color: var(--white);
-    animation: fadeUp 0.8s 0.15s ease both;
-  }
-  .hero-title em {
-    display: block;
-    font-style: normal;
-    color: var(--fire);
-    -webkit-text-stroke: 1px var(--fire);
-  }
-  .hero-title .outline {
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(245,242,238,0.25);
-  }
-
-  .hero-sub {
-    margin-top: 1.5rem;
-    font-size: 1.1rem;
-    font-weight: 300;
-    color: var(--silver);
-    max-width: 480px;
-    line-height: 1.7;
-    animation: fadeUp 0.8s 0.3s ease both;
-  }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 12vw, 10rem); line-height: 0.88; letter-spacing: 0.02em; color: var(--white); animation: fadeUp 0.8s 0.15s ease both; }
+  .hero-title em { display: block; font-style: normal; color: var(--fire); -webkit-text-stroke: 1px var(--fire); }
+  .hero-title .outline { color: transparent; -webkit-text-stroke: 1px rgba(245,242,238,0.25); }
+  .hero-sub { margin-top: 1.5rem; font-size: 1.1rem; font-weight: 300; color: var(--silver); max-width: 480px; line-height: 1.7; animation: fadeUp 0.8s 0.3s ease both; }
   .hero-sub strong { color: var(--white); font-weight: 500; }
-
-  .hero-cta {
-    margin-top: 2.5rem;
-    display: flex; gap: 1rem; flex-wrap: wrap;
-    animation: fadeUp 0.8s 0.45s ease both;
-  }
-  .btn-primary {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.95rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--coal);
-    background: var(--fire);
-    padding: 0.85rem 2rem;
-    border-radius: 3px;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.2s;
-  }
+  .hero-cta { margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.8s 0.45s ease both; }
+  .btn-primary { font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--coal); background: var(--fire); padding: 0.85rem 2rem; border-radius: 3px; text-decoration: none; transition: background 0.2s, transform 0.2s; }
   .btn-primary:hover { background: var(--fire-glow); transform: translateY(-2px); }
-  .btn-outline {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.95rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--white);
-    border: 1px solid rgba(245,242,238,0.25);
-    padding: 0.85rem 2rem;
-    border-radius: 3px;
-    text-decoration: none;
-    transition: border-color 0.2s, background 0.2s;
-  }
+  .btn-outline { font-family: 'Barlow Condensed', sans-serif; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); border: 1px solid rgba(245,242,238,0.25); padding: 0.85rem 2rem; border-radius: 3px; text-decoration: none; transition: border-color 0.2s, background 0.2s; }
   .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.05); }
-
-  .hero-stats {
-    position: absolute; right: 5vw; bottom: 8vh;
-    display: flex; flex-direction: column; gap: 1.5rem;
-    z-index: 2;
-    animation: fadeLeft 0.8s 0.6s ease both;
-  }
-  .stat {
-    text-align: right;
-    border-right: 2px solid var(--fire);
-    padding-right: 1rem;
-  }
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.5rem;
-    color: var(--white);
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--silver);
-  }
-
+  .hero-stats { position: absolute; right: 5vw; bottom: 8vh; display: flex; flex-direction: column; gap: 1.5rem; z-index: 2; animation: fadeLeft 0.8s 0.6s ease both; }
+  .stat { text-align: right; border-right: 2px solid var(--fire); padding-right: 1rem; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--white); line-height: 1; }
+  .stat-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--silver); }
   @keyframes fadeUp  { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
   @keyframes fadeLeft{ from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
 
-  /* ─── DIVIDER ─── */
-  .divider {
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--fire), var(--fire-glow), var(--fire), transparent);
-  }
+  /* DIVIDER */
+  .divider { height: 3px; background: linear-gradient(90deg, transparent, var(--fire), var(--fire-glow), var(--fire), transparent); }
 
-  /* ─── SECTION COMMON ─── */
+  /* SECTIONS */
   section { padding: 6rem 5vw; }
-  .section-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.75rem; font-weight: 700;
-    letter-spacing: 0.2em; text-transform: uppercase;
-    color: var(--fire);
-    margin-bottom: 0.75rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
+  .section-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fire); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem; }
   .section-label::after { content: ''; flex: 0 0 40px; height: 1px; background: var(--fire); }
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    letter-spacing: 0.03em;
-    line-height: 1;
-    margin-bottom: 1rem;
-  }
-  .section-desc {
-    font-size: 1rem;
-    font-weight: 300;
-    color: var(--silver);
-    max-width: 560px;
-    line-height: 1.75;
-  }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 0.03em; line-height: 1; margin-bottom: 1rem; }
+  .section-desc { font-size: 1rem; font-weight: 300; color: var(--silver); max-width: 560px; line-height: 1.75; }
 
-  /* ─── AKTUALITY ─── */
+  /* NEWS */
   .news { background: var(--ash); }
   .news-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem; }
   .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5px; }
 
-  .news-card {
-    background: var(--smoke);
-    overflow: hidden;
-    position: relative;
-    text-decoration: none;
-    display: block;
-    transition: transform 0.3s;
-  }
+  .news-card { background: var(--smoke); overflow: hidden; position: relative; text-decoration: none; display: block; transition: transform 0.3s; }
   .news-card:hover { transform: translateY(-4px); }
-  .news-card:hover .nc-img img { transform: scale(1.05); }
-  .nc-img { height: 220px; overflow: hidden; background: var(--coal); position: relative; }
-  .nc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; display: block; }
-  .nc-img::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(20,20,20,0.7) 0%, transparent 50%);
+  .news-card:hover .nc-img img { transform: scale(1.04); }
+
+  /* ── IMAGE FIX: taller container, sharp rendering, no upscale blur ── */
+  .nc-img {
+    height: 250px; overflow: hidden; background: var(--coal); position: relative;
   }
-  .nc-no-img {
+  .nc-img img {
     width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, #1a0a06, #2C2C2C);
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+    transition: transform 0.5s ease;
+    /* Prevent browser upscaling blur */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimizeQuality;
+    /* Force GPU compositing for crisp display */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
+  .nc-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(20,20,20,0.65) 0%, transparent 55%); }
+  .nc-no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a0a06, #2C2C2C); }
   .nc-no-img svg { width: 60px; height: 60px; opacity: 0.15; }
   .nc-body { padding: 1.25rem 1.5rem 1.5rem; }
-  .nc-date {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.72rem; font-weight: 700;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--fire);
-    margin-bottom: 0.5rem;
-  }
-  .nc-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1.15rem; font-weight: 600;
-    color: var(--white);
-    line-height: 1.35;
-    margin-bottom: 0.6rem;
-  }
+  .nc-date { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fire); margin-bottom: 0.5rem; }
+  .nc-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.15rem; font-weight: 600; color: var(--white); line-height: 1.35; margin-bottom: 0.6rem; }
   .nc-excerpt { font-size: 0.85rem; color: var(--silver); line-height: 1.65; }
-  .nc-more {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    margin-top: 1rem;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.8rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--fire);
-  }
+  .nc-more { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fire); }
 
-  /* ─── INFO SECTIONS ─── */
-  .info-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    min-height: 500px;
-  }
-  .info-split .left {
-    background: var(--coal);
-    padding: 5rem 4vw;
-    display: flex; flex-direction: column; justify-content: center;
-  }
-  .info-split .right {
-    background: var(--fire);
-    padding: 5rem 4vw;
-    display: flex; flex-direction: column; justify-content: center;
-  }
+  /* INFO SPLIT */
+  .info-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 500px; }
+  .info-split .left { background: var(--coal); padding: 5rem 4vw; display: flex; flex-direction: column; justify-content: center; }
+  .info-split .right { background: var(--fire); padding: 5rem 4vw; display: flex; flex-direction: column; justify-content: center; }
   .info-split .right .section-label { color: var(--coal); }
   .info-split .right .section-label::after { background: var(--coal); }
   .info-split .right .section-title { color: var(--coal); }
   .info-split .right .section-desc { color: rgba(20,20,20,0.75); }
-  .info-split .right a { color: var(--coal); font-weight: 700; }
 
-  /* ─── CARDS ROW ─── */
+  /* CARDS */
   .cards-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1px; margin-top: 3rem; }
-  .card-item {
-    background: var(--smoke);
-    padding: 2rem 1.5rem;
-    border-top: 2px solid transparent;
-    transition: border-color 0.2s, background 0.2s;
-  }
+  .card-item { background: var(--smoke); padding: 2rem 1.5rem; border-top: 2px solid transparent; transition: border-color 0.2s, background 0.2s; }
   .card-item:hover { border-color: var(--fire); background: #222; }
-  .card-icon {
-    width: 44px; height: 44px;
-    background: rgba(232,56,13,0.1);
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 1.25rem;
-  }
+  .card-icon { width: 44px; height: 44px; background: rgba(232,56,13,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
   .card-icon svg { width: 22px; height: 22px; }
-  .card-item h3 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1rem; font-weight: 700;
-    letter-spacing: 0.05em; text-transform: uppercase;
-    color: var(--white);
-    margin-bottom: 0.6rem;
-  }
+  .card-item h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--white); margin-bottom: 0.6rem; }
   .card-item p { font-size: 0.85rem; color: var(--silver); line-height: 1.6; }
 
-  /* ─── LINKS ─── */
+  /* LINKS */
   .links-section { background: var(--ash); }
   .links-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1px; margin-top: 2.5rem; }
-  .link-item {
-    background: var(--smoke);
-    padding: 1.1rem 1.25rem;
-    display: flex; align-items: center; gap: 0.75rem;
-    text-decoration: none;
-    color: var(--silver);
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: background 0.2s, color 0.2s;
-    border-left: 2px solid transparent;
-  }
+  .link-item { background: var(--smoke); padding: 1.1rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--silver); font-size: 0.85rem; font-weight: 500; transition: background 0.2s, color 0.2s; border-left: 2px solid transparent; }
   .link-item:hover { background: #252525; color: var(--white); border-left-color: var(--fire); }
   .link-item svg { width: 14px; height: 14px; flex-shrink: 0; opacity: 0.5; }
 
-  /* ─── CONTACT ─── */
+  /* CONTACT */
   .contact { background: var(--coal); }
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    margin-top: 3rem;
-  }
-  .contact-info h3 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 1rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--fire);
-    margin-bottom: 1.25rem;
-  }
-  .contact-row {
-    display: flex; align-items: flex-start; gap: 0.85rem;
-    margin-bottom: 1.1rem;
-  }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
+  .contact-info h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fire); margin-bottom: 1.25rem; }
+  .contact-row { display: flex; align-items: flex-start; gap: 0.85rem; margin-bottom: 1.1rem; }
   .contact-row svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; }
   .contact-row span { font-size: 0.9rem; color: var(--silver); line-height: 1.5; }
   .contact-row strong { color: var(--white); display: block; font-weight: 500; }
-
-  .paleni-box {
-    background: var(--smoke);
-    border: 1px solid rgba(232,56,13,0.3);
-    border-radius: 4px;
-    padding: 2rem;
-  }
-  .paleni-box h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
-    color: var(--fire);
-    margin-bottom: 0.75rem;
-  }
+  .paleni-box { background: var(--smoke); border: 1px solid rgba(232,56,13,0.3); border-radius: 4px; padding: 2rem; }
+  .paleni-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--fire); margin-bottom: 0.75rem; }
   .paleni-box p { font-size: 0.9rem; color: var(--silver); line-height: 1.65; margin-bottom: 1.25rem; }
-  .paleni-box a {
-    display: inline-block;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.85rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--coal);
-    background: var(--fire);
-    padding: 0.65rem 1.5rem;
-    border-radius: 3px;
-    text-decoration: none;
-  }
+  .paleni-box a { display: inline-block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--coal); background: var(--fire); padding: 0.65rem 1.5rem; border-radius: 3px; text-decoration: none; }
 
-  /* ─── FOOTER ─── */
-  footer {
-    background: #0c0c0c;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 2.5rem 5vw;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  .footer-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.1rem;
-    letter-spacing: 0.08em;
-    color: var(--silver);
-  }
+  /* FOOTER */
+  footer { background: #0c0c0c; border-top: 1px solid rgba(255,255,255,0.06); padding: 2.5rem 5vw; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.08em; color: var(--silver); }
   .footer-logo span { color: var(--fire); }
   footer p { font-size: 0.78rem; color: #555; }
   .footer-links { display: flex; gap: 1.5rem; }
   .footer-links a { font-size: 0.78rem; color: #555; text-decoration: none; transition: color 0.2s; }
   .footer-links a:hover { color: var(--silver); }
 
-  /* ─── FILTER BTNS ─── */
-  .filter-btn {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.75rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    background: var(--smoke); color: var(--silver);
-    border: 1px solid #333; padding: 0.4rem 0.9rem;
-    border-radius: 3px; cursor: pointer; transition: all 0.2s;
-  }
+  /* FILTER */
+  .filter-btn { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: var(--smoke); color: var(--silver); border: 1px solid #333; padding: 0.4rem 0.9rem; border-radius: 3px; cursor: pointer; transition: all 0.2s; }
   .filter-btn:hover { border-color: var(--fire); color: var(--white); }
   .filter-btn.active { background: var(--fire); color: var(--coal); border-color: var(--fire); }
 
-  /* ─── FOTKY V KARTIČCE ─── */
-  .nc-photos {
-    display: flex; gap: 3px; padding: 0 1.5rem 1rem;
-    overflow-x: auto;
-  }
-  .nc-photos img {
-    height: 54px; width: 72px; object-fit: cover;
-    border-radius: 3px; cursor: pointer; opacity: 0.8;
-    transition: opacity 0.2s; flex-shrink: 0;
-  }
+  /* PHOTO STRIP */
+  .nc-photos { display: flex; gap: 3px; padding: 0 1.5rem 1rem; overflow-x: auto; }
+  .nc-photos img { height: 54px; width: 72px; object-fit: cover; border-radius: 3px; cursor: pointer; opacity: 0.8; transition: opacity 0.2s; flex-shrink: 0; image-rendering: -webkit-optimize-contrast; }
   .nc-photos img:hover { opacity: 1; }
-  .nc-photo-more {
-    height: 54px; width: 72px; background: var(--smoke);
-    border-radius: 3px; display: flex; align-items: center; justify-content: center;
-    font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700;
-    color: var(--silver); flex-shrink: 0;
-  }
+  .nc-photo-more { height: 54px; width: 72px; background: var(--smoke); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--silver); flex-shrink: 0; }
 
-  /* ─── MOBILE ─── */
+  /* MOBILE */
   @media (max-width: 768px) {
     .hero-stats { display: none; }
     .nav-links { display: none; }
@@ -498,14 +180,9 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a class="nav-logo" href="#">
-    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="18" cy="18" r="17" stroke="#E8380D" stroke-width="1.5"/>
-      <path d="M18 6C18 6 12 14 12 20C12 23.3 14.7 26 18 26C21.3 26 24 23.3 24 20C24 14 18 6 18 6Z" fill="#E8380D"/>
-      <path d="M18 14C18 14 15 18 15 21C15 22.7 16.3 24 18 24C19.7 24 21 22.7 21 21C21 18 18 14 18 14Z" fill="#FFC107"/>
-    </svg>
+    <svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" stroke="#E8380D" stroke-width="1.5"/><path d="M18 6C18 6 12 14 12 20C12 23.3 14.7 26 18 26C21.3 26 24 23.3 24 20C24 14 18 6 18 6Z" fill="#E8380D"/><path d="M18 14C18 14 15 18 15 21C15 22.7 16.3 24 18 24C19.7 24 21 22.7 21 21C21 18 18 14 18 14Z" fill="#FFC107"/></svg>
     <span class="nav-logo-text">SDH <span>Chlumín</span></span>
   </a>
   <div class="nav-links">
@@ -516,17 +193,15 @@
     <a href="#mladi">Mladí hasiči</a>
     <a href="#kontakt">Kontakt</a>
   </div>
-  <a href="https://sdh-chlumin.estranky.cz/clanky/evidence-paleni/" class="nav-emergency" >
+  <a href="https://sdh-chlumin.estranky.cz/clanky/evidence-paleni/" class="nav-emergency" target="_blank">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2c0 0-5 7-5 12a5 5 0 0 0 10 0c0-5-5-12-5-12z"/></svg>
     Evidence pálení
   </a>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="particles" id="particles"></div>
 
+<section class="hero">
+  <div class="hero-bg"></div>  <div class="particles" id="particles"></div>
   <div class="hero-content">
     <div class="hero-badge">Sbor dobrovolných hasičů · Chlumín · od roku 1880</div>
     <h1 class="hero-title">
@@ -534,29 +209,16 @@
       <em>životy</em>
       a majetek
     </h1>
-    <p class="hero-sub">
-      <strong>Dobrovolní hasiči z Chlumína</strong> – sloužíme obci a okolí přes 140 let.
-      Profesionálně připravená jednotka, výcvik mladé generace a silná komunita.
-    </p>
+    <p class="hero-sub"><strong>Dobrovolní hasiči z Chlumína</strong> – sloužíme obci a okolí přes 140 let. Profesionálně připravená jednotka, výcvik mladé generace a silná komunita.</p>
     <div class="hero-cta">
       <a href="#aktuality" class="btn-primary">Novinky ze sboru</a>
-      <a href="https://sdh-chlumin.estranky.cz/clanky/jednotka-sdh-chlumin/nabor-hasicu-do-jednotky-sdh/" class="btn-outline" >Přidejte se k nám</a>
+      <a href="jednotka.html#nabor" class="btn-outline">Přidejte se k nám</a>
     </div>
   </div>
-
   <div class="hero-stats">
-    <div class="stat">
-      <div class="stat-num">140+</div>
-      <div class="stat-label">let tradice</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">24/7</div>
-      <div class="stat-label">pohotovost</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">150</div>
-      <div class="stat-label">členů SDH</div>
-    </div>
+    <div class="stat"><div class="stat-num">140+</div><div class="stat-label">let tradice</div></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">pohotovost</div></div>
+    <div class="stat"><div class="stat-num">150</div><div class="stat-label">členů SDH</div></div>
   </div>
 </section>
 
@@ -579,13 +241,13 @@
     </div>
   </div>
   <div class="news-grid" id="news-grid">
-    <!-- dynamicky plněno z prispevky.json -->
     <div style="grid-column:1/-1;padding:3rem;text-align:center;color:var(--silver);">
       <span style="font-size:2rem;">🔥</span>
       <p style="margin-top:0.5rem;font-size:0.9rem;">Načítám příspěvky…</p>
     </div>
   </div>
-  <div id="lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;">
+  <!-- LIGHTBOX -->
+  <div id="lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:1rem;">
     <button onclick="closeLightbox()" style="position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:white;font-size:2rem;cursor:pointer;">✕</button>
     <button id="lb-prev" onclick="lbNav(-1)" style="position:absolute;left:1.5rem;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.1);border:none;color:white;font-size:1.5rem;cursor:pointer;padding:0.75rem;border-radius:4px;">‹</button>
     <img id="lb-img" src="" style="max-width:90vw;max-height:80vh;object-fit:contain;border-radius:4px;">
@@ -595,51 +257,38 @@
 </section>
 
 <!-- O NÁS -->
-<section id="o-nas" style="background: var(--coal); padding: 6rem 5vw;">
+<section id="o-nas" style="background:var(--coal);padding:6rem 5vw;">
   <div class="section-label">Náš sbor</div>
   <h2 class="section-title">Co tvoří SDH Chlumín</h2>
   <p class="section-desc">Sbor dobrovolných hasičů Chlumín je více než jen zásahová jednotka – je to komunita lidí, kteří se starají o bezpečnost a pohodu své obce.</p>
-
   <div class="cards-row">
-    <a class="card-item" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/historie/"  style="text-decoration:none;">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-      </div>
+    <a class="card-item" href="historie.html" style="text-decoration:none;">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
       <h3>Historie</h3>
       <p>Sbor byl založen roku 1880. Více než 140 let tradice a služby obci Chlumín.</p>
     </a>
-    <a class="card-item" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/vybor-sdh-chlumin/"  style="text-decoration:none;">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      </div>
+    <a class="card-item" href="vybor.html" style="text-decoration:none;">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
       <h3>Výbor SDH</h3>
       <p>Vedení a výbor sboru zodpovědný za chod a rozvoj SDH Chlumín.</p>
     </a>
-    <a class="card-item" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/plan-akci/"  style="text-decoration:none;">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      </div>
+    <a class="card-item" href="plan-akci.html" style="text-decoration:none;">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
       <h3>Plán akcí</h3>
       <p>Kalendář plánovaných akcí, soutěží a společenských událostí sboru.</p>
     </a>
-    <a class="card-item" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/dokumenty/"  style="text-decoration:none;">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-      </div>
+    <a class="card-item" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/dokumenty/" target="_blank" style="text-decoration:none;">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
       <h3>Dokumenty</h3>
       <p>Stanovy, výroční zprávy a další oficiální dokumenty sboru ke stažení.</p>
     </a>
-    <a class="card-item" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/napsali-o-nas/"  style="text-decoration:none;">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </div>
+    <a class="card-item" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/napsali-o-nas/" target="_blank" style="text-decoration:none;">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
       <h3>Napsali o nás</h3>
       <p>Mediální ohlasy, články z tisku a zmínky o činnosti SDH Chlumín.</p>
     </a>
-    <a class="card-item" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/seznam-clenu-sdh-chlumin/"  style="text-decoration:none;">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-      </div>
+    <a class="card-item" href="https://sdh-chlumin.estranky.cz/clanky/sdh-chlumin/seznam-clenu-sdh-chlumin/" target="_blank" style="text-decoration:none;">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
       <h3>Členové</h3>
       <p>Seznam členů Sboru dobrovolných hasičů obce Chlumín.</p>
     </a>
@@ -652,26 +301,26 @@
     <div class="section-label">Zásahová složka</div>
     <h2 class="section-title">Jednotka SDH Chlumín</h2>
     <p class="section-desc">Profesionálně vybavená a vycvičená jednotka připravená zasáhnout při každé mimořádné události v obci i okolí. Technika, výcvik, připravenost.</p>
-    <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+    <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
       <a href="jednotka.html" class="btn-primary">Více o jednotce</a>
     </div>
   </div>
   <div class="right" style="display:flex;flex-direction:column;justify-content:center;align-items:flex-start;">
     <div class="section-label">Buď jedním z nás</div>
     <h2 class="section-title" style="color:var(--coal);">Hledáme nové hasiče</h2>
-    <p class="section-desc">Zajímáš se o požární ochranu a chceš aktivně pomáhat? Přidej se k nám! Nabízíme odborný výcvik, skvělý tým a smysluplnou práci pro obec.</p>
-    <a href="jednotka.html#nabor" style="display:inline-block; margin-top:2rem; font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--coal); background:rgba(20,20,20,0.12); border:2px solid var(--coal); padding:0.85rem 2rem; border-radius:3px; text-decoration:none;">Mám zájem →</a>
+    <p class="section-desc" style="color:rgba(20,20,20,0.75);">Zajímáš se o požární ochranu a chceš aktivně pomáhat? Přidej se k nám! Nabízíme odborný výcvik, skvělý tým a smysluplnou práci pro obec.</p>
+    <a href="jednotka.html#nabor" style="display:inline-block;margin-top:2rem;font-family:'Barlow Condensed',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--coal);background:rgba(20,20,20,0.12);border:2px solid var(--coal);padding:0.85rem 2rem;border-radius:3px;text-decoration:none;">Mám zájem →</a>
   </div>
 </div>
 
 <!-- MLADÍ HASIČI -->
-<section id="mladi" style="background: var(--ash); padding: 6rem 5vw;">
+<section id="mladi" style="background:var(--ash);padding:6rem 5vw;">
   <div class="section-label">Budoucnost sboru</div>
   <h2 class="section-title">Mladí hasiči</h2>
   <p class="section-desc">Vychováváme novou generaci hasičů – sportem, výchovou a zábavnými aktivitami. Soutěže, výlety, soustředění a kamarádi na celý život.</p>
-  <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
-    <a href="mladihasici.html"  class="btn-primary">Více o mladých hasičích</a>
-    <a href="https://sdh-chlumin.estranky.cz/fotoalbum/souteze/"  class="btn-outline">Fotky ze soutěží</a>
+  <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+    <a href="mladi-hasici.html" class="btn-primary">Více o mladých hasičích</a>
+    <a href="https://sdh-chlumin.estranky.cz/fotoalbum/souteze/" target="_blank" class="btn-outline">Fotky ze soutěží</a>
   </div>
 </section>
 
@@ -680,54 +329,18 @@
   <div class="section-label">Užitečné weby</div>
   <h2 class="section-title">Oblíbené odkazy</h2>
   <div class="links-grid">
-    <a class="link-item" href="http://www.hzscr.cz" >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      Hasičský záchranný sbor ČR
-    </a>
-    <a class="link-item" href="http://www.hasik.cz" >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      Hasík.cz
-    </a>
-    <a class="link-item" href="http://www.zachrannykruh.cz" >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      Záchranný kruh
-    </a>
-    <a class="link-item" href="http://www.chlumin.cz" >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      Obec Chlumín
-    </a>
-    <a class="link-item" href="http://www.volny.cz/zschlumin" >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      ZŠ a MŠ Chlumín
-    </a>
-    <a class="link-item" href="http://www.pozary.cz" >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      Požáry.cz
-    </a>
-    <a class="link-item" href="http://www.komoravelitelu.cz/" >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      Komora velitelů JSDH
-    </a>
-    <a class="link-item" href="http://www.policie.cz/" >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      Policie ČR
-    </a>
-    <a class="link-item" href="http://www.uszssk.cz/" >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      Záchranná služba Stř. kraje
-    </a>
-    <a class="link-item" href="http://www.cervenykriz.eu/cz/cz_root.aspx" >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      Český červený kříž
-    </a>
-    <a class="link-item" href="http://www.dh.cz" >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      SH ČMS
-    </a>
-    <a class="link-item" href="https://sdh-chlumin.estranky.cz/clanky/evidence-paleni/" >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      Evidence pálení
-    </a>
+    <a class="link-item" href="http://www.hzscr.cz" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Hasičský záchranný sbor ČR</a>
+    <a class="link-item" href="http://www.hasik.cz" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Hasík.cz</a>
+    <a class="link-item" href="http://www.zachrannykruh.cz" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Záchranný kruh</a>
+    <a class="link-item" href="http://www.chlumin.cz" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Obec Chlumín</a>
+    <a class="link-item" href="http://www.volny.cz/zschlumin" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>ZŠ a MŠ Chlumín</a>
+    <a class="link-item" href="http://www.pozary.cz" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Požáry.cz</a>
+    <a class="link-item" href="http://www.komoravelitelu.cz/" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Komora velitelů JSDH</a>
+    <a class="link-item" href="http://www.policie.cz/" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Policie ČR</a>
+    <a class="link-item" href="http://www.uszssk.cz/" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Záchranná služba Stř. kraje</a>
+    <a class="link-item" href="http://www.cervenykriz.eu/cz/cz_root.aspx" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Český červený kříž</a>
+    <a class="link-item" href="http://www.dh.cz" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>SH ČMS</a>
+    <a class="link-item" href="https://sdh-chlumin.estranky.cz/clanky/evidence-paleni/" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Evidence pálení</a>
   </div>
 </section>
 
@@ -735,203 +348,166 @@
 <section class="contact" id="kontakt">
   <div class="section-label">Spojte se s námi</div>
   <h2 class="section-title">Kontakt</h2>
-
   <div class="contact-grid">
     <div class="contact-info">
       <h3>SDH Chlumín</h3>
       <div class="contact-row">
         <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <span>
-          <strong>Hasičská zbrojnice Chlumín</strong>
-          Chlumín, Středočeský kraj
-        </span>
+        <span><strong>Hasičská zbrojnice Chlumín</strong>Chlumín, čp. 186, 277 43, Středočeský kraj</span>
       </div>
       <div class="contact-row">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        <span>
-          <strong>Web sboru</strong>
-          sdh-chlumin.estranky.cz
-        </span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span><strong>Velitel JSDH</strong><a href="tel:602355719" style="color:var(--fire);text-decoration:none;">602 355 719</a></span>
       </div>
       <div class="contact-row">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span>
-          <strong>Velitel JSDH</strong>
-          Radek Douša, TOOB JSDH Chlumín
-        </span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+        <span><strong>Instagram</strong><a href="https://www.instagram.com/mh_chlumin" target="_blank" style="color:var(--fire);text-decoration:none;">@mh_chlumin</a></span>
       </div>
       <div class="contact-row">
         <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
-        <span>
-          <strong>Obec Chlumín</strong>
-          <a href="http://www.chlumin.cz"  style="color:var(--fire);text-decoration:none;">www.chlumin.cz</a>
-        </span>
-        <div class="contact-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
-          <div class="contact-row">
-            <span>
-            <strong>Instagram</strong>
-            <a href="https://www.instagram.com/mh_chlumin" style="color:var(--fire);text-decoration:none;">@sdh.chlumin</a>
-            </span>
-        </div>
-        </div>
+        <span><strong>Obec Chlumín</strong><a href="http://www.chlumin.cz" target="_blank" style="color:var(--fire);text-decoration:none;">www.chlumin.cz</a></span>
       </div>
     </div>
     <div>
       <div class="paleni-box">
         <h3>🔥 Evidence pálení</h3>
         <p>Plánujete pálit na zahradě? Nezapomeňte svůj záměr nahlásit přes systém evidence pálení. Předejdete zbytečným výjezdům hasičů a případným pokutám.</p>
-        <a href="https://sdh-chlumin.estranky.cz/clanky/evidence-paleni/" >Nahlásit pálení →</a>
+        <a href="https://sdh-chlumin.estranky.cz/clanky/evidence-paleni/" target="_blank">Nahlásit pálení →</a>
       </div>
-      <div style="margin-top:1.5rem; background:var(--smoke); padding:1.5rem; border-radius:4px;">
-        <p style="font-size:0.85rem; color:var(--silver); line-height:1.65;">
-          <strong style="color:var(--white); display:block; margin-bottom:0.5rem;">Tísňové linky</strong>
+      <div style="margin-top:1.5rem;background:var(--smoke);padding:1.5rem;border-radius:4px;">
+        <p style="font-size:0.85rem;color:var(--silver);line-height:1.65;">
+          <strong style="color:var(--white);display:block;margin-bottom:0.5rem;">Tísňové linky</strong>
           🚒 Hasiči: <strong style="color:var(--white);">150</strong><br>
           🚑 Záchranná služba: <strong style="color:var(--white);">155</strong><br>
           👮 Policie: <strong style="color:var(--white);">158</strong><br>
-          📞 Integrovaný záchranný systém: <strong style="color:var(--white);">112</strong>
+          📞 IZS: <strong style="color:var(--white);">112</strong>
         </p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">SDH <span>Chlumín</span></div>
   <p>© 2026 Sbor dobrovolných hasičů Chlumín</p>
   <div class="footer-links">
-    <a href="https://sdh-chlumin.estranky.cz/fotoalbum/" >Fotoalbum</a>
-    <a href="https://sdh-chlumin.estranky.cz/clanky/kontakty.html" >Kontakty</a>
+    <a href="jednotka.html">Jednotka SDH</a>
+    <a href="mladi-hasici.html">Mladí hasiči</a>
+    <a href="https://sdh-chlumin.estranky.cz/fotoalbum/" target="_blank">Fotoalbum</a>
   </div>
 </footer>
 
 <script>
-  // ── FIRE PARTICLES ──────────────────────────────────
-  const container = document.getElementById('particles');
-  for (let i = 0; i < 30; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    const x = Math.random() * 100;
-    const dur = 4 + Math.random() * 6;
-    const delay = Math.random() * 8;
-    const drift = (Math.random() - 0.5) * 80;
-    const size = 1.5 + Math.random() * 3;
-    p.style.cssText = `left:${x}%;bottom:${Math.random()*20}%;width:${size}px;height:${size}px;animation-duration:${dur}s;animation-delay:${delay}s;--drift:${drift}px;background:${Math.random()>.5?'#E8380D':'#FFC107'};`;
-    container.appendChild(p);
-  }
+// PARTICLES
+const container = document.getElementById('particles');
+for (let i = 0; i < 30; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = 1.5 + Math.random() * 3;
+  p.style.cssText = `left:${Math.random()*100}%;bottom:${Math.random()*20}%;width:${size}px;height:${size}px;animation-duration:${4+Math.random()*6}s;animation-delay:${Math.random()*8}s;--drift:${(Math.random()-.5)*80}px;background:${Math.random()>.5?'#E8380D':'#FFC107'};`;
+  container.appendChild(p);
+}
 
-  // ── SMOOTH SCROLL ────────────────────────────────────
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const id = a.getAttribute('href').slice(1);
-      const el = document.getElementById(id);
-      if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); }
-    });
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth' }); }
   });
+});
 
-  // ── HELPERS ──────────────────────────────────────────
-  const MESICE = ['','ledna','února','března','dubna','května','června','července','srpna','září','října','listopadu','prosince'];
-  function formatDate(d) {
-    const [y,m,day] = d.split('-');
-    return `${parseInt(day)}. ${MESICE[parseInt(m)]} ${y}`;
-  }
-  const FIRE_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1"><path d="M12 2c0 0-5 7-5 12a5 5 0 0 0 10 0c0-5-5-12-5-12z"/></svg>`;
+// HELPERS
+const MESICE = ['','ledna','února','března','dubna','května','června','července','srpna','září','října','listopadu','prosince'];
+function formatDate(d) {
+  const [y,m,day] = d.split('-');
+  return `${parseInt(day)}. ${MESICE[parseInt(m)]} ${y}`;
+}
+const FIRE_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1"><path d="M12 2c0 0-5 7-5 12a5 5 0 0 0 10 0c0-5-5-12-5-12z"/></svg>`;
 
-  // ── LIGHTBOX ─────────────────────────────────────────
-  let lbPhotos = [], lbIdx = 0;
-  function openLightbox(photos, idx) {
-    lbPhotos = photos; lbIdx = idx;
-    const lb = document.getElementById('lightbox');
-    lb.style.display = 'flex';
-    updateLightbox();
-    document.body.style.overflow = 'hidden';
+// LIGHTBOX
+let lbPhotos = [], lbIdx = 0;
+function openLightbox(photos, idx) {
+  lbPhotos = photos; lbIdx = idx;
+  const lb = document.getElementById('lightbox');
+  lb.style.display = 'flex';
+  updateLightbox();
+  document.body.style.overflow = 'hidden';
+}
+function updateLightbox() {
+  document.getElementById('lb-img').src = lbPhotos[lbIdx];
+  document.getElementById('lb-caption').textContent = `${lbIdx+1} / ${lbPhotos.length}`;
+  document.getElementById('lb-prev').style.display = lbPhotos.length > 1 ? '' : 'none';
+  document.getElementById('lb-next').style.display = lbPhotos.length > 1 ? '' : 'none';
+}
+function lbNav(dir) { lbIdx = (lbIdx + dir + lbPhotos.length) % lbPhotos.length; updateLightbox(); }
+function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; document.body.style.overflow = ''; }
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lightbox').style.display === 'flex') {
+    if (e.key === 'ArrowLeft') lbNav(-1);
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'Escape') closeLightbox();
   }
-  function updateLightbox() {
-    document.getElementById('lb-img').src = lbPhotos[lbIdx];
-    document.getElementById('lb-caption').textContent = `${lbIdx+1} / ${lbPhotos.length}`;
-    document.getElementById('lb-prev').style.display = lbPhotos.length > 1 ? '' : 'none';
-    document.getElementById('lb-next').style.display = lbPhotos.length > 1 ? '' : 'none';
+});
+
+// RENDER NEWS
+let allPosts = [], activeKat = 'vše';
+function renderNews(posts) {
+  const grid = document.getElementById('news-grid');
+  const filtered = activeKat === 'vše' ? posts : posts.filter(p => p.kategorie === activeKat);
+  if (!filtered.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;padding:3rem;text-align:center;color:var(--silver);"><p>Žádné příspěvky v této kategorii.</p></div>`;
+    return;
   }
-  function lbNav(dir) {
-    lbIdx = (lbIdx + dir + lbPhotos.length) % lbPhotos.length;
-    updateLightbox();
-  }
-  function closeLightbox() {
-    document.getElementById('lightbox').style.display = 'none';
-    document.body.style.overflow = '';
-  }
-  document.addEventListener('keydown', e => {
-    if (document.getElementById('lightbox').style.display === 'flex') {
-      if (e.key === 'ArrowLeft') lbNav(-1);
-      if (e.key === 'ArrowRight') lbNav(1);
-      if (e.key === 'Escape') closeLightbox();
+  grid.innerHTML = filtered.map(post => {
+    const fotky = post.fotky || [];
+    const hlavniFoto = fotky[0];
+    // Use full-size image URL (swap /mid/ for /img/picture/ for estranky images)
+    function sharpUrl(url) {
+      if (!url) return url;
+      return url.replace('/img/mid/', '/img/picture/');
     }
-  });
+    const fotoHtml = hlavniFoto
+      ? `<div class="nc-img"><img src="${sharpUrl(hlavniFoto)}" alt="${post.nadpis}" loading="lazy" onerror="this.src='${hlavniFoto}'" onclick="event.preventDefault();openLightbox(${JSON.stringify(fotky)},0)"></div>`
+      : `<div class="nc-img"><div class="nc-no-img">${FIRE_SVG}</div></div>`;
+    const thumbsHtml = fotky.length > 1 ? `
+      <div class="nc-photos">
+        ${fotky.slice(0,4).map((f,i) => `<img src="${f}" loading="lazy" onclick="event.preventDefault();openLightbox(${JSON.stringify(fotky)},${i})" title="Foto ${i+1}">`).join('')}
+        ${fotky.length > 4 ? `<div class="nc-photo-more">+${fotky.length-4}</div>` : ''}
+      </div>` : '';
+    const odkaz = post.odkaz || '#';
+    return `
+      <a class="news-card" href="${odkaz}">
+        ${fotoHtml}
+        <div class="nc-body">
+          <div class="nc-date">${formatDate(post.datum)} · <span style="color:var(--silver)">${post.kategorie}</span></div>
+          <div class="nc-title">${post.nadpis}</div>
+          ${post.perex ? `<div class="nc-excerpt">${post.perex}</div>` : ''}
+          ${post.odkaz ? `<span class="nc-more">Číst více →</span>` : ''}
+        </div>
+        ${thumbsHtml}
+      </a>`;
+  }).join('');
+}
+function filterNews(btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeKat = btn.dataset.kat;
+  renderNews(allPosts);
+}
 
-  // ── RENDER NEWS ──────────────────────────────────────
-  let allPosts = [];
-  let activeKat = 'vše';
-
-  function renderNews(posts) {
-    const grid = document.getElementById('news-grid');
-    const filtered = activeKat === 'vše' ? posts : posts.filter(p => p.kategorie === activeKat);
-    if (!filtered.length) {
-      grid.innerHTML = `<div style="grid-column:1/-1;padding:3rem;text-align:center;color:var(--silver);"><p>Žádné příspěvky v této kategorii.</p></div>`;
-      return;
-    }
-    grid.innerHTML = filtered.map(post => {
-      const fotky = post.fotky || [];
-      const hlavniFoto = fotky[0];
-      const dalsi = fotky.slice(1, 4);
-      const fotoHtml = hlavniFoto
-        ? `<div class="nc-img"><img src="${hlavniFoto}" alt="${post.nadpis}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=nc-no-img>${FIRE_SVG}</div>'" onclick="event.preventDefault();openLightbox(${JSON.stringify(fotky)},0)"></div>`
-        : `<div class="nc-img"><div class="nc-no-img">${FIRE_SVG}</div></div>`;
-
-      const thumbsHtml = fotky.length > 1 ? `
-        <div class="nc-photos">
-          ${fotky.slice(0,4).map((f,i) => `<img src="${f}" loading="lazy" onclick="event.preventDefault();openLightbox(${JSON.stringify(fotky)},${i})" title="Foto ${i+1}">`).join('')}
-          ${fotky.length > 4 ? `<div class="nc-photo-more">+${fotky.length-4}</div>` : ''}
-        </div>` : '';
-
-      const odkaz = post.odkaz || '#';
-      const target = post.odkaz ? '' : '';
-      return `
-        <a class="news-card" href="${odkaz}" ${target}>
-          ${fotoHtml}
-          <div class="nc-body">
-            <div class="nc-date">${formatDate(post.datum)} · <span style="color:var(--silver)">${post.kategorie}</span></div>
-            <div class="nc-title">${post.nadpis}</div>
-            ${post.perex ? `<div class="nc-excerpt">${post.perex}</div>` : ''}
-            ${post.odkaz ? `<span class="nc-more">Číst více →</span>` : ''}
-          </div>
-          ${thumbsHtml}
-        </a>`;
-    }).join('');
-  }
-
-  function filterNews(btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activeKat = btn.dataset.kat;
-    renderNews(allPosts);
-  }
-
-  // ── LOAD JSON ─────────────────────────────────────────
-  // Zkusí načíst prispevky.json ze stejné složky.
-  // Pokud soubory nejsou na serveru, použije záložní data.
-  const FALLBACK = [
-    { id:1, datum:"2022-05-21", nadpis:"2022 Dědkiáda Velvary", perex:"Zúčastnili jsme se tradiční hasičské soutěže Dědkiáda ve Velvarech.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/277/20220521_111731.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-dedkiada-velvary.html", kategorie:"soutěž" },
-    { id:2, datum:"2022-05-07", nadpis:"2022 Oužická \"Osma\"", perex:"Výjezd na oblíbenou soutěž tradice a bojovný duch.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/276/img-20220508-wa0000.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-ouzicka---osma-.html", kategorie:"soutěž" },
-    { id:3, datum:"2021-08-15", nadpis:"Oslava 140(+1). výročí SDH Chlumín", perex:"Slavnostní oslava vzniku sboru s bohatým programem pro celou rodinu.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/273/pozvanka-na-140.-vyroci.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/oslava-140--1-.-vyroci-vzniku-sdh-chlumin.html", kategorie:"společenská akce" },
-    { id:4, datum:"2019-11-23", nadpis:"2019 Libišský čtyřboj", perex:"Soutěžní klání čtyřčlenných hasičských družstev v Libiši.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/261/imag6287.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-libissky-ctyrboj.html", kategorie:"soutěž" },
-    { id:5, datum:"2019-09-28", nadpis:"Soutěž o pohár starosty Chlumína", perex:"Každoroční domácí soutěž v požárním útoku.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/263/img_4130.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-soutez-v-pu-o-pohar-starosty-obce-chlumin.html", kategorie:"soutěž" }
-  ];
-
-  fetch('prispevky.json?v=' + Date.now())
-    .then(r => { if (!r.ok) throw new Error('no file'); return r.json(); })
-    .then(data => { allPosts = data; renderNews(allPosts); })
-    .catch(() => { allPosts = FALLBACK; renderNews(allPosts); });
+// LOAD JSON
+const FALLBACK = [
+  { id:1, datum:"2022-05-21", nadpis:"2022 Dědkiáda Velvary", perex:"Zúčastnili jsme se tradiční hasičské soutěže Dědkiáda ve Velvarech.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/277/20220521_111731.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-dedkiada-velvary.html", kategorie:"soutěž" },
+  { id:2, datum:"2022-05-07", nadpis:"2022 Oužická Osma", perex:"Výjezd na oblíbenou soutěž – tradice a bojovný duch.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/276/img-20220508-wa0000.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-ouzicka---osma-.html", kategorie:"soutěž" },
+  { id:3, datum:"2021-08-15", nadpis:"Oslava 140(+1). výročí SDH Chlumín", perex:"Slavnostní oslava vzniku sboru s bohatým programem pro celou rodinu.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/273/pozvanka-na-140.-vyroci.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/oslava-140--1-.-vyroci-vzniku-sdh-chlumin.html", kategorie:"společenská akce" },
+  { id:4, datum:"2019-11-23", nadpis:"2019 Libišský čtyřboj", perex:"Soutěžní klání čtyřčlenných hasičských družstev v Libiši.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/261/imag6287.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-libissky-ctyrboj.html", kategorie:"soutěž" },
+  { id:5, datum:"2019-09-28", nadpis:"Soutěž o pohár starosty Chlumína", perex:"Každoroční domácí soutěž v požárním útoku.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/263/img_4130.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-soutez-v-pu-o-pohar-starosty-obce-chlumin.html", kategorie:"soutěž" }
+];
+fetch('prispevky.json?v=' + Date.now())
+  .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+  .then(data => { allPosts = data; renderNews(allPosts); })
+  .catch(() => { allPosts = FALLBACK; renderNews(allPosts); });
 </script>
 </body>
 </html>

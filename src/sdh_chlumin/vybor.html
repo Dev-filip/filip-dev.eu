@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Výbor SDH – SDH Chlumín</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--fire:#E8380D;--fire2:#FF6B35;--coal:#111;--ash:#181818;--smoke:#222;--smoke2:#2a2a2a;--border:#252525;--silver:#888;--muted:#4a4a4a;--white:#F4F1ED}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--coal);color:var(--white);overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:rgba(17,17,17,.97);border-bottom:1px solid rgba(232,56,13,.2)}
+.nlogo{display:flex;align-items:center;gap:.65rem;text-decoration:none}
+.nlogo svg{width:30px;height:30px}
+.nlogo-t{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.08em;color:var(--white)}.nlogo-t span{color:var(--fire)}
+.nbread{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);display:flex;align-items:center;gap:.4rem}
+.nbread a{color:var(--silver);text-decoration:none;transition:color .15s}.nbread a:hover{color:var(--white)}.nbread .sep{color:var(--fire)}
+.nback{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coal);background:var(--fire);padding:.35rem .9rem;border-radius:3px;text-decoration:none;transition:background .15s}.nback:hover{background:var(--fire2)}
+
+/* HERO */
+.hero{position:relative;padding-top:56px;min-height:38vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 55% 65% at 75% 25%,rgba(232,56,13,.12) 0%,transparent 60%),linear-gradient(160deg,#0e0605 0%,#111 60%,#141414 100%)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(232,56,13,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(232,56,13,.03) 1px,transparent 1px);background-size:55px 55px;mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 10%,transparent 75%)}
+.hero-c{position:relative;z-index:2;padding:3rem 2rem 3rem;max-width:700px}
+.hlabel{display:inline-flex;align-items:center;gap:.45rem;font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--fire);border:1px solid rgba(232,56,13,.3);padding:.25rem .65rem;border-radius:2px;margin-bottom:.9rem}
+.hlabel::before{content:'';width:5px;height:5px;background:var(--fire);border-radius:50%}
+.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.2rem,9vw,7.5rem);line-height:.88;letter-spacing:.02em}
+.hero-h1 .r{display:block;color:var(--fire)}.hero-h1 .w{display:block;color:var(--white)}.hero-h1 .g{display:block;color:transparent;-webkit-text-stroke:1px rgba(244,241,237,.1)}
+.hero-sub{margin-top:1.1rem;font-size:.94rem;font-weight:300;color:var(--silver);max-width:520px;line-height:1.75}.hero-sub strong{color:var(--white);font-weight:500}
+.hdiv{height:2px;background:linear-gradient(90deg,var(--fire),var(--fire2),transparent)}
+
+/* CONTENT */
+.page-body{padding:5rem 5vw 6rem;max-width:1100px;margin:0 auto}
+.sec-label{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fire);display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem}
+.sec-label::after{content:'';flex:0 0 28px;height:1px;background:var(--fire)}
+.sec-h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,3.5vw,3rem);letter-spacing:.03em;line-height:1;margin-bottom:.75rem}
+.sec-lead{font-size:.92rem;font-weight:300;color:var(--silver);max-width:560px;line-height:1.78;margin-bottom:3rem}
+
+/* MEMBER GRID */
+.member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;margin-bottom:3rem}
+.member-card{background:var(--smoke);padding:1.75rem 1.5rem;border-top:2px solid transparent;transition:border-color .2s,background .2s;position:relative}
+.member-card:hover{border-top-color:var(--fire);background:var(--smoke2)}
+.member-card.primary{border-top-color:var(--fire)}
+.member-avatar{width:52px;height:52px;border-radius:50%;background:rgba(232,56,13,.1);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.1rem;border:1px solid rgba(232,56,13,.2)}
+.member-role{font-family:'Barlow Condensed',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fire);margin-bottom:.4rem;line-height:1.4}
+.member-name{font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;font-weight:600;color:var(--white);letter-spacing:.03em;margin-bottom:.5rem}
+.member-note{font-size:.78rem;color:var(--silver);line-height:1.6;font-style:italic}
+
+/* REVIZOR */
+.revizor-row{background:var(--smoke);padding:1.5rem;display:flex;align-items:center;gap:1.25rem;border-left:3px solid rgba(232,56,13,.3);margin-top:1px}
+.revizor-row .member-avatar{margin-bottom:0;flex-shrink:0}
+.revizor-info{}
+.revizor-info .member-role{margin-bottom:.25rem}
+.revizor-info .member-name{margin-bottom:.2rem}
+.revizor-info .member-note{font-style:normal}
+
+/* INFO BOX */
+.info-box{background:rgba(232,56,13,.06);border:1px solid rgba(232,56,13,.15);border-radius:4px;padding:1.4rem 1.75rem;margin-top:3rem}
+.info-box h3{font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fire);margin-bottom:.75rem}
+.info-box p{font-size:.87rem;color:var(--silver);line-height:1.72}.info-box p strong{color:var(--white)}
+
+footer{background:#0a0a0a;border-top:1px solid #1a1a1a;padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.fl{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.08em;color:var(--silver)}.fl span{color:var(--fire)}
+footer p{font-size:.72rem;color:var(--muted)}
+.flinks{display:flex;gap:1.4rem}.flinks a{font-size:.72rem;color:var(--muted);text-decoration:none;transition:color .2s}.flinks a:hover{color:var(--silver)}
+
+@media(max-width:640px){.hero-c{padding:2rem 1.25rem 2.5rem}.page-body{padding:3rem 1.25rem 5rem}.nbread{display:none}nav{padding:0 1rem}.member-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nlogo" href="sdh-chlumin-modern.html">
+    <svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" stroke="#E8380D" stroke-width="1.5"/><path d="M18 6c0 0-6 8-6 14a6 6 0 0 0 12 0c0-6-6-14-6-14z" fill="#E8380D"/><path d="M18 14c0 0-3 4-3 7a3 3 0 0 0 6 0c0-3-3-7-3-7z" fill="#FFC107"/></svg>
+    <span class="nlogo-t">SDH <span>Chlumín</span></span>
+  </a>
+  <div class="nbread"><a href="sdh-chlumin-modern.html">Úvod</a><span class="sep">›</span><span style="color:var(--white)">Výbor SDH</span></div>
+  <a href="sdh-chlumin-modern.html" class="nback">← Zpět</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="hero-c">
+    <div class="hlabel">SDH Chlumín · vedení sboru</div>
+    <h1 class="hero-h1"><span class="r">Výbor</span><span class="w">SDH Chlumín</span></h1>
+    <p class="hero-sub">Výbor sboru tvoří <strong>9 členů</strong>, kteří organizují chod a rozvoj SDH Chlumín, zastupují sbor navenek a zajišťují jeho každodenní fungování.</p>
+  </div>
+</div>
+<div class="hdiv"></div>
+
+<div class="page-body">
+
+  <div class="sec-label">Složení výboru</div>
+  <h2 class="sec-h2">Členové výboru SDH</h2>
+  <p class="sec-lead">Výbor SDH Chlumín byl zvolen na Výroční valné hromadě. Každý člen výboru zodpovídá za konkrétní oblast činnosti sboru.</p>
+
+  <div class="member-grid">
+
+    <div class="member-card primary">
+      <div class="member-avatar">🚒</div>
+      <div class="member-role">Starosta SDH · Velitel Jednotky SDH</div>
+      <div class="member-name">Ing. Chlebo Ján</div>
+      <div class="member-note">Hlavní správce hasičské zbrojnice</div>
+    </div>
+
+    <div class="member-card">
+      <div class="member-avatar">👥</div>
+      <div class="member-role">Náměstek starosty SDH · Hospodář SDH</div>
+      <div class="member-name">Petržilka Tomáš</div>
+      <div class="member-note">Správce hasičské zbrojnice</div>
+    </div>
+
+    <div class="member-card">
+      <div class="member-avatar">👥</div>
+      <div class="member-role">Náměstek starosty SDH</div>
+      <div class="member-name">Smrčka Antonín</div>
+      <div class="member-note">Správce hasičské zbrojnice</div>
+    </div>
+
+    <div class="member-card">
+      <div class="member-avatar">📝</div>
+      <div class="member-role">Jednatel SDH · Kronika · Kulturní akce</div>
+      <div class="member-name">Hodysová Alena</div>
+      <div class="member-note">Vedoucí mladých hasičů a kronikářka sboru</div>
+    </div>
+
+    <div class="member-card">
+      <div class="member-avatar">🧒</div>
+      <div class="member-role">Vedoucí mladých hasičů · Preventista SDH</div>
+      <div class="member-name">Douša Radek</div>
+      <div class="member-note">TOOB JSDH Chlumín</div>
+    </div>
+
+    <div class="member-card">
+      <div class="member-avatar">🔧</div>
+      <div class="member-role">Strojník SDH</div>
+      <div class="member-name">Bc. Pokorný Václav</div>
+      <div class="member-note">Zodpovídá za techniku a vozidla sboru</div>
+    </div>
+
+    <div class="member-card">
+      <div class="member-avatar">🏗️</div>
+      <div class="member-role">Materiálně technická základna SDH</div>
+      <div class="member-name">Vysoký Martin</div>
+      <div class="member-note">Správa majetku a vybavení sboru</div>
+    </div>
+
+    <div class="member-card">
+      <div class="member-avatar">⭐</div>
+      <div class="member-role">Členka výboru SDH</div>
+      <div class="member-name">Lucie Volfová</div>
+      <div class="member-note"></div>
+    </div>
+
+    <div class="member-card">
+      <div class="member-avatar">⭐</div>
+      <div class="member-role">Člen výboru SDH</div>
+      <div class="member-name">Jan Martínek</div>
+      <div class="member-note"></div>
+    </div>
+
+  </div>
+
+  <!-- REVIZOR -->
+  <div class="sec-label" style="margin-top:2rem">Revize</div>
+  <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--white);margin-bottom:1rem">Revizor SDH</h3>
+  <div class="revizor-row">
+    <div class="member-avatar">🔍</div>
+    <div class="revizor-info">
+      <div class="member-role">Revizor SDH</div>
+      <div class="member-name">Bc. Petr Brabec</div>
+      <div class="member-note" style="font-size:.83rem;color:var(--silver)">Kontrolní funkce sboru – provádí revizi hospodaření a dokladů SDH.</div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <h3>O výboru SDH</h3>
+    <p>Výbor Sboru dobrovolných hasičů Chlumín je volen na <strong>Výroční valné hromadě</strong> vždy na konci ledna. Výbor zodpovídá za chod sboru, organizaci akcí, hospodaření a reprezentaci sdružení navenek. SDH Chlumín je pobočným spolkem <strong>Sdružení hasičů Čech, Moravy a Slezska (SH ČMS)</strong>.</p>
+  </div>
+
+</div>
+
+<footer>
+  <div class="fl">SDH <span>Chlumín</span></div>
+  <p>© 2026 Sbor dobrovolných hasičů Chlumín</p>
+  <div class="flinks">
+    <a href="sdh-chlumin-modern.html">Hlavní web</a>
+    <a href="historie.html">Historie</a>
+    <a href="jednotka.html">Jednotka SDH</a>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plán akcí – SDH Chlumín</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--fire:#E8380D;--fire2:#FF6B35;--coal:#111;--ash:#181818;--smoke:#222;--smoke2:#2a2a2a;--border:#252525;--silver:#888;--muted:#4a4a4a;--white:#F4F1ED;--green:#2ECC71;--amber:#FFC107;--blue:#60A5FA}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--coal);color:var(--white);overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:rgba(17,17,17,.97);border-bottom:1px solid rgba(232,56,13,.2)}
+.nlogo{display:flex;align-items:center;gap:.65rem;text-decoration:none}
+.nlogo svg{width:30px;height:30px}
+.nlogo-t{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.08em;color:var(--white)}.nlogo-t span{color:var(--fire)}
+.nbread{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);display:flex;align-items:center;gap:.4rem}
+.nbread a{color:var(--silver);text-decoration:none;transition:color .15s}.nbread a:hover{color:var(--white)}.nbread .sep{color:var(--fire)}
+.nback{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coal);background:var(--fire);padding:.35rem .9rem;border-radius:3px;text-decoration:none;transition:background .15s}.nback:hover{background:var(--fire2)}
+
+/* HERO */
+.hero{position:relative;padding-top:56px;min-height:36vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 70% 25%,rgba(232,56,13,.11) 0%,transparent 60%),linear-gradient(160deg,#0e0605 0%,#111 60%,#141414 100%)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(232,56,13,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(232,56,13,.03) 1px,transparent 1px);background-size:55px 55px;mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 10%,transparent 75%)}
+.hero-c{position:relative;z-index:2;padding:3rem 2rem 3rem;max-width:700px}
+.hlabel{display:inline-flex;align-items:center;gap:.45rem;font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--fire);border:1px solid rgba(232,56,13,.3);padding:.25rem .65rem;border-radius:2px;margin-bottom:.9rem}
+.hlabel::before{content:'';width:5px;height:5px;background:var(--fire);border-radius:50%}
+.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.2rem,9vw,7.5rem);line-height:.88;letter-spacing:.02em}
+.hero-h1 .r{display:block;color:var(--fire)}.hero-h1 .w{display:block;color:var(--white)}
+.hero-sub{margin-top:1rem;font-size:.92rem;font-weight:300;color:var(--silver);max-width:500px;line-height:1.75}.hero-sub strong{color:var(--white)}
+.hdiv{height:2px;background:linear-gradient(90deg,var(--fire),var(--fire2),transparent)}
+
+/* PAGE BODY */
+.page-body{padding:4rem 5vw 6rem;max-width:1100px;margin:0 auto}
+
+/* YEAR HEADER */
+.year-selector{display:flex;align-items:center;gap:1rem;margin-bottom:3rem;flex-wrap:wrap}
+.year-selector h2{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.04em;color:var(--white);line-height:1}
+.year-btn{font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--smoke);border:1px solid var(--border);color:var(--silver);padding:.45rem .9rem;border-radius:3px;cursor:pointer;transition:all .2s}
+.year-btn:hover{border-color:var(--fire);color:var(--white)}
+.year-btn.active{background:var(--fire);color:var(--coal);border-color:var(--fire)}
+
+/* LEGEND */
+.legend{display:flex;gap:1.25rem;margin-bottom:2.5rem;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;color:var(--silver)}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* EVENTS LIST */
+.events-list{display:flex;flex-direction:column;gap:1px}
+
+.event-card{background:var(--smoke);display:flex;align-items:stretch;overflow:hidden;transition:background .15s;border-left:3px solid var(--border)}
+.event-card:hover{background:var(--smoke2)}
+.event-card.cat-soutez{border-left-color:var(--fire)}
+.event-card.cat-spol{border-left-color:var(--amber)}
+.event-card.cat-mh{border-left-color:var(--green)}
+.event-card.cat-vycvik{border-left-color:var(--blue)}
+.event-card.cat-vvh{border-left-color:#a78bfa}
+
+.event-date-col{
+  flex-shrink:0;width:90px;
+  background:rgba(0,0,0,.15);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:.85rem .5rem;text-align:center;
+}
+.event-day{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--white);line-height:1}
+.event-month{font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--silver)}
+.event-dow{font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.15rem;font-family:'Barlow Condensed',sans-serif}
+
+.event-body{flex:1;padding:.9rem 1.25rem;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.event-title{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--white);margin-bottom:.25rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.event-desc{font-size:.8rem;color:var(--silver);line-height:1.5}
+.event-time{font-size:.75rem;color:var(--fire);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.06em;margin-top:.3rem}
+
+.event-badge{flex-shrink:0;align-self:center;margin-right:1rem}
+.ebadge{font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .55rem;border-radius:2px}
+.eb-soutez{background:rgba(232,56,13,.14);color:var(--fire)}
+.eb-spol{background:rgba(255,193,7,.12);color:var(--amber)}
+.eb-mh{background:rgba(46,204,113,.1);color:var(--green)}
+.eb-vycvik{background:rgba(96,165,250,.1);color:var(--blue)}
+.eb-vvh{background:rgba(167,139,250,.1);color:#a78bfa}
+
+.empty-state{padding:4rem;text-align:center;color:var(--muted);font-size:.9rem}
+.empty-state span{display:block;font-size:2.5rem;margin-bottom:.75rem}
+
+/* NOTE BOX */
+.note-box{background:var(--smoke);border:1px solid var(--border);border-radius:4px;padding:1.25rem 1.5rem;margin-top:3rem;display:flex;gap:1rem;align-items:flex-start}
+.note-box svg{width:18px;height:18px;flex-shrink:0;color:var(--fire);margin-top:2px}
+.note-box p{font-size:.85rem;color:var(--silver);line-height:1.7}.note-box strong{color:var(--white)}
+
+footer{background:#0a0a0a;border-top:1px solid #1a1a1a;padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.fl{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.08em;color:var(--silver)}.fl span{color:var(--fire)}
+footer p{font-size:.72rem;color:var(--muted)}
+.flinks{display:flex;gap:1.4rem}.flinks a{font-size:.72rem;color:var(--muted);text-decoration:none;transition:color .2s}.flinks a:hover{color:var(--silver)}
+
+@media(max-width:640px){
+  .hero-c{padding:2rem 1.25rem 2.5rem}.page-body{padding:3rem 1.25rem 5rem}
+  .nbread{display:none}nav{padding:0 1rem}
+  .event-date-col{width:72px}.event-title{font-size:.9rem}
+  .event-badge{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nlogo" href="sdh-chlumin-modern.html">
+    <svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" stroke="#E8380D" stroke-width="1.5"/><path d="M18 6c0 0-6 8-6 14a6 6 0 0 0 12 0c0-6-6-14-6-14z" fill="#E8380D"/><path d="M18 14c0 0-3 4-3 7a3 3 0 0 0 6 0c0-3-3-7-3-7z" fill="#FFC107"/></svg>
+    <span class="nlogo-t">SDH <span>Chlumín</span></span>
+  </a>
+  <div class="nbread"><a href="sdh-chlumin-modern.html">Úvod</a><span class="sep">›</span><span style="color:var(--white)">Plán akcí</span></div>
+  <a href="sdh-chlumin-modern.html" class="nback">← Zpět</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="hero-c">
+    <div class="hlabel">SDH Chlumín · kalendář akcí</div>
+    <h1 class="hero-h1"><span class="r">Plán</span><span class="w">akcí</span></h1>
+    <p class="hero-sub">Přehled plánovaných <strong>soutěží, společenských akcí a schůzí</strong> SDH Chlumín pro aktuální rok.</p>
+  </div>
+</div>
+<div class="hdiv"></div>
+
+<div class="page-body">
+
+  <div class="year-selector">
+    <h2 id="active-year">2026</h2>
+    <div style="display:flex;gap:.5rem;" id="year-btns"></div>
+  </div>
+
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--fire)"></div>Soutěž</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--amber)"></div>Společenská akce</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div>Mladí hasiči</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--blue)"></div>Výcvik / Schůzka</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#a78bfa"></div>Valná hromada</div>
+  </div>
+
+  <div class="events-list" id="events-list"></div>
+
+  <div class="note-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <p>Plán akcí se může měnit. Sledujte aktuality na hlavní stránce nebo nás kontaktujte na <strong>602 355 719</strong>. Akce jsou průběžně doplňovány. Pravidelné schůzky jednotky SDH probíhají <strong>každý pátek od 18:00</strong> v hasičské zbrojnici Chlumín.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="fl">SDH <span>Chlumín</span></div>
+  <p>© 2026 Sbor dobrovolných hasičů Chlumín</p>
+  <div class="flinks">
+    <a href="sdh-chlumin-modern.html">Hlavní web</a>
+    <a href="jednotka.html">Jednotka SDH</a>
+    <a href="mladi-hasici.html">Mladí hasiči</a>
+  </div>
+</footer>
+
+<script>
+// ── DATA – upravte dle potřeby ─────────────────────────
+// cat: 'soutez' | 'spol' | 'mh' | 'vycvik' | 'vvh'
+const AKCE = {
+// ── DATA – upravte dle potřeby ─────────────────────────
+// cat: 'soutez' | 'spol' | 'mh' | 'vycvik' | 'vvh'
+  2026: [
+    { datum:'2026-02-07', cas:'', nazev:'Valná hromada', popis:'Valná hromada SDH.', cat:'vvh' },
+    { datum:'2026-04-18', cas:'', nazev:'1. kolo hry Plamen – štafety', popis:'Kralupy nad Vltavou.', cat:'mh' },
+    { datum:'2026-05-17', cas:'', nazev:'2. kolo hry Plamen – požární útoky', popis:'Záryby.', cat:'mh' },
+    { datum:'2026-05-23', cas:'', nazev:'Běh na 60m s překážkami', popis:'Dřísy.', cat:'mh' },
+    { datum:'2026-05-30', cas:'', nazev:'Plamínek Kly', popis:'Soutěž mladých hasičů.', cat:'mh' },
+    { datum:'2026-06-06', cas:'', nazev:'Memoriál Václava Šeby', popis:'Blata.', cat:'soutez' },
+    { datum:'2026-06-13', cas:'', nazev:'ŽHJ Veltrusy', popis:'Kralupy nad Vltavou (u rybářů).', cat:'mh' },
+    { datum:'2026-06-20', cas:'', nazev:'Požární útoky', popis:'Byšice.', cat:'soutez' },
+    { datum:'2026-08-27', cas:'', nazev:'Soustředění MH', popis:'Letní soustředění mladých hasičů (termín bude upřesněn).', cat:'mh' },
+    { datum:'2026-09-19', cas:'', nazev:'Požární útoky', popis:'Dřísy (přípravka, mladší, starší, dorost).', cat:'soutez' },
+    { datum:'2026-09-20', cas:'', nazev:'ŽHJ Libiš', popis:'Soutěž mladých hasičů.', cat:'mh' },
+    { datum:'2026-10-01', cas:'', nazev:'ZHVB', popis:'Termín bude upřesněn.', cat:'mh' },
+  ],
+  2025: [
+    { datum:'2025-01-25', cas:'17:00', nazev:'Valná hromada SDH Chlumín', popis:'Výroční valná hromada – hodnocení roku 2024.', cat:'vvh' },
+    { datum:'2025-03-29', cas:'', nazev:'Soutěž JPO „Vteřiny pro život"', popis:'Soutěž jednotek požární ochrany v záchranných disciplínách.', cat:'soutez' },
+    { datum:'2025-04-30', cas:'', nazev:'Pálení čarodějnic', popis:'Tradiční pálení čarodějnic – asistence JSDH v Chlumíně.', cat:'spol' },
+    { datum:'2025-05-03', cas:'', nazev:'Oužická osma', popis:'Soutěž v požárním útoku – Úžice.', cat:'soutez' },
+  ],
+};
+
+// ── MESICE ───────────────────────────────────────────────
+const MESICE_3 = ['led','úno','bře','dub','kvě','čvn','čvc','srp','zář','říj','lis','pro'];
+const MESICE_FULL = ['ledna','února','března','dubna','května','června','července','srpna','září','října','listopadu','prosince'];
+const DNY = ['ne','po','út','st','čt','pá','so'];
+const CAT_LABELS = { soutez:'Soutěž', spol:'Společenská akce', mh:'Mladí hasiči', vycvik:'Výcvik', vvh:'Valná hromada' };
+const CAT_CLASS  = { soutez:'cat-soutez eb-soutez', spol:'cat-spol eb-spol', mh:'cat-mh eb-mh', vycvik:'cat-vycvik eb-vycvik', vvh:'cat-vvh eb-vvh' };
+
+let activeYear = new Date().getFullYear();
+// Default to first available year if current not in data
+const years = Object.keys(AKCE).map(Number).sort((a,b)=>b-a);
+if (!AKCE[activeYear]) activeYear = years[0];
+
+// Build year buttons
+const btnContainer = document.getElementById('year-btns');
+years.forEach(y => {
+  const b = document.createElement('button');
+  b.className = 'year-btn' + (y === activeYear ? ' active' : '');
+  b.textContent = y;
+  b.onclick = () => {
+    activeYear = y;
+    document.getElementById('active-year').textContent = y;
+    document.querySelectorAll('.year-btn').forEach(btn => btn.classList.toggle('active', parseInt(btn.textContent) === y));
+    renderEvents();
+  };
+  btnContainer.appendChild(b);
+});
+
+function renderEvents() {
+  const list = document.getElementById('events-list');
+  const events = (AKCE[activeYear] || []).sort((a,b) => a.datum.localeCompare(b.datum));
+  if (!events.length) {
+    list.innerHTML = `<div class="empty-state"><span>📅</span>Pro rok ${activeYear} zatím nejsou zadány žádné akce.</div>`;
+    return;
+  }
+  const today = new Date().toISOString().slice(0,10);
+  list.innerHTML = events.map(e => {
+    const d = new Date(e.datum + 'T12:00:00');
+    const day = d.getDate();
+    const mon = MESICE_3[d.getMonth()];
+    const dow = DNY[d.getDay()];
+    const isPast = e.datum < today;
+    const cats = (e.cat || 'spol').split(' ');
+    const mainCat = cats[0];
+    const cardCls = 'event-card ' + cats.map(c => 'cat-'+c).join(' ');
+    const badgeCls = 'ebadge eb-' + mainCat;
+    return `
+      <div class="${cardCls}" style="${isPast ? 'opacity:.5' : ''}">
+        <div class="event-date-col">
+          <div class="event-day">${day}</div>
+          <div class="event-month">${mon}</div>
+          <div class="event-dow">${dow}</div>
+        </div>
+        <div class="event-body">
+          <div class="event-title">${e.nazev}</div>
+          ${e.popis ? `<div class="event-desc">${e.popis}</div>` : ''}
+          ${e.cas ? `<div class="event-time">⏰ ${e.cas}</div>` : ''}
+        </div>
+        <div class="event-badge"><span class="${badgeCls}">${CAT_LABELS[mainCat] || mainCat}</span></div>
+      </div>`;
+  }).join('');
+}
+
+renderEvents();
+</script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historie – SDH Chlumín</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--fire:#E8380D;--fire2:#FF6B35;--coal:#111;--ash:#181818;--smoke:#222;--smoke2:#2a2a2a;--border:#252525;--silver:#888;--muted:#4a4a4a;--white:#F4F1ED;--amber:#FFC107}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--coal);color:var(--white);overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:rgba(17,17,17,.97);border-bottom:1px solid rgba(232,56,13,.2)}
+.nlogo{display:flex;align-items:center;gap:.65rem;text-decoration:none}
+.nlogo svg{width:30px;height:30px}
+.nlogo-t{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.08em;color:var(--white)}.nlogo-t span{color:var(--fire)}
+.nbread{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);display:flex;align-items:center;gap:.4rem}
+.nbread a{color:var(--silver);text-decoration:none;transition:color .15s}.nbread a:hover{color:var(--white)}.nbread .sep{color:var(--fire)}
+.nback{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coal);background:var(--fire);padding:.35rem .9rem;border-radius:3px;text-decoration:none;transition:background .15s}.nback:hover{background:var(--fire2)}
+
+/* HERO */
+.hero{position:relative;padding-top:56px;min-height:42vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 80% 30%,rgba(232,56,13,.12) 0%,transparent 60%),linear-gradient(160deg,#0e0605 0%,#111 60%,#141414 100%)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(232,56,13,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(232,56,13,.03) 1px,transparent 1px);background-size:55px 55px;mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 10%,transparent 75%)}
+.hero-c{position:relative;z-index:2;padding:3rem 2rem 3rem;max-width:700px}
+.hlabel{display:inline-flex;align-items:center;gap:.45rem;font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);border:1px solid rgba(255,193,7,.3);padding:.25rem .65rem;border-radius:2px;margin-bottom:.9rem;animation:fu .55s ease both}
+.hlabel::before{content:'';width:5px;height:5px;background:var(--amber);border-radius:50%;animation:blink 1.6s ease infinite}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.8)}}
+.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,9vw,8rem);line-height:.88;letter-spacing:.02em;animation:fu .55s .1s ease both}
+.hero-h1 .r{display:block;color:var(--fire)}.hero-h1 .w{display:block;color:var(--white)}.hero-h1 .g{display:block;color:transparent;-webkit-text-stroke:1px rgba(244,241,237,.1)}
+.hero-sub{margin-top:1.1rem;font-size:.94rem;font-weight:300;color:var(--silver);max-width:520px;line-height:1.75;animation:fu .55s .2s ease both}.hero-sub strong{color:var(--white);font-weight:500}
+.hdiv{height:2px;background:linear-gradient(90deg,var(--amber),var(--fire),transparent)}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* CONTENT */
+.page-body{max-width:900px;margin:0 auto;padding:5rem 2rem 6rem}
+.intro-quote{border-left:3px solid var(--amber);padding:1.25rem 1.75rem;background:rgba(255,193,7,.05);margin-bottom:4rem;border-radius:0 4px 4px 0}
+.intro-quote p{font-size:1.05rem;font-style:italic;color:var(--white);line-height:1.7;margin-bottom:.5rem}
+.intro-quote cite{font-size:.75rem;color:var(--silver);font-style:normal;letter-spacing:.1em;text-transform:uppercase}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:3.5rem}
+.timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--amber),rgba(232,56,13,.3),transparent)}
+.tl-item{position:relative;margin-bottom:3.5rem}
+.tl-item:last-child{margin-bottom:0}
+.tl-dot{position:absolute;left:-3.5rem;top:.3rem;width:30px;height:30px;background:var(--coal);border:2px solid var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;transition:background .2s;flex-shrink:0}
+.tl-item:hover .tl-dot{background:var(--amber)}
+.tl-year{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.06em;color:var(--amber);line-height:1;margin-bottom:.5rem}
+.tl-title{font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--white);margin-bottom:.7rem}
+.tl-text{font-size:.9rem;color:var(--silver);line-height:1.82}
+.tl-text strong{color:var(--white);font-weight:500}
+.tl-text em{color:var(--amber);font-style:normal}
+
+/* HIGHLIGHT BOX */
+.highlight{background:var(--smoke);border-left:3px solid var(--fire);padding:1.25rem 1.5rem;margin:1rem 0;border-radius:0 4px 4px 0}
+.highlight p{font-size:.87rem;color:var(--silver);line-height:1.72}
+.highlight p strong{color:var(--white)}
+
+footer{background:#0a0a0a;border-top:1px solid #1a1a1a;padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.fl{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.08em;color:var(--silver)}.fl span{color:var(--fire)}
+footer p{font-size:.72rem;color:var(--muted)}
+.flinks{display:flex;gap:1.4rem}.flinks a{font-size:.72rem;color:var(--muted);text-decoration:none;transition:color .2s}.flinks a:hover{color:var(--silver)}
+
+@media(max-width:640px){.timeline{padding-left:2.5rem}.tl-dot{left:-2.5rem;width:24px;height:24px}.hero-c{padding:2rem 1.25rem 2.5rem}.page-body{padding:3rem 1.25rem 5rem}.nbread{display:none}nav{padding:0 1rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nlogo" href="sdh-chlumin-modern.html">
+    <svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" stroke="#E8380D" stroke-width="1.5"/><path d="M18 6c0 0-6 8-6 14a6 6 0 0 0 12 0c0-6-6-14-6-14z" fill="#E8380D"/><path d="M18 14c0 0-3 4-3 7a3 3 0 0 0 6 0c0-3-3-7-3-7z" fill="#FFC107"/></svg>
+    <span class="nlogo-t">SDH <span>Chlumín</span></span>
+  </a>
+  <div class="nbread"><a href="sdh-chlumin-modern.html">Úvod</a><span class="sep">›</span><span style="color:var(--white)">Historie</span></div>
+  <a href="sdh-chlumin-modern.html" class="nback">← Zpět</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="hero-c">
+    <div class="hlabel">SDH Chlumín · od roku 1880</div>
+    <h1 class="hero-h1"><span class="r">Historie</span><span class="w">sboru</span><span class="g">Chlumín</span></h1>
+    <p class="hero-sub">Více než <strong>140 let tradice</strong> dobrovolného hasičství v Chlumíně – od ustavující schůze roku 1880 až po dnešní moderní jednotku.</p>
+  </div>
+</div>
+<div class="hdiv"></div>
+
+<div class="page-body">
+
+  <div class="intro-quote">
+    <p>„Bohu ku cti, vlasti k oslavě, bližnímu ku pomoci."</p>
+    <cite>Hasičské heslo z roku 1864 · SDH Chlumín</cite>
+  </div>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-dot">🔥</div>
+      <div class="tl-year">1864</div>
+      <div class="tl-title">Počátky dobrovolného hasičství</div>
+      <div class="tl-text">
+        Toto heslo vepsalo vznikající dobrovolné hasičstvo na svůj prapor při svém vzniku v roce 1864, kdy vznikl <strong>první dobrovolný hasičský sbor ve Velvarech</strong>. Nedlouho na to začaly vznikat sbory po celém českém království.
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">⚡</div>
+      <div class="tl-year">1879–1880</div>
+      <div class="tl-title">Vznik SDH Chlumín</div>
+      <div class="tl-text">
+        Chlumínský sbor byl <em>založen na ustavující schůzi 26. dubna 1880</em>, tehdy pod názvem <strong>„Dobrovolný hasičský sbor v Klomíně"</strong>. Vzniku předcházely přípravy od poloviny roku 1879, na nichž měl lví podíl obecní starosta <strong>Matěj Krešl</strong> a rolník <strong>Antonín Sandr</strong>.
+        <div class="highlight"><p><strong>První vedení sboru:</strong> Předseda Matěj Krešl · Velitel František Krešl · Místopředseda Antonín Fryč · Účetní Antonín Sandr.</p></div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">📜</div>
+      <div class="tl-year">1880</div>
+      <div class="tl-title">Vstup do župy & první cvičení</div>
+      <div class="tl-text">
+        V srpnu 1880 se náš sbor stal <strong>členem župní hasičské jednoty na Mělníku</strong>. V polovině října téhož roku uskutečnil sbor <em>první veřejné cvičení</em>, které bylo dle záznamů provedeno skvěle.
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">🐴</div>
+      <div class="tl-year">1888</div>
+      <div class="tl-title">Koněspřežná stříkačka</div>
+      <div class="tl-text">
+        V roce 1888 zakoupil hasičský sbor <strong>koněspřežnou stříkačku u firmy Smékal ze Smíchova za 900 zlatých</strong>. Na tuto stříkačku přispěl kromě jiných i samotný <em>císař František Josef I.</em>
+        <div class="highlight"><p>Za prvních <strong>50 let existence</strong> zasahovali dobrovolní hasiči z Chlumína u <strong>126 požárů domů</strong>. Hasičská stráž zajišťovala požární hlídky, žňové hlídky a preventivní prohlídky objektů.</p></div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">🎖️</div>
+      <div class="tl-year">1930</div>
+      <div class="tl-title">50. výročí – velká oslava</div>
+      <div class="tl-text">
+        Významným milníkem byl <strong>8. a 9. června 1930</strong>, kdy sbor uskutečnil velkolepou oslavu 50. výročí svého založení. Zúčastnilo se <em>197 hasičů z obce a okolí</em> a mnoho občanů a hostů.
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">⚔️</div>
+      <div class="tl-year">1914–1945</div>
+      <div class="tl-title">Válečná období</div>
+      <div class="tl-text">
+        1. světová válka vzala život <strong>23 chlumínským mužům</strong> – většina z nich byla z řad dobrovolných hasičů. V roce <strong>1923 byl odhalen pomník</strong> u kostela sv. Máří Magdaleny na jejich památku.
+        <br><br>
+        Druhá světová válka zaměstnala sbor <em>nepřetržitou požární, protisabotážní a civilní protiletadlovou službou</em>. Hasiči byli voláni i na pomoc bombardovaných Neratovic.
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">🚒</div>
+      <div class="tl-year">1956–1980</div>
+      <div class="tl-title">Poválečná obnova & rozvoj</div>
+      <div class="tl-text">
+        V roce 1956 získal sbor <strong>požární automobil Steyer</strong> – osmiválec s předním i zadním náhonem. Sbor byl přejmenován na <em>Místní jednotu Československého svazu požární ochrany</em>.
+        <br><br>
+        Rozvíjela se práce s mládeží a bohatá ochotnická divadelní činnost. Nová <strong>hasičská zbrojnice byla postavena v roce 1970</strong>, následně byl zakoupen požární automobil ROBUR.
+        <br><br>
+        <strong>Rok 1980</strong> byl ve znamení 100. výročí – opět s bohatým programem.
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">💤</div>
+      <div class="tl-year">1989–2002</div>
+      <div class="tl-title">Zánik a spánek sboru</div>
+      <div class="tl-text">
+        Na přelomu 80. a 90. let činnost sboru stagnovala. Po listopadových událostech roku 1989 a změnách v Českém svazu požární ochrany <strong>nedošlo k přeregistraci a sbor zanikl</strong>.
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">🌊</div>
+      <div class="tl-year">2002</div>
+      <div class="tl-title">Obnova po povodních</div>
+      <div class="tl-text">
+        Existence a činnost sboru byla obnovena po <em>rozsáhlých povodních v roce 2002</em> pod názvem <strong>Sbor dobrovolných hasičů v Chlumíně</strong>. Jednotku sboru obec vybudovala od nuly s použitím požární cisterny Š706 získané od podniku Spolana Neratovice.
+        <div class="highlight"><p>Postupně byla získána <strong>cisterna Tatra T148</strong>, automobilový žebřík <strong>IFA AZ30</strong> a velitelský automobil <strong>VW Transporter</strong>. Všechny automobily byly svépomocí opraveny a uvedeny do dnešní podoby.</p></div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">🏛️</div>
+      <div class="tl-year">2011</div>
+      <div class="tl-title">Nová hasičská zbrojnice</div>
+      <div class="tl-text">
+        S významnou pomocí Středočeského kraje vybudovala Obec Chlumín <strong>novou, krásnou hasičskou zbrojnici</strong>, kterou slavnostně otevřela v <em>červnu 2011</em>. SDH po svém obnovení navázal na bohatý kulturní a společenský život a přitáhl zájem dětí o hasičinu.
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">🌟</div>
+      <div class="tl-year">Dnes</div>
+      <div class="tl-title">Aktivní sbor & moderní jednotka</div>
+      <div class="tl-text">
+        SDH Chlumín dnes tvoří <strong>aktivní sbor s více než 150 členy</strong>, zásahová jednotka JSDH s 11 hasiči, oddíl mladých hasičů a silná komunita. Sloužíme obci a okolí <em>24 hodin denně, 365 dní v roce</em>.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="fl">SDH <span>Chlumín</span></div>
+  <p>© 2026 Sbor dobrovolných hasičů Chlumín</p>
+  <div class="flinks">
+    <a href="sdh-chlumin-modern.html">Hlavní web</a>
+    <a href="jednotka.html">Jednotka SDH</a>
+    <a href="mladi-hasici.html">Mladí hasiči</a>
+  </div>
+</footer>
+</body>
+</html>
