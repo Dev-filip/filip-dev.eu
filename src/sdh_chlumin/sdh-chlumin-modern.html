@@ -195,14 +195,12 @@
   .modal-photo-strip { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
   .modal-photo-strip img { height: 70px; width: 100px; object-fit: cover; border-radius: 3px; cursor: pointer; opacity: .8; transition: opacity .15s; border: 1px solid #333; }
   .modal-photo-strip img:hover { opacity: 1; border-color: var(--fire); }
-  .modal-text { font-size: .92rem; color: var(--silver); line-height: 1.82; }
-  .modal-text strong { color: var(--white); }
-  .modal-kat { display: inline-block; font-family: 'Barlow Condensed', sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; background: rgba(232,56,13,.12); color: var(--fire); padding: .2rem .6rem; border-radius: 2px; margin-bottom: 1rem; }
-  .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid #2a2a2a; display: flex; gap: .75rem; flex-shrink: 0; flex-wrap: wrap; }
-  .modal-ext-btn { font-family: 'Barlow Condensed', sans-serif; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--coal); background: var(--fire); padding: .55rem 1.25rem; border-radius: 3px; text-decoration: none; transition: background .15s; }
-  .modal-ext-btn:hover { background: var(--fire-glow); }
-  .modal-close-btn { font-family: 'Barlow Condensed', sans-serif; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--silver); background: none; border: 1px solid #333; padding: .55rem 1.25rem; border-radius: 3px; cursor: pointer; transition: all .15s; }
-  .modal-close-btn:hover { border-color: var(--silver); color: var(--white); }
+  .modal-kat { display: inline-block; font-family: 'Barlow Condensed', sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; background: rgba(232,56,13,.12); color: var(--fire); padding: .2rem .6rem; border-radius: 2px; margin-bottom: 1.1rem; }
+  .modal-para { font-size: .95rem; color: #c8c4be; line-height: 1.85; margin-bottom: 1rem; }
+  .modal-para:last-child { margin-bottom: 0; }
+  .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid #2a2a2a; display: flex; gap: .75rem; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+  .modal-close-btn { font-family: 'Barlow Condensed', sans-serif; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--silver); background: none; border: 1px solid #333; padding: .55rem 1.5rem; border-radius: 3px; cursor: pointer; transition: all .15s; }
+  .modal-close-btn:hover { border-color: var(--fire); color: var(--white); background: rgba(232,56,13,.08); }
 
   /* MOBILE */
   @media (max-width: 768px) {
@@ -231,7 +229,7 @@
     <a href="#mladi">Mladí hasiči</a>
     <a href="#kontakt">Kontakt</a>
   </div>
-  <a href="https://paleni.izscr.cz/" class="nav-emergency" >
+  <a href="https://sdh-chlumin.estranky.cz/clanky/evidence-paleni/" class="nav-emergency" target="_blank">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2c0 0-5 7-5 12a5 5 0 0 0 10 0c0-5-5-12-5-12z"/></svg>
     Evidence pálení
   </a>
@@ -358,7 +356,7 @@
   <p class="section-desc">Vychováváme novou generaci hasičů – sportem, výchovou a zábavnými aktivitami. Soutěže, výlety, soustředění a kamarádi na celý život.</p>
   <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
     <a href="mladi-hasici.html" class="btn-primary">Více o mladých hasičích</a>
-    <a href="https://sdh-chlumin.estranky.cz/fotoalbum/souteze/"  class="btn-outline">Fotky ze soutěží</a>
+    <a href="https://sdh-chlumin.estranky.cz/fotoalbum/souteze/" target="_blank" class="btn-outline">Fotky ze soutěží</a>
   </div>
 </section>
 
@@ -367,18 +365,18 @@
   <div class="section-label">Užitečné weby</div>
   <h2 class="section-title">Oblíbené odkazy</h2>
   <div class="links-grid">
-    <a class="link-item" href="http://www.hzscr.cz" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Hasičský záchranný sbor ČR</a>
-    <a class="link-item" href="http://www.hasik.cz" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Hasík.cz</a>
-    <a class="link-item" href="http://www.zachrannykruh.cz" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Záchranný kruh</a>
-    <a class="link-item" href="http://www.chlumin.cz" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Obec Chlumín</a>
-    <a class="link-item" href="http://www.volny.cz/zschlumin" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>ZŠ a MŠ Chlumín</a>
-    <a class="link-item" href="http://www.pozary.cz" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Požáry.cz</a>
-    <a class="link-item" href="http://www.komoravelitelu.cz/" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Komora velitelů JSDH</a>
-    <a class="link-item" href="http://www.policie.cz/" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Policie ČR</a>
-    <a class="link-item" href="http://www.uszssk.cz/" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Záchranná služba Stř. kraje</a>
-    <a class="link-item" href="http://www.cervenykriz.eu/cz/cz_root.aspx" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Český červený kříž</a>
-    <a class="link-item" href="http://www.dh.cz" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>SH ČMS</a>
-    <a class="link-item" href="https://sdh-chlumin.estranky.cz/clanky/evidence-paleni/" ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Evidence pálení</a>
+    <a class="link-item" href="http://www.hzscr.cz" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Hasičský záchranný sbor ČR</a>
+    <a class="link-item" href="http://www.hasik.cz" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Hasík.cz</a>
+    <a class="link-item" href="http://www.zachrannykruh.cz" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Záchranný kruh</a>
+    <a class="link-item" href="http://www.chlumin.cz" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Obec Chlumín</a>
+    <a class="link-item" href="http://www.volny.cz/zschlumin" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>ZŠ a MŠ Chlumín</a>
+    <a class="link-item" href="http://www.pozary.cz" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Požáry.cz</a>
+    <a class="link-item" href="http://www.komoravelitelu.cz/" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Komora velitelů JSDH</a>
+    <a class="link-item" href="http://www.policie.cz/" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Policie ČR</a>
+    <a class="link-item" href="http://www.uszssk.cz/" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Záchranná služba Stř. kraje</a>
+    <a class="link-item" href="http://www.cervenykriz.eu/cz/cz_root.aspx" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Český červený kříž</a>
+    <a class="link-item" href="http://www.dh.cz" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>SH ČMS</a>
+    <a class="link-item" href="https://sdh-chlumin.estranky.cz/clanky/evidence-paleni/" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Evidence pálení</a>
   </div>
 </section>
 
@@ -399,18 +397,18 @@
       </div>
       <div class="contact-row">
         <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
-        <span><strong>Instagram</strong><a href="https://www.instagram.com/mh_chlumin"  style="color:var(--fire);text-decoration:none;">@mh_chlumin</a></span>
+        <span><strong>Instagram</strong><a href="https://www.instagram.com/mh_chlumin" target="_blank" style="color:var(--fire);text-decoration:none;">@mh_chlumin</a></span>
       </div>
       <div class="contact-row">
         <svg viewBox="0 0 24 24" fill="none" stroke="#E8380D" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
-        <span><strong>Obec Chlumín</strong><a href="http://www.chlumin.cz"  style="color:var(--fire);text-decoration:none;">www.chlumin.cz</a></span>
+        <span><strong>Obec Chlumín</strong><a href="http://www.chlumin.cz" target="_blank" style="color:var(--fire);text-decoration:none;">www.chlumin.cz</a></span>
       </div>
     </div>
     <div>
       <div class="paleni-box">
         <h3>🔥 Evidence pálení</h3>
-        <p>Pokud chceš na zahradě nebo poli pálit rostlinný materiál (např. trávu, větve nebo při pálení čarodějnic), musíš to předem nahlásit. Doporučuje se také informovat velitele místních dobrovolných hasičů, případně mu přeposlat potvrzovací e-mail. Nahlášení ale neznamená schválení – slouží pouze k evidenci, aby hasiči mohli v případě hlášení požáru ověřit, že jde o plánované pálení.</p>
-        <a href="https://paleni.izscr.cz/" >Nahlásit pálení →</a>
+        <p>Plánujete pálit na zahradě? Nezapomeňte svůj záměr nahlásit přes systém evidence pálení. Předejdete zbytečným výjezdům hasičů a případným pokutám.</p>
+        <a href="https://sdh-chlumin.estranky.cz/clanky/evidence-paleni/" target="_blank">Nahlásit pálení →</a>
       </div>
       <div style="margin-top:1.5rem;background:var(--smoke);padding:1.5rem;border-radius:4px;">
         <p style="font-size:0.85rem;color:var(--silver);line-height:1.65;">
@@ -446,7 +444,7 @@
   <div class="footer-links">
     <a href="jednotka.html">Jednotka SDH</a>
     <a href="mladi-hasici.html">Mladí hasiči</a>
-    <a href="https://sdh-chlumin.estranky.cz/fotoalbum/" >Fotoalbum</a>
+    <a href="https://sdh-chlumin.estranky.cz/fotoalbum/" target="_blank">Fotoalbum</a>
   </div>
 </footer>
 
@@ -546,7 +544,7 @@ function filterNews(btn) {
   renderNews(allPosts);
 }
 
-// MODAL
+// MODAL – zobrazí plný obsah příspěvku z pole "obsah" v JSON
 function openModal(post, fotoIdx) {
   if (!post) return;
   const fotky = post.fotky || [];
@@ -557,24 +555,40 @@ function openModal(post, fotoIdx) {
   document.getElementById('modal-date').textContent = fmtFull(post.datum);
   document.getElementById('modal-title').textContent = post.nadpis;
 
-  // body
+  // sestavit body
   let bodyHtml = '';
+
+  // hlavní fotka
   if (fotky.length) {
     const mainIdx = fotoIdx !== undefined ? fotoIdx : 0;
-    bodyHtml += `<img class="modal-img" id="modal-main-img" src="${sharpUrl(fotky[mainIdx])}" onerror="this.src='${fotky[mainIdx]}'" alt="${post.nadpis}">`;
+    bodyHtml += `<img class="modal-img" id="modal-main-img" src="${sharpUrl(fotky[mainIdx])}" onerror="this.src='${fotky[mainIdx]}'" alt="${post.nadpis}" loading="lazy">`;
+    // prohlížeč fotek (pokud je víc)
     if (fotky.length > 1) {
-      bodyHtml += `<div class="modal-photo-strip">${fotky.map((f,i) => `<img src="${sharpUrl(f)}" onerror="this.src='${f}'" onclick="document.getElementById('modal-main-img').src='${sharpUrl(f)}'" title="Foto ${i+1}">`).join('')}</div>`;
+      bodyHtml += `<div class="modal-photo-strip">
+        ${fotky.map((f,i) => `<img src="${sharpUrl(f)}" onerror="this.src='${f}'" loading="lazy"
+          onclick="document.getElementById('modal-main-img').src='${sharpUrl(f)}';document.querySelectorAll('.modal-photo-strip img').forEach(x=>x.style.borderColor='');this.style.borderColor='var(--fire)'"
+          title="Foto ${i+1}" style="${i===mainIdx?'border-color:var(--fire)':''}">`).join('')}
+      </div>`;
     }
   }
+
+  // kategorie badge
   bodyHtml += `<div class="modal-kat">${post.kategorie}</div>`;
-  if (post.perex) bodyHtml += `<div class="modal-text">${post.perex}</div>`;
+
+  // PLNÝ TEXT – pole obsah, odřádkování \n převedeme na odstavce
+  if (post.obsah) {
+    const odstavce = post.obsah.split('\n').filter(r => r.trim());
+    bodyHtml += odstavce.map(p => `<p class="modal-para">${p}</p>`).join('');
+  } else if (post.perex) {
+    // fallback – alespoň perex
+    bodyHtml += `<p class="modal-para">${post.perex}</p>`;
+  }
+
   document.getElementById('modal-body').innerHTML = bodyHtml;
 
-  // footer
-  let footerHtml = '';
-  if (post.odkaz) footerHtml += `<a class="modal-ext-btn" href="${post.odkaz}" >🔗 Otevřít celý příspěvek</a>`;
-  footerHtml += `<button class="modal-close-btn" onclick="closeModal()">Zavřít</button>`;
-  document.getElementById('modal-footer').innerHTML = footerHtml;
+  // footer – jen zavřít (žádný odkaz na externí web)
+  document.getElementById('modal-footer').innerHTML =
+    `<button class="modal-close-btn" style="margin-left:auto" onclick="closeModal()">Zavřít ✕</button>`;
 
   document.getElementById('post-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -592,12 +606,11 @@ document.addEventListener('keydown', e => {
 
 // LOAD JSON
 const FALLBACK = [
-  { id:1, datum:"2022-05-21", nadpis:"2022 Dědkiáda Velvary", perex:"Zúčastnili jsme se tradiční hasičské soutěže Dědkiáda ve Velvarech.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/277/20220521_111731.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-dedkiada-velvary.html", kategorie:"soutěž" },
-  { id:2, datum:"2022-05-07", nadpis:"2022 Oužická \\\"Osma\\\"", perex:"Výjezd na oblíbenou soutěž – tradice a bojovný duch.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/276/img-20220508-wa0000.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-ouzicka---osma-.html", kategorie:"soutěž" },
-  { id:3, datum:"2021-08-15", nadpis:"Oslava 140(+1). výročí SDH Chlumín", perex:"Slavnostní oslava vzniku sboru s bohatým programem pro celou rodinu.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/273/pozvanka-na-140.-vyroci.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/oslava-140--1-.-vyroci-vzniku-sdh-chlumin.html", kategorie:"společenská akce" },
-  { id:4, datum:"2019-11-23", nadpis:"2019 Libišský čtyřboj", perex:"Soutěžní klání čtyřčlenných hasičských družstev v Libiši.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/261/imag6287.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-libissky-ctyrboj.html", kategorie:"soutěž" },
-  { id:5, datum:"2019-09-28", nadpis:"Soutěž o pohár starosty Chlumína", perex:"Každoroční domácí soutěž v požárním útoku.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/263/img_4130.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-soutez-v-pu-o-pohar-starosty-obce-chlumin.html", kategorie:"soutěž" }
-];
+  { id:1, datum:"2022-05-21", nadpis:"2022 Dedkiada Velvary", perex:"Privezli jsme diplom a pohar za 2. miste s casem 34,47 sekund!", obsah:"V sobotu 21. 5. 2022 se nasi hasici poprvé ucastnili zavodu v pozarnim utoku Dedkiady ve Velvarech, z ktere jsme si s casem 34,47 sekund privezli diplom a pohar za krasne 2. miste.\\n\\nSoutezilo celkem 23 druzstev ve dvou kategorich - 13 druzstev tzv. dedku a 10 druzstev soutezilo o klasicky pohar SDH. V celkovem poradi jsme bezeli jako posled, bylo tedy opravdu na co koukat a souboj byl napinavy az do konce.\\n\\nNa miste byla zaroven vystava hasickych historickych vozu, k videni byla vysokozdvizna plosina ze Slaneho a vuz protochemicke jednotky z Kralup nad Vltavou.\\n\\n- A.H.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/277/20220521_111731.jpg"], odkaz:"", kategorie:"soutez" },
+  { id:2, datum:"2022-05-07", nadpis:"2022 Ouzicka Osma", perex: "Obliubena soutez - tradicce a bojovny duch.", obsah:"V sobotu 7. 5. 2022 jsme se zucastnili obliubene souteze Ouzicka Osma v Uzicich.\\n\\nTato soutez je jednou z tradic hasicskeho roku na Melnickú. Atmosfera byla skvela, pocasi pralo a nase druzstvo podalo vyborny vykon.\\n\\nDekujeme poradatelum za vybornou organizaci a tesime se na dalsi rocnik!", fotky:["https://sdh-chlumin.estranky.cz/img/picture/276/img-20220508-wa0000.jpg"], odkaz:"", kategorie:"soutez" },
+  { id:3, datum:"2021-08-15", nadpis:"Oslava 140(+1). vyroci SDH Chlumin", perex:"Slavnostni oslava vzniku sboru s bogatym programem pro celou rodinu.", obsah:"V srpnu 2021 jsme slavili 140(+1). vyroci vzniku Sboru dobrovolnych hasicu Chlumin. Oslava se o rok posunula kvuli pandemickym omezenim roku 2020.\\n\\nProgram zahrnoval slavnostni nastup, ukazky hasicke techniky, souteze pro deti a vernisaz vystavy fotografii. Pritomni byli hoste z okolnich sboru, zastupci obce a desitky clenu.\\n\\nDekujeme vsem, kteri prisli oslavit s nami!", fotky:["https://sdh-chlumin.estranky.cz/img/picture/273/pozvanka-na-140.-vyroci.jpg"], odkaz:"", kategorie:"spolecenska akce" },
+  { id:4, datum:"2019-11-23", nadpis:"2019 Libissky ctyruboj", perex:"Soutezni klani ctyrclennech hasickych druzstev v Libisi.", obsah:"Dne 23. 11. 2019 se nasi mladi hasici zucastnili Libisskeho ctyrboje v Libisi.\\n\\nSoutez se sklada ze ctyr disciplin - uzlovani, stafetoveho zavodu, pozarniho utoku a znalostniho testu. Nase druzstvo podalo skvely vykon a obsadilo prendí price.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/261/imag6287.jpg"], odkaz:"", kategorie:"soutez" },
+  { id:5, datum:"2019-09-28", nadpis:"Soutez o pohar starosty Chlumin", perex:"Kazdy rocni domasci soutez v pozarnim utoku.", obsah:"V sobotu 28. 9. 2019 jsme poradali kazdy rocni domasci soutez v pozarnim utoku O pahar starosty obce Chlumin.\\n\\nNa nase cviciste prijelo 12 souteznych druzstev z celeho okresu Melnik. Zavod se v kategorich dospelych i mladych hasicu.\\n\\nVitezi letosniho rocniku se stali nasi domaci hasici s casem 28,4 sekund!", fotky:["https://sdh-chlumin.estranky.cz/img/picture/263/img_4130.jpg"], odkaz:"", kategorie:"soutez" }];
 fetch('prispevky.json?v=' + Date.now())
   .then(r => { if (!r.ok) throw new Error(); return r.json(); })
   .then(data => { allPosts = data; renderNews(allPosts); })

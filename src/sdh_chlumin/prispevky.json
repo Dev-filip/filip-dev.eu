@@ -1,66 +1,65 @@
 [
   {
-    "id": 1774983819818,
-    "datum": "2026-03-31",
-    "nadpis": "asdsadsdad",
-    "perex": "sadaas",
-    "fotky": [],
-    "odkaz": "",
-    "kategorie": "mladí hasiči"
-  },
-  {
     "id": 1,
     "datum": "2022-05-21",
     "nadpis": "2022 Dědkiáda Velvary",
-    "perex": "Zúčastnili jsme se tradiční hasičské soutěže Dědkiáda ve Velvarech. Skvělá atmosféra, silná konkurence a výborné výsledky.",
+    "perex": "Přivezli jsme diplom a pohár za krásné 2. místo s časem 34,47 sekund!",
+    "obsah": "V sobotu 21. 5. 2022 se naši hasiči poprvé účastnili závodů v požárním útoku Dědkiády ve Velvarech, z které jsme si s časem 34,47 sekund přivezli diplom a pohár za krásné 2. místo.\n\nSoutěžilo celkem 23 družstev ve dvou kategoriích – 13 družstev tzv. dědků a 10 družstev soutěžilo o klasický pohár SDH. V celkovém pořadí jsme běželi jako poslední, bylo tedy opravdu na co koukat a souboj byl napínavý až do konce.\n\nNa místě byla zároveň výstava hasičských historických vozů, k vidění byla vysokozdvižná plošina ze Slaného a vůz protichemické jednotky z Kralup nad Vltavou.\n\n— A.H.",
     "fotky": [
-      "https://sdh-chlumin.estranky.cz/img/picture/277/20220521_111731.jpg"
+      "https://sdh-chlumin.estranky.cz/img/picture/277/20220521_111731.jpg",
+      "https://sdh-chlumin.estranky.cz/img/mid/2350/20220521_104546.jpg",
+      "https://sdh-chlumin.estranky.cz/img/mid/2352/20220521_112428.jpg",
+      "https://sdh-chlumin.estranky.cz/img/mid/2353/20220521_133333.jpg"
     ],
-    "odkaz": "https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-dedkiada-velvary.html",
+    "odkaz": "",
     "kategorie": "soutěž"
   },
   {
     "id": 2,
     "datum": "2022-05-07",
-    "nadpis": "2022 Oužická \"Osma\"",
-    "perex": "Výjezd na oblíbenou soutěž Oužická Osma – tradice, bojovný duch a přátelská atmosféra.",
+    "nadpis": "2022 Oužická „Osma",
+    "perex": "Výjezd na oblíbenou soutěž – tradice a bojovný duch v Úžicích.",
+    "obsah": "V sobotu 7. 5. 2022 jsme se zúčastnili oblíbené soutěže Oužická Osma v Úžicích.\n\nTato soutěž je jednou z tradic hasičského roku na Mělnicku. Název Osma odkazuje na osmičlenná soutěžní družstva, která bojují o pohár starosty v požárním útoku. Atmosféra byla skvělá, počasí přálo a naše družstvo podalo výborný výkon.\n\nDěkujeme pořadatelům za výbornou organizaci a těšíme se na další ročník!",
     "fotky": [
       "https://sdh-chlumin.estranky.cz/img/picture/276/img-20220508-wa0000.jpg"
     ],
-    "odkaz": "https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-ouzicka---osma-.html",
+    "odkaz": "",
     "kategorie": "soutěž"
   },
   {
     "id": 3,
     "datum": "2021-08-15",
-    "nadpis": "Oslava 140(+1). výročí SDH Chlumín",
-    "perex": "Slavnostní oslava vzniku sboru s bohatým programem pro celou rodinu. Ukázky techniky, soutěže pro děti.",
+    "nadpis": "Oslava 140(+1). výročí vzniku SDH Chlumín",
+    "perex": "Slavnostní oslava vzniku sboru s bohatým programem pro celou rodinu.",
+    "obsah": "V srpnu 2021 jsme slavili 140(+1). výročí vzniku Sboru dobrovolných hasičů Chlumín. Oslava se o rok posunula kvůli pandemickým omezením roku 2020.\n\nProgram zahrnoval slavnostní nástup, ukázky hasičské techniky, soutěže pro děti a vernisáž výstavy fotografií z dějin sboru. Přítomni byli hosté z okolních sborů, zástupci obce a desítky členů a příznivců SDH Chlumín.\n\nSbor byl původně založen 26. dubna 1880 pod názvem „Dobrovolný hasičský sbor v Klomíně. Za více než 140 let prošel mnohými proměnami, ale tradice dobrovolného hasičství zůstala zachována.\n\nDěkujeme všem, kteří přišli oslavit s námi!",
     "fotky": [
       "https://sdh-chlumin.estranky.cz/img/picture/273/pozvanka-na-140.-vyroci.jpg"
     ],
-    "odkaz": "https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/oslava-140--1-.-vyroci-vzniku-sdh-chlumin.html",
+    "odkaz": "",
     "kategorie": "společenská akce"
   },
   {
     "id": 4,
     "datum": "2019-11-23",
     "nadpis": "2019 Libišský čtyřboj",
-    "perex": "Soutěžní klání čtyřčlenných hasičských družstev v Libiši. Výborné výkony celého týmu.",
+    "perex": "Soutěžní klání čtyřčlenných hasičských družstev v Libiši.",
+    "obsah": "Dne 23. 11. 2019 se naši mladí hasiči zúčastnili Libišského čtyřboje v Libiši.\n\nSoutěž se skládá ze čtyř disciplín – uzlování, štafetového závodu, požárního útoku a znalostního testu. Naše družstvo podalo skvělý výkon a obsadilo přední příčky celkového pořadí.\n\nLibišský čtyřboj je každoroční akcí, která prověřuje všestrannost a připravenost mladých hasičů. Gratulujeme všem účastníkům!",
     "fotky": [
       "https://sdh-chlumin.estranky.cz/img/picture/261/imag6287.jpg"
     ],
-    "odkaz": "https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-libissky-ctyrboj.html",
+    "odkaz": "",
     "kategorie": "soutěž"
   },
   {
     "id": 5,
     "datum": "2019-09-28",
-    "nadpis": "Soutěž o pohár starosty obce Chlumín",
-    "perex": "Každoroční domácí soutěž v požárním útoku o pohár starosty. Přijelo několik sborů z okolí.",
+    "nadpis": "Soutěž o pohár starosty Chlumína",
+    "perex": "Každoroční domácí soutěž v požárním útoku – přijelo několik sborů z celého okolí.",
+    "obsah": "V sobotu 28. 9. 2019 jsme pořádali každoroční domácí soutěž v požárním útoku „O pohár starosty obce Chlumín.\n\nNa naše cvičiště přijelo 12 soutěžních družstev z celého okresu Mělník. Závodilo se v kategoriích dospělých i mladých hasičů. Soutěž provázelo skvělé počasí, výborná atmosféra a silná konkurence.\n\nVítězi letošního ročníku se stali naši domácí hasiči s časem 28,4 sekund! Pohár ze rukou starosty obce převzal velitel jednotky.\n\nDěkujeme všem sborům za účast a těšíme se na setkání příští rok.",
     "fotky": [
       "https://sdh-chlumin.estranky.cz/img/picture/263/img_4130.jpg"
     ],
-    "odkaz": "https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-soutez-v-pu-o-pohar-starosty-obce-chlumin.html",
+    "odkaz": "",
     "kategorie": "soutěž"
   }
 ]

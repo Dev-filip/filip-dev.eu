@@ -231,6 +231,9 @@
     <h2 class="form-title" id="form-title">Nový příspěvek</h2>
     <p class="form-desc" id="form-desc">Vyplňte formulář a uložte příspěvek. Změny se projeví automaticky na webu.</p>
 
+    <div class="info-box">
+      <strong>Jak to funguje?</strong> Příspěvky se ukládají do <code>prispevky.json</code>. Web (<code>sdh-chlumin.html</code>) tento soubor automaticky načte a zobrazí aktuality. Stačí tedy jen aktualizovat JSON soubor a web je hotový.
+    </div>
 
     <div class="form-grid">
       <div class="field">
@@ -242,8 +245,12 @@
         <input type="date" id="f-datum">
       </div>
       <div class="field form-full">
-        <label>Krátký popis (perex)</label>
-        <textarea id="f-perex" placeholder="Stručný popis, co se stalo nebo co vás čeká…"></textarea>
+        <label>Krátký popis (perex – zobrazí se na kartičce)</label>
+        <textarea id="f-perex" placeholder="1–2 věty, stručné shrnutí…" style="min-height:70px"></textarea>
+      </div>
+      <div class="field form-full">
+        <label>Plný text příspěvku (obsah – zobrazí se v okénku po rozkliknutí) *</label>
+        <textarea id="f-obsah" placeholder="Napište celý text příspěvku. Odřádkováním (Enter) oddělíte odstavce. Tento text se zobrazí návštěvníkům přímo na webu, bez přesměrování." style="min-height:180px"></textarea>
       </div>
       <div class="field">
         <label>Kategorie</label>
@@ -256,24 +263,22 @@
           <option value="oznámení">Oznámení</option>
         </select>
       </div>
-      <div class="field">
-        <label>Odkaz na celý článek (URL, nepovinné)</label>
-        <input type="url" id="f-odkaz" placeholder="https://…">
+      <div class="field" style="display:flex;align-items:flex-end">
+        <div style="width:100%">
+          <label>Počet fotek</label>
+          <input type="text" value="Přidejte fotky níže pomocí URL nebo nahráním souboru" disabled style="opacity:.4;cursor:default">
+        </div>
       </div>
 
       <div class="field form-full">
         <label>Fotografie</label>
         <div class="photo-section">
           <div class="photo-preview" id="photo-preview"></div>
-
-          <!-- nahrát soubor -->
           <div class="upload-area" id="upload-area" onclick="document.getElementById('fileInput').click()">
             <p>📁 <strong>Klikněte nebo přetáhněte</strong> obrázky sem</p>
             <p style="margin-top:0.4rem;font-size:0.78rem;">JPG, PNG, WebP · Soubory se uloží jako Base64 v JSON</p>
           </div>
           <input type="file" id="fileInput" multiple accept="image/*">
-
-          <!-- nebo URL -->
           <div class="photo-url-row">
             <input type="url" id="photo-url-input" placeholder="…nebo vložte URL fotky (https://…)">
             <button class="add-url-btn" onclick="addPhotoUrl()">+ Přidat URL</button>
@@ -313,7 +318,7 @@
 // ── DATA ──────────────────────────────────────────────
 const SAMPLE = [
   { id:1, datum:"2022-05-21", nadpis:"2022 Dědkiáda Velvary", perex:"Zúčastnili jsme se tradiční hasičské soutěže Dědkiáda ve Velvarech. Skvělá atmosféra, silná konkurence a výborné výsledky.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/277/20220521_111731.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-dedkiada-velvary.html", kategorie:"soutěž" },
-  { id:2, datum:"2022-05-07", nadpis:"2022 Oužická \"Osma\"", perex:"Výjezd na oblíbenou soutěž Oužická Osma – tradice, bojovný duch a přátelská atmosféra.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/276/img-20220508-wa0000.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-ouzicka---osma-.html", kategorie:"soutěž" },
+  { id:2, datum:"2022-05-07", nadpis:"2022 Oužická „Osma", perex:"Výjezd na oblíbenou soutěž Oužická Osma – tradice, bojovný duch a přátelská atmosféra.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/276/img-20220508-wa0000.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2022-ouzicka---osma-.html", kategorie:"soutěž" },
   { id:3, datum:"2021-08-15", nadpis:"Oslava 140(+1). výročí SDH Chlumín", perex:"Slavnostní oslava vzniku sboru s bohatým programem pro celou rodinu. Ukázky techniky, soutěže pro děti.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/273/pozvanka-na-140.-vyroci.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/oslava-140--1-.-vyroci-vzniku-sdh-chlumin.html", kategorie:"společenská akce" },
   { id:4, datum:"2019-11-23", nadpis:"2019 Libišský čtyřboj", perex:"Soutěžní klání čtyřčlenných hasičských družstev v Libiši. Výborné výkony celého týmu.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/261/imag6287.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-libissky-ctyrboj.html", kategorie:"soutěž" },
   { id:5, datum:"2019-09-28", nadpis:"Soutěž o pohár starosty obce Chlumín", perex:"Každoroční domácí soutěž v požárním útoku o pohár starosty. Přijelo několik sborů z okolí.", fotky:["https://sdh-chlumin.estranky.cz/img/picture/263/img_4130.jpg"], odkaz:"https://sdh-chlumin.estranky.cz/clanky/co-je-u-nas-noveho-_/2019-soutez-v-pu-o-pohar-starosty-obce-chlumin.html", kategorie:"soutěž" }
@@ -342,7 +347,7 @@ function resetForm() {
   editId = null; currentPhotos = [];
   document.getElementById('f-nadpis').value = '';
   document.getElementById('f-perex').value = '';
-  document.getElementById('f-odkaz').value = '';
+  document.getElementById('f-obsah').value = '';
   document.getElementById('f-datum').value = new Date().toISOString().slice(0,10);
   document.getElementById('f-kategorie').value = 'aktualita';
   document.getElementById('form-title').textContent = 'Nový příspěvek';
@@ -366,8 +371,9 @@ function savePost() {
     datum,
     nadpis,
     perex: document.getElementById('f-perex').value.trim(),
+    obsah: document.getElementById('f-obsah').value.trim(),
     fotky: currentPhotos.map(p => p.src),
-    odkaz: document.getElementById('f-odkaz').value.trim(),
+    odkaz: '',
     kategorie: document.getElementById('f-kategorie').value
   };
 
@@ -471,7 +477,7 @@ function editPost(id) {
   document.getElementById('f-nadpis').value = p.nadpis;
   document.getElementById('f-datum').value = p.datum;
   document.getElementById('f-perex').value = p.perex || '';
-  document.getElementById('f-odkaz').value = p.odkaz || '';
+  document.getElementById('f-obsah').value = p.obsah || '';
   document.getElementById('f-kategorie').value = p.kategorie || 'aktualita';
   document.getElementById('form-title').textContent = 'Upravit příspěvek';
   document.getElementById('form-desc').textContent = `Upravujete: „${p.nadpis}"`;
