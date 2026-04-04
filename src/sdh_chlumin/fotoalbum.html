@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fotoalbum – SDH Chlumín</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --fire:#E8380D;--fire2:#FF6B35;
+  --coal:#111;--ash:#181818;--smoke:#222;--smoke2:#2a2a2a;--border:#252525;
+  --silver:#888;--muted:#4a4a4a;--white:#F4F1ED;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--coal);color:var(--white);overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:rgba(17,17,17,.97);border-bottom:1px solid rgba(232,56,13,.2)}
+.nlogo{display:flex;align-items:center;gap:.65rem;text-decoration:none}
+.nlogo svg{width:30px;height:30px}
+.nlogo-t{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.08em;color:var(--white)}.nlogo-t span{color:var(--fire)}
+.nbread{font-family:'Barlow Condensed',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);display:flex;align-items:center;gap:.4rem}
+.nbread a{color:var(--silver);text-decoration:none}.nbread a:hover{color:var(--white)}.nbread .sep{color:var(--fire)}
+.nback{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coal);background:var(--fire);padding:.35rem .9rem;border-radius:3px;text-decoration:none;transition:background .15s}.nback:hover{background:var(--fire2)}
+
+/* ── HERO ── */
+.hero{position:relative;padding-top:56px;min-height:36vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 80% 20%,rgba(232,56,13,.12) 0%,transparent 60%),linear-gradient(160deg,#0e0605 0%,#111 60%,#141414 100%)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(232,56,13,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(232,56,13,.03) 1px,transparent 1px);background-size:55px 55px;mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 10%,transparent 75%)}
+.hero-c{position:relative;z-index:2;padding:3rem 2rem 2.5rem;max-width:700px}
+.hlabel{display:inline-flex;align-items:center;gap:.45rem;font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--fire);border:1px solid rgba(232,56,13,.3);padding:.25rem .65rem;border-radius:2px;margin-bottom:.8rem}
+.hlabel::before{content:'';width:5px;height:5px;background:var(--fire);border-radius:50%}
+.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,9vw,7rem);line-height:.88;letter-spacing:.02em}
+.hero-h1 .r{display:block;color:var(--fire)}.hero-h1 .w{display:block;color:var(--white)}
+.hero-stats{display:flex;gap:2.5rem;margin-top:1.5rem;flex-wrap:wrap}
+.hstat .n{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--white);line-height:1}
+.hstat .l{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);font-family:'Barlow Condensed',sans-serif}
+.hdiv{height:2px;background:linear-gradient(90deg,var(--fire),var(--fire2),transparent)}
+
+/* ── FILTER BAR ── */
+.filter-bar{position:sticky;top:56px;z-index:100;background:var(--ash);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none}
+.filter-bar::-webkit-scrollbar{display:none}
+.fcat{flex-shrink:0;font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--silver);padding:.85rem 1.4rem;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:.5rem;background:none;border-top:none;border-left:none;border-right:none}
+.fcat:hover{color:var(--white)}
+.fcat.active{color:var(--white);border-bottom-color:var(--fire)}
+.fcat .cnt{font-size:.65rem;background:rgba(232,56,13,.2);color:var(--fire);padding:.1rem .45rem;border-radius:10px}
+
+/* ── SEARCH ── */
+.search-row{padding:1.5rem 2rem;background:var(--coal);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.search-wrap{position:relative;flex:1;min-width:200px;max-width:360px}
+.search-wrap input{width:100%;background:var(--smoke);border:1px solid var(--border);border-radius:4px;color:var(--white);font-family:'Barlow',sans-serif;font-size:.87rem;padding:.65rem .9rem .65rem 2.4rem;outline:none;transition:border-color .15s}
+.search-wrap input:focus{border-color:var(--fire)}
+.search-wrap svg{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--silver);pointer-events:none}
+.album-count{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--silver)}
+.album-count span{color:var(--white)}
+
+/* ── ALBUM GRID ── */
+.page-body{padding:2rem;min-height:50vh}
+.album-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5px}
+
+.album-card{background:var(--smoke);overflow:hidden;cursor:pointer;position:relative;transition:transform .2s}
+.album-card:hover{transform:translateY(-3px)}
+.album-card:hover .ac-thumb img{transform:scale(1.06)}
+.album-card:hover .ac-overlay{opacity:1}
+
+.ac-thumb{height:200px;overflow:hidden;background:var(--smoke2);position:relative}
+.ac-thumb img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .5s;image-rendering:-webkit-optimize-contrast;transform:translateZ(0)}
+.ac-thumb-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;height:200px;gap:1.5px}
+.ac-thumb-grid img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;image-rendering:-webkit-optimize-contrast}
+.ac-thumb-grid .ac-thumb-main{grid-row:span 2}
+.album-card:hover .ac-thumb-grid img{transform:scale(1.04)}
+
+.ac-overlay{position:absolute;inset:0;background:rgba(232,56,13,.12);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.ac-overlay svg{width:40px;height:40px;color:white;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
+
+.ac-cat-badge{position:absolute;top:.6rem;left:.6rem;font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .55rem;border-radius:2px;z-index:2}
+.badge-souteze{background:rgba(232,56,13,.85);color:#fff}
+.badge-spolecenske{background:rgba(255,193,7,.85);color:#111}
+.badge-technika{background:rgba(96,165,250,.85);color:#111}
+.badge-odborna{background:rgba(100,220,100,.85);color:#111}
+.badge-mladi{background:rgba(167,139,250,.85);color:#111}
+
+.ac-count{position:absolute;bottom:.6rem;right:.6rem;background:rgba(0,0,0,.6);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.06em;padding:.2rem .6rem;border-radius:2px;backdrop-filter:blur(4px)}
+
+.ac-body{padding:1rem 1.1rem 1.25rem}
+.ac-date{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fire);margin-bottom:.3rem}
+.ac-title{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:.03em;color:var(--white);line-height:1.3;margin-bottom:.35rem}
+.ac-desc{font-size:.78rem;color:var(--silver);line-height:1.55}
+
+.empty{padding:5rem 2rem;text-align:center;color:var(--muted)}
+.empty svg{width:48px;height:48px;margin:0 auto 1rem;display:block;opacity:.3}
+.empty p{font-size:.9rem}
+
+/* ── LIGHTBOX ── */
+.lb-overlay{
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,.96);
+  flex-direction:column;
+}
+.lb-overlay.open{display:flex}
+
+.lb-header{
+  padding:.75rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  flex-shrink:0;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(0,0,0,.6);
+  backdrop-filter:blur(8px);
+}
+.lb-album-name{font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--white)}
+.lb-counter{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;color:var(--silver);letter-spacing:.06em}
+.lb-close{background:none;border:1px solid rgba(255,255,255,.2);color:var(--white);width:34px;height:34px;border-radius:4px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.lb-close:hover{border-color:var(--fire);color:var(--fire)}
+
+.lb-stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:1rem 4rem}
+.lb-img-wrap{display:flex;align-items:center;justify-content:center;width:100%;height:100%;position:relative}
+.lb-img{
+  max-width:100%;max-height:100%;
+  object-fit:contain;
+  border-radius:3px;
+  user-select:none;
+  transition:opacity .2s;
+  image-rendering:-webkit-optimize-contrast;
+  image-rendering:optimizeQuality;
+}
+.lb-img.loading{opacity:.2}
+
+.lb-btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  color:var(--white);width:44px;height:72px;border-radius:4px;
+  cursor:pointer;font-size:1.4rem;display:flex;align-items:center;justify-content:center;
+  transition:all .15s;z-index:2;
+}
+.lb-btn:hover{background:rgba(232,56,13,.25);border-color:var(--fire)}
+.lb-btn.prev{left:.5rem}
+.lb-btn.next{right:.5rem}
+.lb-btn:disabled{opacity:.25;cursor:default}
+
+.lb-footer{
+  flex-shrink:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.lb-thumbs{
+  display:flex;gap:3px;padding:.5rem .75rem;overflow-x:auto;
+  scrollbar-width:thin;scrollbar-color:rgba(232,56,13,.4) transparent;
+}
+.lb-thumbs::-webkit-scrollbar{height:4px}.lb-thumbs::-webkit-scrollbar-thumb{background:rgba(232,56,13,.4);border-radius:2px}
+.lb-thumb{
+  flex-shrink:0;width:60px;height:44px;
+  object-fit:cover;border-radius:2px;cursor:pointer;
+  opacity:.55;border:1.5px solid transparent;
+  transition:opacity .15s,border-color .15s;
+  image-rendering:-webkit-optimize-contrast;
+}
+.lb-thumb:hover{opacity:.8}
+.lb-thumb.active{opacity:1;border-color:var(--fire)}
+
+/* ── FOOTER ── */
+footer{background:#0a0a0a;border-top:1px solid #1a1a1a;padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.fl{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.08em;color:var(--silver)}.fl span{color:var(--fire)}
+footer p{font-size:.72rem;color:var(--muted)}
+.flinks{display:flex;gap:1.4rem}.flinks a{font-size:.72rem;color:var(--muted);text-decoration:none;transition:color .2s}.flinks a:hover{color:var(--silver)}
+
+@media(max-width:640px){
+  .hero-c{padding:2rem 1.25rem 2rem}.nbread{display:none}nav{padding:0 1rem}
+  .lb-btn{width:36px;height:56px}.lb-stage{padding:1rem 2.5rem}
+  .album-grid{grid-template-columns:1fr 1fr}
+  .ac-thumb,.ac-thumb-grid{height:140px}
+  .page-body{padding:1rem}
+  .search-row{padding:1rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nlogo" href="sdh-chlumin-modern.html"><svg viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="17" stroke="#E8380D" stroke-width="1.5"/><path d="M18 6c0 0-6 8-6 14a6 6 0 0 0 12 0c0-6-6-14-6-14z" fill="#E8380D"/><path d="M18 14c0 0-3 4-3 7a3 3 0 0 0 6 0c0-3-3-7-3-7z" fill="#FFC107"/></svg><span class="nlogo-t">SDH <span>Chlumín</span></span></a>
+  <div class="nbread"><a href="sdh-chlumin-modern.html">Úvod</a><span class="sep">›</span><span style="color:var(--white)">Fotoalbum</span></div>
+  <a href="sdh-chlumin-modern.html" class="nback">← Zpět</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="hero-c">
+    <div class="hlabel">SDH Chlumín · galerie fotografií</div>
+    <h1 class="hero-h1"><span class="r">Foto</span><span class="w">album</span></h1>
+    <div class="hero-stats" id="hero-stats">
+      <div class="hstat"><div class="n" id="stat-alba">–</div><div class="l">Alb</div></div>
+      <div class="hstat"><div class="n" id="stat-fotky">–</div><div class="l">Fotografií</div></div>
+      <div class="hstat"><div class="n">5</div><div class="l">Kategorií</div></div>
+    </div>
+  </div>
+</div>
+<div class="hdiv"></div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="fcat active" data-cat="vse" onclick="setFilter('vse',this)">
+    🔥 Vše <span class="cnt" id="cnt-vse">0</span>
+  </button>
+  <button class="fcat" data-cat="souteze" onclick="setFilter('souteze',this)">
+    🏆 Soutěže <span class="cnt" id="cnt-souteze">0</span>
+  </button>
+  <button class="fcat" data-cat="spolecenske" onclick="setFilter('spolecenske',this)">
+    🎉 Společenské <span class="cnt" id="cnt-spolecenske">0</span>
+  </button>
+  <button class="fcat" data-cat="mladi" onclick="setFilter('mladi',this)">
+    🧒 Mladí hasiči <span class="cnt" id="cnt-mladi">0</span>
+  </button>
+  <button class="fcat" data-cat="technika" onclick="setFilter('technika',this)">
+    🚒 Technika <span class="cnt" id="cnt-technika">0</span>
+  </button>
+  <button class="fcat" data-cat="odborna" onclick="setFilter('odborna',this)">
+    📚 Odborná příprava <span class="cnt" id="cnt-odborna">0</span>
+  </button>
+</div>
+
+<!-- SEARCH + COUNT -->
+<div class="search-row">
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="search-input" placeholder="Hledat album…" oninput="applyFilters()">
+  </div>
+  <div class="album-count">Zobrazeno: <span id="shown-count">0</span> alb</div>
+</div>
+
+<!-- ALBUM GRID -->
+<div class="page-body">
+  <div class="album-grid" id="album-grid">
+    <div style="grid-column:1/-1;padding:3rem;text-align:center;color:var(--muted)">
+      <p>Načítám alba…</p>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lb-overlay" id="lightbox">
+  <div class="lb-header">
+    <div>
+      <div class="lb-album-name" id="lb-album-name"></div>
+      <div class="lb-counter" id="lb-counter"></div>
+    </div>
+    <button class="lb-close" onclick="closeLB()">✕</button>
+  </div>
+  <div class="lb-stage">
+    <button class="lb-btn prev" id="lb-prev" onclick="lbNav(-1)">‹</button>
+    <div class="lb-img-wrap">
+      <img class="lb-img" id="lb-img" src="" alt="">
+    </div>
+    <button class="lb-btn next" id="lb-next" onclick="lbNav(1)">›</button>
+  </div>
+  <div class="lb-footer">
+    <div class="lb-thumbs" id="lb-thumbs"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="fl">SDH <span>Chlumín</span></div>
+  <p>© 2026 Sbor dobrovolných hasičů Chlumín</p>
+  <div class="flinks">
+    <a href="sdh-chlumin-modern.html">Hlavní web</a>
+    <a href="jednotka.html">Jednotka SDH</a>
+    <a href="mladi-hasici.html">Mladí hasiči</a>
+  </div>
+</footer>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────
+const MESICE = ['','ledna','února','března','dubna','května','června','července','srpna','září','října','listopadu','prosince'];
+function fmtDate(d) {
+  if (!d) return '';
+  const [y,m,day] = d.split('-');
+  return `${parseInt(day)}. ${MESICE[parseInt(m)]} ${y}`;
+}
+function sharpUrl(url) {
+  if (!url) return url;
+  return url.replace('/img/mid/', '/img/picture/');
+}
+
+const CAT_LABELS = {
+  souteze:'Soutěže', spolecenske:'Společenské', technika:'Technika',
+  odborna:'Odborná příprava', mladi:'Mladí hasiči'
+};
+const CAT_BADGE_CLASS = {
+  souteze:'badge-souteze', spolecenske:'badge-spolecenske', technika:'badge-technika',
+  odborna:'badge-odborna', mladi:'badge-mladi'
+};
+
+let allAlbums = [];
+let activeFilter = 'vse';
+let lbAlbum = null, lbIdx = 0;
+
+// ── RENDER ALBUMS ─────────────────────────────────────────
+function renderAlbums(albums) {
+  const grid = document.getElementById('album-grid');
+  if (!albums.length) {
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg><p>Žádná alba nenalezena</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = albums.map((album, ai) => {
+    const fotky = album.fotky || [];
+    const catBadge = CAT_BADGE_CLASS[album.kategorie] || 'badge-souteze';
+    const catLabel = CAT_LABELS[album.kategorie] || album.kategorie;
+
+    // thumb layout – 1 foto: full, 2+ foto: grid
+    let thumbHtml;
+    if (fotky.length >= 3) {
+      thumbHtml = `<div class="ac-thumb-grid">
+        <img class="ac-thumb-main" src="${fotky[0]}" loading="lazy" onerror="this.src=''" alt="">
+        <img src="${fotky[1]}" loading="lazy" onerror="this.src=''" alt="">
+        <img src="${fotky[2]}" loading="lazy" onerror="this.src=''" alt="">
+      </div>`;
+    } else if (fotky.length === 2) {
+      thumbHtml = `<div class="ac-thumb-grid">
+        <img class="ac-thumb-main" src="${fotky[0]}" loading="lazy" onerror="this.src=''" alt="">
+        <img src="${fotky[1]}" loading="lazy" onerror="this.src=''" alt="" style="grid-row:span 2">
+      </div>`;
+    } else {
+      thumbHtml = `<div class="ac-thumb">
+        ${fotky[0] ? `<img src="${fotky[0]}" loading="lazy" onerror="this.style.display='none'" alt="">` : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;opacity:.15">📷</div>'}
+      </div>`;
+    }
+
+    return `
+      <div class="album-card" onclick="openAlbum(${ai})">
+        <div style="position:relative">
+          ${thumbHtml}
+          <span class="ac-cat-badge ${catBadge}">${catLabel}</span>
+          <span class="ac-count">📷 ${fotky.length}</span>
+          <div class="ac-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          </div>
+        </div>
+        <div class="ac-body">
+          <div class="ac-date">${fmtDate(album.datum)}</div>
+          <div class="ac-title">${album.nazev}</div>
+          ${album.popis ? `<div class="ac-desc">${album.popis}</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── FILTER ────────────────────────────────────────────────
+function setFilter(cat, btn) {
+  activeFilter = cat;
+  document.querySelectorAll('.fcat').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById('search-input').value.toLowerCase().trim();
+  let filtered = allAlbums;
+  if (activeFilter !== 'vse') filtered = filtered.filter(a => a.kategorie === activeFilter);
+  if (q) filtered = filtered.filter(a => a.nazev.toLowerCase().includes(q) || (a.popis||'').toLowerCase().includes(q));
+  
+  // Re-index for openAlbum to work correctly with filtered set
+  window._filteredAlbums = filtered;
+  renderAlbumsFiltered(filtered);
+  document.getElementById('shown-count').textContent = filtered.length;
+}
+
+function renderAlbumsFiltered(albums) {
+  const grid = document.getElementById('album-grid');
+  if (!albums.length) {
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg><p>Žádná alba nenalezena</p></div>`;
+    return;
+  }
+
+  const catBadges = {souteze:'badge-souteze',spolecenske:'badge-spolecenske',technika:'badge-technika',odborna:'badge-odborna',mladi:'badge-mladi'};
+  const catLabels = {souteze:'Soutěže',spolecenske:'Společenské',technika:'Technika',odborna:'Odborná příprava',mladi:'Mladí hasiči'};
+
+  grid.innerHTML = albums.map((album, ai) => {
+    const fotky = album.fotky || [];
+    const catBadge = catBadges[album.kategorie] || 'badge-souteze';
+    const catLabel = catLabels[album.kategorie] || album.kategorie;
+
+    let thumbHtml;
+    if (fotky.length >= 3) {
+      thumbHtml = `<div class="ac-thumb-grid">
+        <img class="ac-thumb-main" src="${fotky[0]}" loading="lazy" onerror="this.src=''" alt="">
+        <img src="${fotky[1]}" loading="lazy" onerror="this.src=''" alt="">
+        <img src="${fotky[2]}" loading="lazy" onerror="this.src=''" alt="">
+      </div>`;
+    } else if (fotky.length === 2) {
+      thumbHtml = `<div class="ac-thumb-grid">
+        <img class="ac-thumb-main" src="${fotky[0]}" loading="lazy" onerror="this.src=''" alt="">
+        <img src="${fotky[1]}" loading="lazy" onerror="this.src=''" alt="" style="grid-row:span 2">
+      </div>`;
+    } else {
+      thumbHtml = `<div class="ac-thumb">
+        ${fotky[0] ? `<img src="${fotky[0]}" loading="lazy" alt="">` : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;opacity:.15">📷</div>'}
+      </div>`;
+    }
+
+    return `
+      <div class="album-card" onclick="openAlbumIdx(${ai})">
+        <div style="position:relative">
+          ${thumbHtml}
+          <span class="ac-cat-badge ${catBadge}">${catLabel}</span>
+          <span class="ac-count">📷 ${fotky.length}</span>
+          <div class="ac-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          </div>
+        </div>
+        <div class="ac-body">
+          <div class="ac-date">${fmtDate(album.datum)}</div>
+          <div class="ac-title">${album.nazev}</div>
+          ${album.popis ? `<div class="ac-desc">${album.popis}</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── LIGHTBOX ──────────────────────────────────────────────
+function openAlbumIdx(idx) {
+  const albums = window._filteredAlbums || allAlbums;
+  openLB(albums[idx], 0);
+}
+
+function openLB(album, startIdx) {
+  lbAlbum = album;
+  lbIdx = startIdx || 0;
+  document.getElementById('lb-album-name').textContent = album.nazev;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  buildThumbs();
+  showPhoto(lbIdx);
+}
+
+function buildThumbs() {
+  const fotky = lbAlbum.fotky || [];
+  const strip = document.getElementById('lb-thumbs');
+  strip.innerHTML = fotky.map((f,i) =>
+    `<img class="lb-thumb${i===lbIdx?' active':''}" src="${f}" loading="lazy" onclick="showPhoto(${i})" alt="Foto ${i+1}">`
+  ).join('');
+}
+
+function showPhoto(idx) {
+  const fotky = lbAlbum.fotky || [];
+  lbIdx = Math.max(0, Math.min(idx, fotky.length - 1));
+  const img = document.getElementById('lb-img');
+  img.classList.add('loading');
+  const url = sharpUrl(fotky[lbIdx]);
+  const temp = new Image();
+  temp.onload = () => { img.src = url; img.classList.remove('loading'); };
+  temp.onerror = () => { img.src = fotky[lbIdx]; img.classList.remove('loading'); };
+  temp.src = url;
+
+  document.getElementById('lb-counter').textContent = `${lbIdx+1} / ${fotky.length}`;
+  document.getElementById('lb-prev').disabled = lbIdx === 0;
+  document.getElementById('lb-next').disabled = lbIdx === fotky.length - 1;
+
+  // update thumb highlights + scroll into view
+  const thumbs = document.querySelectorAll('.lb-thumb');
+  thumbs.forEach((t,i) => {
+    t.classList.toggle('active', i === lbIdx);
+    if (i === lbIdx) t.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+  });
+}
+
+function lbNav(dir) { showPhoto(lbIdx + dir); }
+
+function closeLB() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// keyboard nav
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'ArrowLeft') lbNav(-1);
+  else if (e.key === 'ArrowRight') lbNav(1);
+  else if (e.key === 'Escape') closeLB();
+});
+
+// click outside
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === document.getElementById('lightbox')) closeLB();
+});
+
+// swipe support
+let touchStartX = 0;
+document.getElementById('lightbox').addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
+document.getElementById('lightbox').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) lbNav(dx < 0 ? 1 : -1);
+}, {passive:true});
+
+// ── COUNTS ────────────────────────────────────────────────
+function updateCounts(albums) {
+  const cats = ['souteze','spolecenske','technika','odborna','mladi'];
+  cats.forEach(c => {
+    const el = document.getElementById('cnt-'+c);
+    if (el) el.textContent = albums.filter(a => a.kategorie === c).length;
+  });
+  document.getElementById('cnt-vse').textContent = albums.length;
+  document.getElementById('stat-alba').textContent = albums.length;
+  document.getElementById('stat-fotky').textContent = albums.reduce((s,a) => s + (a.fotky||[]).length, 0);
+}
+
+// ── LOAD ──────────────────────────────────────────────────
+const FALLBACK_DATA = [
+  {id:"dedkiada-2022",nazev:"2022 Dědkiáda Velvary",kategorie:"souteze",datum:"2022-05-21",popis:"2. místo s časem 34,47 sekund. 23 soutěžních družstev.",fotky:["https://sdh-chlumin.estranky.cz/img/mid/2350/20220521_104546.jpg","https://sdh-chlumin.estranky.cz/img/mid/2351/20220521_111731.jpg","https://sdh-chlumin.estranky.cz/img/mid/2352/20220521_112428.jpg","https://sdh-chlumin.estranky.cz/img/mid/2353/20220521_133333.jpg"]},
+  {id:"ouzicka-2022",nazev:"2022 Oužická „Osma",kategorie:"souteze",datum:"2022-05-07",popis:"Tradiční soutěž osmičlenných družstev v Úžicích.",fotky:["https://sdh-chlumin.estranky.cz/img/mid/2339/20220507_110451.jpg","https://sdh-chlumin.estranky.cz/img/picture/276/img-20220508-wa0000.jpg"]},
+  {id:"pohar-chlumin-2019",nazev:"2019 Pohár starosty obce Chlumín",kategorie:"souteze",datum:"2019-09-28",popis:"Domácí soutěž v požárním útoku.",fotky:["https://sdh-chlumin.estranky.cz/img/mid/2328/img_3444.jpg","https://sdh-chlumin.estranky.cz/img/picture/263/img_4130.jpg"]},
+  {id:"libis-ctyrboj-2019",nazev:"2019 Libišský čtyřboj",kategorie:"souteze",datum:"2019-11-23",popis:"Čtyřboj mladých hasičů v Libiši.",fotky:["https://sdh-chlumin.estranky.cz/img/mid/2317/imag6287.jpg"]},
+  {id:"vteriny-2018",nazev:"Soutěž JPO Vteřiny pro život 2018",kategorie:"souteze",datum:"2018-04-15",popis:"Záchranářská soutěž jednotek požární ochrany.",fotky:["https://sdh-chlumin.estranky.cz/img/mid/2133/119_3678.jpg"]},
+  {id:"vyroci-140-2021",nazev:"Oslava 140(+1). výročí SDH Chlumín",kategorie:"spolecenske",datum:"2021-08-15",popis:"Slavnostní oslava vzniku sboru.",fotky:["https://sdh-chlumin.estranky.cz/img/picture/273/pozvanka-na-140.-vyroci.jpg"]},
+  {id:"vvh-2019",nazev:"2019 Valná hromada SH ČMS – SDH Chlumín",kategorie:"spolecenske",datum:"2019-01-19",popis:"Výroční valná hromada sboru.",fotky:["https://sdh-chlumin.estranky.cz/img/mid/2223/119_4571.jpg"]},
+  {id:"masopust-2009",nazev:"Masopust v Chlumíně 2009",kategorie:"spolecenske",datum:"2009-03-21",popis:"Netradiční masopust s přivítáním jara.",fotky:["https://sdh-chlumin.estranky.cz/img/mid/2223/119_4571.jpg"]},
+  {id:"technika-cas25",nazev:"Naše technika – CAS 25 Š706",kategorie:"technika",datum:"2010-11-19",popis:"Cisternová automobilová stříkačka CAS 25.",fotky:["https://sdh-chlumin.estranky.cz/img/mid/1024/p3130038.jpg","https://sdh-chlumin.estranky.cz/img/mid/1564/101_5020.jpg"]},
+  {id:"soustredeni-2019",nazev:"Soustředění mladých hasičů 2019",kategorie:"mladi",datum:"2019-07-28",popis:"Letní soustředění u hasičské zbrojnice.",fotky:["https://sdh-chlumin.estranky.cz/img/mid/2283/imag6105.jpg"]},
+  {id:"iqport-2019",nazev:"Výlet do IQ Portu Praha 2019",kategorie:"mladi",datum:"2019-10-26",popis:"Výlet do interaktivního zábavního centra.",fotky:["https://sdh-chlumin.estranky.cz/img/picture/236/imag6162.jpg"]},
+  {id:"soustredeni-2018",nazev:"Soustředění mladých hasičů 2018",kategorie:"mladi",datum:"2018-08-26",popis:"Letní soustředění u hasičské zbrojnice.",fotky:["https://sdh-chlumin.estranky.cz/img/mid/2201/119_4423.jpg"]},
+  {id:"plneni-letadla-2010",nazev:"Plnění letadla vodou 2010",kategorie:"odborna",datum:"2010-05-04",popis:"Instruktáž plnění letadla k hašení lesních požárů.",fotky:["https://sdh-chlumin.estranky.cz/img/mid/1564/101_5020.jpg"]}
+];
+
+function initGallery(albums) {
+  allAlbums = albums;
+  window._filteredAlbums = albums;
+  updateCounts(albums);
+  renderAlbumsFiltered(albums);
+  document.getElementById('shown-count').textContent = albums.length;
+}
+
+fetch('fotoalbum.json?v=' + Date.now())
+  .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+  .then(data => initGallery(data))
+  .catch(() => initGallery(FALLBACK_DATA));
+</script>
+</body>
+</html>
